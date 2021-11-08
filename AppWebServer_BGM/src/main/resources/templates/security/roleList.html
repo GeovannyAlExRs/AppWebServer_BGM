@@ -1,0 +1,57 @@
+<div class="table-responsive list-role">
+    <table id="userList" class="table">
+        <thead class="thead-light">
+            <tr>
+                <th class="table-colum">ID Document</th>
+                <th class="col">Role</th>
+                <th class="descrip" scope="col">Descripción</th>
+                <th scope="col" hidden>Fecha</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th scope="col">ID Document</th>
+                <th scope="col">Role</th>
+                <th class="descrip" scope="col">Descripción</th>
+                <th scope="col" hidden>Fecha</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr>
+                <th scope="row"></th>
+                <th scope="row"></th>
+                <td class="descrip"></td>
+                <td hidden></td>
+                <td ></td>
+                <td style="text-align: center;">
+                    <a href="#" class="icono">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="#" class="icono">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="deleteError" th:if="${deleteError}" class="alert alert-danger text-center" role="alert">
+        <span th:text="${deleteError}"></span>
+    </div>
+</div> 
+
+  <script type="text/javascript">
+    function confirmDelete(id){
+        $('#deleteModal').modal('show');
+        $("#userIdHiddenInput").val(id);
+    }
+    
+    function deleteRole(){
+        var id = $("#userIdHiddenInput").val();
+        window.location = "delete_role/"+id;
+    }
+    </script>

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <meta content="" name="BusGeoMap">
+    <meta content="" name="Cooperativa San Agustin - Chanduy">
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap" rel="stylesheet">
+    
+    <!-- Iconos Fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+    
+    <!-- Libraries CSS Files -->
+    <link th:href="@{/lib/owlcarousel/assets/owl.carousel.min.css}"  href="../static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link th:href="@{/lib/lightbox/css/lightbox.min.css}" href="../static/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <link th:href="@{/css/style.css}" href="../static/css/style.css" rel="stylesheet">
+    <link th:href="@{/css/style_bgm.css}" href="../static/css/style_bgm.css" rel="stylesheet">
+
+    <!-- ICONO PROJECT-->
+    <link th:href="@{/img/ico/ico_chanduy.ico}" href="../static/img/ico/ico_chanduy.ico" rel="shortcut icon" type="image/x-icon"/>
+    <title>BusGeoMap</title>
+
+</head>
+<body>
+
+    <!-- *** HEADER *** -->
+    <header id="header">
+        <div class="container-fluid">
+    
+          <div id="logo" class="pull-left" style="display: flex;">
+            <a th:href="@{/app_busgeomap/}" href="#">
+              <img class="img-bgm" th:src="@{/img/image/logo/lg_coop.png}" src="../static/img/image/logo/lg_coop.png" alt="" title="BusGeoMap" style="margin-top: -25px"/>
+              </a>
+            <!--<h1><a href="#intro" class="scrollto">BusGeoMap</a></h1>-->
+          </div>
+    
+          <nav id="nav-menu-container">
+            <ul class="nav-menu">
+                <li class="menu-active">
+                    <a class="nav-link" th:href="@{/app_busgeomap/}" href="#">
+                        <span style="font-size: 18px;margin-right: 10px;">
+                            <i class="fas fa-home"></i>
+                        </span>
+                        Inicio<span class="sr-only"></span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="false">
+                      <span style="font-size: 18px;"><i class="fas fa-tasks"></i></span>
+                      Servicios <span class="sr-only"></span></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a class="item-servicio" th:href="@{/app_busgeomap/consult_table}" href="#">
+                        <span style="font-size: 18px;"><i class="fas fa-calendar"></i></span>
+                        <span class="sr-only"></span> Horarios
+                      </a>
+                      <div class="dropdown-divider"></div>
+                      <a class="item-servicio" th:href="@{/app_busgeomap/navegation}" href="#">
+                        <span style="font-size: 18px;"><i class="fas fa-map-marker-alt"></i></span>
+                        <span class="sr-only"></span> Navegación</a>
+                    </div>
+                </li>
+                <li class="nav-item btn btn-sm btn-outline-secondary nav-btn-bgm">
+                    <a class="nav-link btn-bgm" th:href="@{/app_busgeomap/login}" href="#">
+                      <span class="sr-only"></span>Ingresar
+                    </a> 
+                </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+    <!-- *** Section Banner *** -->
+    <section id="intro">
+        <div class="intro-container">
+          <div id="introCarousel" class="carousel  slide carousel-fade" data-ride="carousel">
+    
+            <ol class="carousel-indicators"></ol>
+    
+            <div class="carousel-inner" role="listbox">
+    
+              <div class="carousel-item active">
+                <div class="carousel-background">
+                  <img th:src="@{/img/image/banner/foto_bus1.jpg}" src="../static/img/image/banner/foto_bus1.jpg" alt="">
+                </div>
+                <div class="carousel-container">
+                  <div class="carousel-content">
+                    <h1 class="title-bgm">Planificación de horarios y mapeo de las unidades de transporte</h1>
+                    <p>Cooperativa de transporte San Agustin - Chanduy</p>
+                  
+                    <a href="#featured-services" class="btn-get-started scrollto">Ingresar</a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="carousel-item">
+                <div class="carousel-background">
+                  <img th:src="@{/img/image/banner/foto_bus2.jpg}" src="../static/img/image/banner/foto_bus2.jpg" alt="">
+                </div>
+                <div class="carousel-container">
+                  <div class="carousel-content">
+                    <h1 class="title-bgm">Planificación de horarios y mapeo de las unidades de transporte</h1>
+                    <p>Cooperativa de transporte San Agustin - Chanduy</p>
+                    <a href="#featured-services" class="btn-get-started scrollto">Ingresar</a>
+                  </div>
+                </div>
+              </div>
+             
+              <div class="carousel-item">
+                <div class="carousel-background">
+                  <img th:src="@{/img/image/banner/foto_bus3.jpg}" src="../static/img/image/banner/foto_bus3.jpg" alt="">
+                </div>
+                <div class="carousel-container">
+                  <div class="carousel-content">
+                    <h1 class="title-bgm">Planificación de horarios y mapeo de las unidades de transporte</h1>
+                    <p>Cooperativa de transporte San Agustin - Chanduy</p>
+                    <a href="#featured-services" class="btn-get-started scrollto">Ingresar</a>
+                  </div>
+                </div>
+              </div>
+    
+            </div>
+    
+            <a class="carousel-control-prev" href="#introCarousel" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon ion-chevron-left" aria-hidden="true">
+                <i class="fas fa-angle-left"></i>
+              </span>
+              <span class="sr-only">Previous</span>
+            </a>
+    
+            <a class="carousel-control-next" href="#introCarousel" role="button" data-slide="next">
+              <span class="carousel-control-next-icon ion-chevron-right" aria-hidden="true">
+                <i class="fas fa-angle-right"></i>
+              </span>
+              <span class="sr-only">Next</span>
+            </a>
+    
+          </div>
+        </div>
+    </section>
+
+    <!-- *** Main *** -->
+    <main id="main">
+
+        <!-- *** Jumbotron *** --> 
+        <div class="content-jumbotron">
+            <div class="jumbotron div-jumbotron">
+              <h2 class="display-4">Bienvenido a nuestra cooperativa!</h2>
+              <p class="lead">El mejor Servicio de Transporte para su comodidad y seguridad, viajando a Santa Elena y Chanduy.</p>
+              <hr class="my-4">
+              
+            </div>
+            <div class="img-bienvenido">
+              <img th:src="@{/img/image/vector/img_People.png}" src="../static/img/image/vector/img_People.png"/>
+            </div>
+        </div> 
+
+        <!-- Servicios -->
+        <section id="about">
+          <div class="container">
+    
+            <header class="section-header">
+              <h3>Servicios</h3>
+              <p>Conoce los servicios que ofrece la cooperativa San Agustin, nuestro compromiso con la sociedad es brindar el mejor servicio de transportación</p>
+            </header>
+    
+            <div class="row about-cols">
+    
+              <div class="col-md-4 wow fadeInUp">
+                <div class="about-col">
+                  <div class="img">
+                    <img th:src="@{/img/image/vector/img_mapaBUS.png}" src="../static/img/image/vector/img_mapaBUS.png" alt="" class="img-fluid">
+                    <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                  </div>
+                  <h2 class="title"><a href="#">Navegación</a></h2>
+                  <p>
+                    Visualiza el recorrido de todas nuestras unidades de transporte
+                  </p>
+                  <br/><br/>
+                </div>
+              </div>
+    
+              <div class="col-md-4 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="about-col">
+                  <div class="img">
+                    <img th:src="@{/img/image/vector/img_schedule.png}" src="../static/img/image/vector/img_schedule.png" alt="" class="img-fluid">
+                    <div class="icon"><i class="fas fa-calendar"></i></div>
+                  </div>
+                  <h2 class="title"><a href="#">Horarios</a></h2>
+                  <p>
+                    Horario disponible de cada unidad de transporte
+                  </p>
+                  <br/><br/>
+                </div>
+              </div>
+              
+              <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="about-col">
+                  <div class="img">
+                    <img th:src="@{/img/image/vector/img_laptop.png}" src="../static/img/image/vector/img_laptop.png" alt="" class="img-fluid">
+                    <div class="icon"><i class="fas fa-chart-line"></i></div>
+                  </div>
+                  <h2 class="title"><a href="#">Misión/Visión</a></h2>
+                  <p>
+                    Nuestro compromiso es servir a la comunidad en general.
+                  </p>
+                  <br/><br/>
+                </div>
+              </div>
+    
+            </div>
+    
+          </div>
+        </section>
+        
+        <!-- Confort -->
+        <section id="services">
+          <div class="container">
+            <header class="section-header wow fadeInUp">
+              <h3>Confort</h3>
+              <p>Para nuestros usuarios brindamos la mejor comodidad, seguridad y disponibilidad durante su translado.</p>
+            </header>
+    
+            <div class="row">
+    
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+                <div class="icon"><i class="fas fa-star"></i></div>
+                <h4 class="title"><a href="">Comodidad</a></h4>
+                <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+              </div>
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+                <div class="icon"><i class="far fa-smile"></i></div>
+                <h4 class="title"><a href="">Entretenimiento</a></h4>
+                <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
+              </div>
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+                <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                <h4 class="title"><a href="">Seguridad</a></h4>
+                <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+              </div>
+            </div>
+    
+          </div>
+        </section>
+        
+
+        <section id="call-to-action" class="wow fadeIn">
+          <div class="container text-center">
+            <h3>Cooperativa Transporte San Agustin</h3>
+            <p>
+                La “Cooperativa de Transporte San Agustin” cuenta con 25 socios activos; 
+                quiénes se dedican a ofrecer servicios de transporte de lunes a domingo y feriados. 
+                Está dirigido no solo a la ciudadanía de Santa Elena, sino a turistas nacionales y extranjeros. 
+            </p>
+            <a class="cta-btn" href="#">Ver información</a>
+          </div>
+        </section>
+    
+        <!-- Imagenes -->
+        <section id="portfolio"  class="section-bg" >
+          <div class="container">
+    
+            <header class="section-header">
+              <h3 class="section-title">Our Portfolio</h3>
+            </header>
+    
+            <div class="row">
+              <div class="col-lg-12">
+                <ul id="portfolio-flters">
+                  <li data-filter="*" class="filter-active">All</li>
+                  <li data-filter=".filter-app">App</li>
+                  <li data-filter=".filter-card">Card</li>
+                  <li data-filter=".filter-web">Web</li>
+                </ul>
+              </div>
+            </div>
+    
+            <div class="row portfolio-container">
+    
+              <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img th:src="@{/img/image/vector/bus_unidad.png}" src="../static/img/image/vector/bus_unidad.png" class="img-fluid" alt="">
+                    <a href="../static/img/image/vector/bus_unidad.png" data-lightbox="portfolio" data-title="App 1" class="link-preview" title="Preview">
+                        <i class="fas fa-eye icons-bgm"></i>
+                    </a>
+                    <a href="#" class="link-details" title="More Details">
+                      <i class="fas fa-external-link-alt icons-bgm"></i>
+                    </a>
+                  </figure>
+    
+                  <div class="portfolio-info">
+                    <h4><a href="#">App 1</a></h4>
+                    <p>App</p>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img th:src="@{/img/image/vector/infbus.jpg}" src="../static/img/image/vector/infbus.jpg" class="img-fluid" alt="">
+                    <a href="../static/img/image/vector/infbus.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 3" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+    
+                  <div class="portfolio-info">
+                    <h4><a href="#">Web 3</a></h4>
+                    <p>Web</p>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img th:src="@{/img/image/vector/infmap.jpg}" src="../static/img/image/vector/infmap.jpg" class="img-fluid" alt="">
+                    <a href="../static/img/image/vector/infmap.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 2" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+    
+                  <div class="portfolio-info">
+                    <h4><a href="#">App 2</a></h4>
+                    <p>App</p>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img th:src="@{/img/image/vector/infservice.jpg}" src="../static/img/image/vector/infservice.jpg" class="img-fluid" alt="">
+                    <a href="../static/img/image/vector/infservice.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 2" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+    
+                  <div class="portfolio-info">
+                    <h4><a href="#">Card 2</a></h4>
+                    <p>Card</p>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img th:src="@{/img/image/vector/infmap.jpg}" src="../static/img/image/vector/infmap.jpg" class="img-fluid" alt="">
+                    <a href="../static/img/image/vector/infmap.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 2" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+    
+                  <div class="portfolio-info">
+                    <h4><a href="#">Web 2</a></h4>
+                    <p>Web</p>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img th:src="@{/img/image/vector/infbus.jpg}" src="../static/img/image/vector/infbus.jpg" class="img-fluid" alt="">
+                    <a href="../static/img/image/vector/infbus.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 3" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+    
+                  <div class="portfolio-info">
+                    <h4><a href="#">App 3</a></h4>
+                    <p>App</p>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img th:src="@{/img/image/vector/img_mapaBUS.png}" src="../static/img/image/vector/img_mapaBUS.png" class="img-fluid" alt="">
+                    <a href="../static/img/image/vector/img_mapaBUS.png" class="link-preview" data-lightbox="portfolio" data-title="Card 1" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+    
+                  <div class="portfolio-info">
+                    <h4><a href="#">Card 1</a></h4>
+                    <p>Card</p>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp" data-wow-delay="0.1s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img th:src="@{/img/image/vector/infbus.jpg}" src="../static/img/image/vector/infbus.jpg" class="img-fluid" alt="">
+                    <a href="../static/img/image/vector/infbus.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 3" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+    
+                  <div class="portfolio-info">
+                    <h4><a href="#">Card 3</a></h4>
+                    <p>Card</p>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img th:src="@{/img/image/vector/infservice.jpg}" src="../static/img/image/vector/infservice.jpg" class="img-fluid" alt="">
+                    <a href="../static/img/image/vector/infservice.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 1" title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+    
+                  <div class="portfolio-info">
+                    <h4><a href="#">Web 1</a></h4>
+                    <p>Web</p>
+                  </div>
+                </div>
+              </div>
+    
+            </div>
+    
+          </div>
+        </section>
+        
+
+        <section id="team">
+          <div class="container">
+            <div class="section-header wow fadeInUp">
+              <h3>Equipo</h3>
+              <p>Personal de la cooperativa</p>
+            </div>
+    
+            <div class="row">
+    
+              <div class="col-lg-3 col-md-6 wow fadeInUp">
+                <div class="member">
+                  <img th:src="@{/img/image/photo/person1.jpg}" src="../static/img/image/photo/person1.jpg" class="img-fluid" alt="">
+                  <div class="member-info">
+                    <div class="member-info-content">
+                      <h4>Walter White</h4>
+                      <span>Chief Executive Officer</span>
+                      <div class="social">
+                        <a href=""><i class="fab fa-twitter"></i></a>
+                        <a href=""><i class="fab fa-facebook"></i></a>
+                        <a href=""><i class="fab fa-google-plus"></i></a>
+                        <a href=""><i class="fab fa-linkedin"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="member">
+                  <img th:src="@{/img/image/photo/person2.jpg}" src="../static/img/image/photo/person2.jpg" class="img-fluid" alt="">
+                  <div class="member-info">
+                    <div class="member-info-content">
+                      <h4>Sarah Jhonson</h4>
+                      <span>Product Manager</span>
+                      <div class="social">
+                        <a href=""><i class="fab fa-twitter"></i></a>
+                        <a href=""><i class="fab fa-facebook"></i></a>
+                        <a href=""><i class="fab fa-google-plus"></i></a>
+                        <a href=""><i class="fab fa-linkedin"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="member">
+                  <img th:src="@{/img/image/photo/person3.jpg}" src="../static/img/image/photo/person3.jpg" class="img-fluid" alt="">
+                  <div class="member-info">
+                    <div class="member-info-content">
+                      <h4>William Anderson</h4>
+                      <span>CTO</span>
+                      <div class="social">
+                        <a href=""><i class="fab fa-twitter"></i></a>
+                        <a href=""><i class="fab fa-facebook"></i></a>
+                        <a href=""><i class="fab fa-google-plus"></i></a>
+                        <a href=""><i class="fab fa-linkedin"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="member">
+                  <img th:src="@{/img/image/photo/person4.jpg}" src="../static/img/image/photo/person4.jpg" class="img-fluid" alt="">
+                  <div class="member-info">
+                    <div class="member-info-content">
+                      <h4>Amanda Jepson</h4>
+                      <span>Accountant</span>
+                      <div class="social">
+                        <a href=""><i class="fab fa-twitter"></i></a>
+                        <a href=""><i class="fab fa-facebook"></i></a>
+                        <a href=""><i class="fab fa-google-plus"></i></a>
+                        <a href=""><i class="fab fa-linkedin"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+            </div>
+    
+          </div>
+        </section>
+        
+        <!-- Contactanos -->
+        <section id="contact" class="section-bg wow fadeInUp">
+          <div class="container">
+    
+            <div class="section-header">
+              <h3>Contáctanos</h3>
+              <p>Tu opinión es importante, haznos saber que te ha parecido nuestro servicio.</p>
+            </div>
+    
+            <div class="row contact-info">
+    
+              <div class="col-md-4">
+                <div class="contact-address">
+                  <i class="ion-ios-location-outline"></i>
+                  <h3>Dirección</h3>
+                  <address>Calle comercio y Santa Elena</address>
+                </div>
+              </div>
+    
+              <div class="col-md-4">
+                <div class="contact-phone">
+                  <i class="ion-ios-telephone-outline"></i>
+                  <h3>Teléfono</h3>
+                  <p><a href="#">2 909282</a></p>
+                </div>
+              </div>
+    
+              <div class="col-md-4">
+                <div class="contact-email">
+                  <i class="ion-ios-email-outline"></i>
+                  <h3>Email</h3>
+                  <p><a href="#">sanagustin@example.com</a></p>
+                </div>
+              </div>
+    
+            </div>
+    
+            <div class="form">
+              <div id="sendmessage">Your message has been sent. Thank you!</div>
+              <div id="errormessage"></div>
+              <form action="" method="post" role="form" class="contactForm">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <div class="validation"></div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                    <div class="validation"></div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <div class="validation"></div>
+                </div>
+                <div class="text-center"><button type="submit">Send Message</button></div>
+              </form>
+            </div>
+    
+          </div>
+        </section>
+    
+    </main>
+
+    <!-- *** Footer *** -->
+    <footer id="footer">
+        <div class="footer-top">
+          <div class="container">
+            <div class="row">
+    
+              <div class="col-lg-3 col-md-6 footer-info">
+                <h3>BusGeoMap</h3>
+                
+              </div>
+    
+              <div class="col-lg-3 col-md-6 footer-links">
+                <h4>Links</h4>
+                <ul>
+                  <li><i class="ion-ios-arrow-right"></i> <a href="#">Inicio</a></li>
+                  <li><i class="ion-ios-arrow-right"></i> <a href="#">Servicios</a></li>
+                  <li><i class="ion-ios-arrow-right"></i> <a href="#"> - Horarios</a></li>
+                  <li><i class="ion-ios-arrow-right"></i> <a href="#"> - Navegación</a></li>
+                </ul>
+              </div>
+    
+              <div class="col-lg-3 col-md-6 footer-contact">
+                <h4>Contáctanos</h4>
+                <p>
+                  Parroquia Chanduy <br>
+                  Calle comercio, Santa Elena<br>
+                  Unidad Central <br>
+                  <strong>Telefono:</strong>2 909282<br>
+                  <strong>Email:</strong> sanagustin@example.com<br>
+                </p>
+    
+                <div class="social-links">
+                  <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                  <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                  <a href="#" class="google-plus"><i class="fab fa-google-plus"></i></a>
+                  <a href="#" class="linkedin"><i class="fab fa-whatsapp"></i></a>
+                </div>
+    
+              </div>
+    
+              <div class="col-lg-3 col-md-6 footer-newsletter">
+                <h4>Localizanos</h4>
+                <p>
+                    Nos encontramos ubicados en la estación central de la parroquia Chanduy con un personal que cumple 
+                    con sus obligaciones sin mayores contratiempos. Además dispone de una oficina que funciona 
+                    como boletería y punto de control en el Terminal terrestre Sumpa.
+                </p>
+                
+              </div>
+    
+            </div>
+          </div>
+        </div>
+    
+        <div class="container container-dtk">
+          <div class="sub-container-dtk">
+            <div class="copyright">
+              &copy; Copyright Cooperativa San Agustín. Todos los derechos reservados
+            </div>
+            <div class="credits">
+              Designed by <a class="companydtk" href="#">Company DTK</a>
+            </div>
+          </div>
+          
+          <div class="img-dtk">
+            <img th:src="@{/img/image/logo/dtk_companyBN1.png}" src="../static/img/image/logo/dtk_companyBN1.png" alt="">
+          </div>
+        </div>
+      </footer>
+
+      <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- Import JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+
+    <!--Libreias JavaScript-->
+    <script th:src="@{/lib/jquery/jquery.min.js}" src="../static/lib/jquery/jquery.min.js"></script>
+    <script th:src="@{/lib/jquery/jquery-migrate.min.js}" src="../static/lib/jquery/jquery-migrate.min.js"></script>
+    <script th:src="@{/lib/easing/easing.min.js}" src="../static/lib/easing/easing.min.js"></script>
+    <script th:src="@{/lib/superfish/hoverIntent.js}" src="../static/lib/superfish/hoverIntent.js"></script>
+    <script th:src="@{/lib/superfish/superfish.min.js}" src="../static/lib/superfish/superfish.min.js"></script>
+    <script th:src="@{/lib/wow/wow.min.js}" src="../static/lib/wow/wow.min.js"></script>
+    <script th:src="@{/lib/waypoints/waypoints.min.js}" src="../static/lib/waypoints/waypoints.min.js"></script>
+    <script th:src="@{/lib/counterup/counterup.min.js}" src="../static/lib/counterup/counterup.min.js"></script>
+    <script th:src="@{/lib/owlcarousel/owl.carousel.min.js}" src="../static/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script th:src="@{/lib/isotope/isotope.pkgd.min.js}" src="../static/lib/isotope/isotope.pkgd.min.js"></script>
+    <script th:src="@{/lib/lightbox/js/lightbox.min.js}" src="../static/lib/lightbox/js/lightbox.min.js"></script>
+    <script th:src="@{/lib/touchSwipe/jquery.touchSwipe.min.js}" src="../static/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
+
+
+    <!-- Form JavaScript File  <script src="contactform/contactform.js"></script> -->
+    
+
+    <!-- Template Main Javascript File -->
+    <script th:src="@{/js/main.js}"  src="../static/js/main.js"></script>
+</body>
+</html>

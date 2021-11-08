@@ -1,0 +1,16 @@
+/*---- Importando estilos CSS ----*/
+@import url(style_menu.css);
+
+body {
+    font-family: 'Comfortaa', sans-serif !important;
+  }
+
+/* Timeline - Scanner Code Qr */
+.tick-bgm-codeqr{
+    background-color: #eeeeee00;
+    
+}
+.timeline-panel {
+    width: 100%;
+}
+

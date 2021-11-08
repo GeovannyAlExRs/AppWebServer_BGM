@@ -1,0 +1,116 @@
+p{
+    font-size: 20px;
+}
+/*Header - Menu*/
+.img-bgm{
+    width: 200px;
+    height: 75px;
+}
+.nav-btn-bgm{
+    margin-top: -10px;
+    padding-top: 10px;
+    width: 125px;
+    border-radius: 5px;
+    background-color: rgba(10, 27, 43, 0.5);
+    border: 0px;
+}
+.btn-bgm{
+    padding-top: 10px;
+    margin: auto;
+}
+.nav-btn-bgm:hover{
+    background-color: rgba(17, 90, 135, 0.5);
+}
+#mobile-nav ul li{
+    margin-top: 15px;
+    margin-left: 25px;
+}
+
+/* Section Banner */
+.title-bgm{
+    color: white;
+    font-size: 30px;
+}
+
+/* Jumbotron */
+.content-jumbotron{
+    display: flex; 
+    background-color: #e9ecef; 
+}
+.div-jumbotron{
+    width: 70%;
+    margin: auto;
+}
+.div-jumbotron h2{
+    font-size: 40px;
+}
+.img-bienvenido{
+    margin-top: 20px;
+    width: 20%;
+    margin: auto;
+}
+.img-bienvenido img{
+    width: 100%;
+}
+/*Icono view portfolio*/
+.icons-bgm{
+    padding-top: 5px;
+    font-size: 20px;
+}
+/*Footer*/
+.container-dtk {
+    display: flex;
+}
+.sub-container-dtk{
+    width: 83%;
+}
+.companydtk{
+    color: #5492b8;
+}
+.companydtk:hover{
+    color: #fff;
+}
+/*Copyright*/
+.img-dtk {
+    width: 12%; 
+    margin-top: auto;
+}
+.img-dtk img{
+    width: 100%;   
+}
+@media (max-width: 800px) {
+    #header #logo img {
+        margin-left: 0px;
+    }
+    .img-bgm{
+        width: 150px;
+        height: 60px;
+    }
+    .nav-btn-bgm{
+        margin-top: 0px;
+        padding-top: 0px;
+    }
+    .btn-bgm{
+        padding-top: 0px;
+        margin: auto;
+    }
+    /*footer*/
+    .container-dtk {
+        font-size: 10px;
+    }
+    .sub-container-dtk{
+        width: 60%;
+    }
+    .img-dtk {
+        padding-left: 10px;
+        width: 25%; 
+    }
+}
+@media (max-width: 400px) {
+    .sub-container-dtk{
+        width: 100%;
+    }
+    .img-dtk{
+        display: none;
+    }
+}

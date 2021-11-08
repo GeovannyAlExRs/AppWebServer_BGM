@@ -1,0 +1,31 @@
+<form id="frm" role="form" autocomplete="off"> <!--th:action="${editMode} ?@{/app_busgeomap/edit_role} :@{/app_busgeomap/role}" method="post" th:object="${rol}" -->
+    <div class="col-md-6 col-lg-6" >
+  
+      <h3 class="mb-3">Ingrese un nuevo rol</h3>
+      
+      <div class="form-group form-group-default">
+        <label>ID Document</label>
+        <input type="text" th:disabled="${disableFields}" class="form-control" placeholder="&#128100; Documento Role"/> <!--th:value="${rol.id_rol}" th:field="${rol.id_rol}" -->
+        <!--div class="alert-danger" th:if="${#fields.hasErrors('id_rol')}" th:errors="*{id_rol}">Error de Rol</div-->
+      </div>
+  
+      <div class="form-group form-group-default">
+        <label>Role - Perfil</label>
+        <input type="text" th:disabled="${disableFields}" class="form-control" placeholder="&#128100; Nombre del rol"/> <!--th:value="${rol.rol_name}" th:field="${rol.rol_name}" -->
+        <!--div class="alert-danger" th:if="${#fields.hasErrors('rol_name')}" th:errors="*{rol_name}">Error de Rol</div-->
+      </div>
+  
+      <div class="form-group form-group-default">
+        <label>Descripción</label>
+        <input type="text" th:disabled="${disableFields}" class="form-control" placeholder="&#128100; Descripción del rol"/> <!--th:value="${rol.rol_description}" th:field="${rol.rol_description}" -->
+        <!--div class="alert-danger" th:if="${#fields.hasErrors('rol_description')}" th:errors="*{rol_description}">Error de Rol</div-->
+      </div>
+  
+      <div class="card-body" style="text-align: center;">
+        <button class="btn-bgm btn-bgm-save" type="submit">
+            <i class="fab fa-telegram-plane icons-bgm-space ico-bgm-save"></i>Guardar
+        </button>
+      </div>  
+      
+    </div>
+  </form> 

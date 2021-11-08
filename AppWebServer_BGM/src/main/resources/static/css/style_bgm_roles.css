@@ -1,0 +1,186 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /*border: black 1px solid;*/
+}
+
+body{background-color: #e9ecef;}
+
+p{
+    font-family: 'Quicksand', sans-serif;    
+}
+.contetn-jumbo h1{
+    font-size: 40px;
+    font-weight: bold;
+}
+.div-jumbotron{
+    margin-top: -45px;
+    font-family: 'Quicksand', sans-serif;
+    text-align: center;
+}
+
+.container{
+    font-family: 'Quicksand', sans-serif;    
+    border: springgreen solid 0px; 
+    padding-top: 40px; 
+    padding-bottom: 40px;
+    border-radius: 10px;
+    background-color: #e0e5eb;
+}
+
+.letter-header{font-size: 18px;}
+.content-rol{
+    width: 75%;
+}
+.list-role{
+    width: 100%;
+    border: springgreen 0px solid;
+}
+.frm{
+    display: flex;
+}
+
+.frm-group1, .frm-group2{ /*form*/
+    border: 0px black solid;
+    text-align: center;
+    justify-content: center;
+    font-family: 'Quicksand', sans-serif;
+    margin: auto;
+}
+
+.frm-group1{
+    width: 30%;
+}
+.frm-group1 img{
+    width: 100%;
+    padding: 15px;
+}
+.frm-group2{
+    width: 70%;
+}
+
+.date-user{ /*group*/
+    /*background-color: black;*/
+    border: springgreen 0px solid;
+    width: 75%;
+    display: inline-block;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: left;
+}
+
+.date-user input{
+    background: none;
+    color: #476b81;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: #115a87 1px solid;
+}
+.date-user input:focus{
+    outline: none;
+    color: #1b3547;
+}
+.labelFrm{
+    color: #1b3547;
+    font-size: 16px;
+    position: absolute;
+    top: 20px;
+    transition: 0.5s ease all;
+    pointer-events: none;
+}
+
+.date-user input:focus~.labelFrm, .date-user input:valid~.labelFrm{
+    top: 0px;
+    font-size: 14px;
+    color: #115a87;
+}
+/*Animacion de la linea*/
+.barra{
+    position: relative;
+    display: block;
+    width: 100%;
+}
+.barra::before{
+    content: "";
+    height: 2px;
+    width: 0%;
+    bottom: 0px;
+    position: absolute;
+    background: #000428; 
+    background: linear-gradient(to right, #376e91, #081d2b);
+    transition: 0.3s ease width;
+    left: 0px;
+}
+.date-user input:focus~.barra::before{
+    width: 100%;
+}
+
+.div-boton{border: springgreen 0px solid;
+    padding-top: 20px;
+}
+
+.icono{font-size: 16px; color: #115a87;}
+
+/*Responsive*/
+@media screen and (max-width: 850px){
+    .div-jumbotron{margin-top: -30px;}
+    .content-rol{
+        width: 100%;
+    }
+    .descrip{
+        display: none;
+    }
+    .frm{
+        display: inline-block;
+    } 
+    .frm-group1, .frm-group2{ /*form*/
+        width: 75%; 
+    }
+    .frm-group1 img{
+        width: 75%;
+        padding: 20px;
+    }
+    .date-user{
+        width: 100%;  
+    }  
+    .date{ /*group*/
+        /*background-color: black;*/
+        border: yellow 0px solid;
+        display: inline-block;
+        padding: 0px;
+    }
+    .sub-date{
+        border: 0px solid black;
+        width: 100%;
+    }
+    .text-dtk{width: 75%;padding-left: 5%}
+    .text-dtk p{font-size: 13px;}
+    .img-dtk{width: 25%;}
+}
+
+@media screen and (max-height: 1375px){
+    .footer-info{
+        display: none;
+    }
+}
+@media screen and (max-height: 1050px){
+    .footer-info{
+        display: block;
+    }
+}
+@media screen and (max-width: 550px){ 
+    .div-jumbotron{margin-top: -10px;}
+    .text-dtk{width: 70%;padding-left: 0%}
+    .text-dtk p{font-size: 10px;}
+    .img-dtk{width: 30%;}
+}
+@media screen and (max-width: 450px){ 
+    .frm-group1, .frm-group2{ /*form*/
+        width: 100%; 
+    }
+}

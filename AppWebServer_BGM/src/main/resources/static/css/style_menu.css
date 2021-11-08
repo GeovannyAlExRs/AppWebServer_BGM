@@ -1,0 +1,28 @@
+.bgm-dashboard-logo-header{
+    background-color: #115a87;
+}
+.bgm-dashboard-logo-img{
+    width: 150px;height: 55px;
+}
+.bgm-dashboard-navbar-header{
+    background: linear-gradient(to right, #115a87, #212529);
+}
+.bgm-dashboard-ico{
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 20px;
+}
+.bgm-dashboard-btn-ico:hover .bgm-dashboard-ico, .bgm-dashboard-btn-ico:active .bgm-dashboard-ico{
+    color: rgba(0, 0, 0, 0.75);
+}
+/*Sidebar */
+.icons-bgm-space{
+    margin-right: 8px;
+}
+/*    sidebar minimized   */
+@media screen and (max-width: 991px) {
+
+    .bgm-dashboard-logo-header{
+        background: linear-gradient(to right, #115a87, #212529);
+    }
+
+}

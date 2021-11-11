@@ -3,7 +3,7 @@
   
       <h3 class="mb-3">Ingrese un nuevo rol</h3>
       
-      <div class="form-group form-group-default">
+      <div hidden="none" class="form-group form-group-default">
         <label>ID Document</label>
         <input th:value="${rol.id_rol}" th:field="${rol.id_rol}" type="text" th:disabled="${disableFields}" class="form-control" placeholder="&#128100; Documento Role"/>
         <!--div class="alert-danger" th:if="${#fields.hasErrors('id_rol')}" th:errors="*{id_rol}">Error de Rol</div-->

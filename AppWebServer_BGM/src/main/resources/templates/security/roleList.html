@@ -28,10 +28,10 @@
                 <td th:text="${roles.timestamp}" hidden></td>
                 <td th:text="${roles.rol_status}"></td>
                 <td style="text-align: center;">
-                    <a href="#" class="icono">
+                    <a href="#editar" th:href="@{'/app_busgeomap/edit_role/'+ ${roles.id_rol}}" class="btn btn-link btn-info" data-toggle="tooltip" data-original-title="Actualizar">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="#" class="icono">
+                    <a href="#eliminar" th:onclick="confirmDelete([[${roles.id_rol}]])" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
                         <i class="fas fa-trash-alt"></i>
                     </a>
                 </td>

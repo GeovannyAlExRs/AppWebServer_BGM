@@ -10,10 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Roles;
 import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
 @Service
@@ -31,7 +34,7 @@ public class ServiceRole {
 	}
 	
 	// Mapping the Object of the Roles class
-	private Roles mapRoles(Roles roles) {
+	private Roles mapRole(Roles roles) {
 		
 		Roles r = new Roles();
 		
@@ -45,17 +48,18 @@ public class ServiceRole {
 	}
 	
 	// Method to create new Roles record
-	public String createRoles(Roles r) throws InterruptedException, ExecutionException {
+	public String createRole(Roles r) throws InterruptedException, ExecutionException {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Roles rol = mapRoles(r);
+		Roles rol = mapRole(r);
 		
 		dbFirestore.collection(COL_NAME_ROLE).document(r.getId_rol()).set(rol);
 		
 		return dbFirestore.toString();
 	}
 	
+	// Method to Find all roles
 	public ArrayList<Roles> readAllRol() throws InterruptedException, ExecutionException {
 		
 		Roles rol = null;
@@ -82,5 +86,48 @@ public class ServiceRole {
 		System.out.println("\n > LISTADO: " +arrayListRol);
 		
 		return arrayListRol;
+	}
+	
+	// Method to Find a specific role
+	public Roles readByIdDoc(String idDoc) throws InterruptedException, ExecutionException {
+		
+		dbFirestore = FirestoreClient.getFirestore();
+		
+		DocumentReference docRef =  dbFirestore.collection(COL_NAME_ROLE).document(idDoc);
+		
+		ApiFuture<DocumentSnapshot> future = docRef.get();
+		
+		DocumentSnapshot document = future.get();
+		
+		Roles rol = null;
+		
+		if (document.exists()) {
+			rol = document.toObject(Roles.class);
+			return rol;
+		}else {
+			return null;
+		}
+	}
+
+	// Method to Update Rol
+	public String updateRole(Roles roles) throws Exception {
+		
+		dbFirestore = FirestoreClient.getFirestore();
+		
+		Roles rol = mapRole(roles);
+		
+		dbFirestore.collection(COL_NAME_ROLE).document(rol.getId_rol()).set(rol);
+		System.err.println(" ROL Actualizado");
+		
+		return dbFirestore.toString();
+	}
+	
+	// Method to Delete Rol
+	public String deleteRole(String idDoc) throws InterruptedException, ExecutionException {
+		Roles role = readByIdDoc(idDoc);
+		
+		ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME_ROLE).document(role.getId_rol()).delete();
+		
+		return "Role=[id:" + role.getId_rol() + ", name: " +role.getRol_name() +"] ELIMINADO...";
 	}
 }

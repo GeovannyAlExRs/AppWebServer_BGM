@@ -1,5 +1,7 @@
 package com.ec.busgeomap.web.app.model;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -7,12 +9,15 @@ public class Roles {
 	
 	private String id_rol;
 
+	@NotBlank(message = "Ingrese el rol")
 	private String rol_name;
 
+	@NotBlank(message = "Ingrese la descripcion del rol")
 	private String rol_description;
 	
     private long timestamp;
 	
+    
 	private boolean rol_status;
 
 	public Roles() {}
@@ -61,7 +66,7 @@ public class Roles {
 		this.timestamp = timestamp;
 	}
 
-	public boolean isRol_status() {
+	public boolean getRol_status() {
 		return rol_status;
 	}
 

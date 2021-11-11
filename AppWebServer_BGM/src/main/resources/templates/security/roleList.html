@@ -21,12 +21,12 @@
             </tr>
         </tfoot>
         <tbody>
-            <tr>
-                <th scope="row"></th>
-                <th scope="row"></th>
-                <td class="descrip"></td>
-                <td hidden></td>
-                <td ></td>
+            <tr th:each="roles: ${userList}">
+                <th th:text="${roles.id_rol}" scope="row"></th>
+                <th th:text="${roles.rol_name}" scope="row"></th>
+                <td th:text="${roles.rol_description}" class="descrip"></td>
+                <td th:text="${roles.timestamp}" hidden></td>
+                <td th:text="${roles.rol_status}"></td>
                 <td style="text-align: center;">
                     <a href="#" class="icono">
                         <i class="fas fa-edit"></i>

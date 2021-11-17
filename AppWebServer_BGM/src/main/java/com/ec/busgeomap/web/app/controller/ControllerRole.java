@@ -122,7 +122,7 @@ public class ControllerRole {
 			//model.addAttribute("deleteError", e1.getMessage());
 			model.addAttribute("deleteError","El Rol no se pudo eliminar");
 		}
-		// COMENTARIO PARA VER EL CAMBIO
+
 		return viewRole(model);
 	}
 	

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ec.busgeomap.web.app.config.Pages;
 import com.ec.busgeomap.web.app.model.Place;
-import com.ec.busgeomap.web.app.model.Roles;
 import com.ec.busgeomap.web.app.service.ServicePlace;
 
 @Controller
@@ -34,7 +33,7 @@ public class ControllerPlace {
 
 	@GetMapping("/place")
 	public String viewPlace(Model model) throws InterruptedException, ExecutionException {
-		log.info("INICIAR MODULO ROLES");
+		log.info("INICIAR MODULO PLACE");
 		
 		addAttributePlace(model, new Place(servicePlace.autoIdDocumentPlace()), TAB_LIST_BGM);
 		
@@ -78,10 +77,30 @@ public class ControllerPlace {
 		return Pages.PLACE;
 	}
 	
-	@PostMapping("/edit_role")
-	public String updateRole() {
+	@PostMapping("/edit_place")
+	public String updateRole(@Valid @ModelAttribute("rol") Place place, BindingResult result, Model model) throws InterruptedException, ExecutionException {
+		log.info("ACTUALIZAR ROL : " + place.getPla_id());
 		
-		return null;
+		if (result.hasErrors()) {
+			addAttributePlace(model, place, TAB_FORM_BGM);
+			model.addAttribute("editMode", "true");
+			
+			model.addAttribute("errorSave", "Error al guardar, complete los datos");
+			System.err.println("**** ERROR... CAMPOS VACIOS *** ");
+		} else {
+			try {
+				servicePlace.updatePlace(place);
+				model.addAttribute("msgSuccess", "El ROL "+ place.getPla_name() + " fue Actualizado correctamente.");
+				
+				addAttributePlace(model, new Place(servicePlace.autoIdDocumentPlace()), TAB_LIST_BGM);
+			} catch (Exception e1) {
+				model.addAttribute("formErrorMessage", e1.getMessage());
+				
+				model.addAttribute("editMode", "true");
+				addAttributePlace(model, place, TAB_FORM_BGM);
+			}
+		}
+		return "redirect:place";
 	}
 	
 	@GetMapping("/delete_place/{pla_id}")
@@ -95,7 +114,7 @@ public class ControllerPlace {
 	}
 	private void addAttributePlace(Model model, Place place, String tab)  throws InterruptedException, ExecutionException {
 		model.addAttribute("place", place);
-		model.addAttribute("userList", servicePlace.readAllPlace());
+		model.addAttribute("placeList", servicePlace.readAllPlace());
 		model.addAttribute(tab, "active"); 
 	}
 }

@@ -4,6 +4,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.stereotype.Component;
 
+import com.google.cloud.firestore.GeoPoint;
+
 @Component
 public class Place {
 
@@ -15,7 +17,7 @@ public class Place {
 	@NotBlank(message = "Ingrese la descripcion del lugar")
 	private String pla_description;
 	
-    //private  pla_ubication;
+	private GeoPoint pla_ubication;
 	    
 	private boolean pla_status;
 
@@ -24,11 +26,12 @@ public class Place {
 	public Place(String pla_id) {
 		this.pla_id = pla_id;
 	}
-	
-	public Place(String pla_id, String pla_name, String pla_description, boolean pla_status) {
+
+	public Place(String pla_id, String pla_name, String pla_description, GeoPoint pla_ubication, boolean pla_status) {
 		this.pla_id = pla_id;
 		this.pla_name = pla_name;
 		this.pla_description = pla_description;
+		this.pla_ubication = pla_ubication;
 		this.pla_status = pla_status;
 	}
 
@@ -56,6 +59,14 @@ public class Place {
 		this.pla_description = pla_description;
 	}
 
+	public GeoPoint getPla_ubication() {
+		return pla_ubication;
+	}
+
+	public void setPla_ubication(GeoPoint pla_ubication) {
+		this.pla_ubication = pla_ubication;
+	}
+
 	public boolean getPla_status() {
 		return pla_status;
 	}
@@ -67,6 +78,6 @@ public class Place {
 	@Override
 	public String toString() {
 		return "Place [pla_id=" + pla_id + ", pla_name=" + pla_name + ", pla_description=" + pla_description
-				+ ", pla_status=" + pla_status + "]";
+				+ ", pla_ubication=" + pla_ubication + ", pla_status=" + pla_status + "]";
 	}
 }

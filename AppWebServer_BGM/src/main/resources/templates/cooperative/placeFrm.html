@@ -1,0 +1,32 @@
+<form th:action="${editMode} ?@{/app_busgeomap/edit_place} :@{/app_busgeomap/place}" method="post" th:object="${place}" id="frm" role="form" autocomplete="off">
+    <div class="col-md-6 col-lg-6" >
+  
+      <h3 class="mb-3">Ingrese un nuevo rol</h3>
+      
+      <div class="form-group form-group-default">
+        <label>ID Document</label>
+        <input th:value="${place.pla_id}" th:field="${place.pla_id}" type="text" th:disabled="${disableFields}" class="form-control" placeholder="&#128100; Documento Role"/>
+      </div>
+  
+      <div class="form-group form-group-default">
+        <label>Lugar</label>
+        <input th:value="${place.pla_name}" th:field="${place.pla_name}" type="text" th:disabled="${disableFields}" class="form-control"/> <!--placeholder="&#128100; Nombre del rol"-->
+      </div>
+  
+      <div class="form-group form-group-default">
+        <label>Descripción</label>
+        <input th:value="${place.pla_description}" th:field="${place.pla_description}" type="text" th:disabled="${disableFields}" class="form-control"/>
+      </div>
+  
+      <div class="div-boton check-personal">
+        <input name="" type="checkbox" th:checked="${place.pla_status}" th:value="${place.pla_status}" th:field="${place.pla_status}" id="roleEstado"/> Estado (Activo)
+      </div>
+
+      <div class="card-body" style="text-align: center;">
+        <button class="btn-bgm btn-bgm-save" type="submit">
+            <i class="fab fa-telegram-plane icons-bgm-space ico-bgm-save"></i>Guardar
+        </button>
+      </div>  
+      
+    </div>
+  </form> 

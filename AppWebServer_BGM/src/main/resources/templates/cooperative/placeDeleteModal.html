@@ -1,0 +1,25 @@
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header"  style="background-color: rgba(211, 216, 221, 0.25);">
+                <h4 class="modal-title" id="deleteModalLongTitle"><strong>Eliminar Lugar</strong></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro de que desea eliminar este Lugar?</p>
+                <input type="hidden" id="userIdHiddenInput" name="userIdHiddenInput"/>
+                <div class="modal-footer">
+                    <button type="button" class="btn-bgm btn-bgm-clear" data-dismiss="modal">
+                        <i class="fas fa-times-circle icons-bgm-space ico-bgm-clear"></i>Cerrar
+                    </button>
+                    <button type="button" class="btn-bgm btn-bgm-play" th:onclick="deletePlace()">
+                        <i class="fas fa-trash icons-bgm-space ico-bgm-save"></i>Eliminar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

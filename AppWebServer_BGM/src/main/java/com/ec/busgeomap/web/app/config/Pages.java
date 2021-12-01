@@ -6,7 +6,7 @@ public class Pages {
 	public static String HOME = "index";
 	
 	// Template "USER"
-	public static String USERS = "registerUser";
+	public static String USERS = "users/users";
 		
 	// Template ROLES (COOPERATIVA)
 	public static String ROLES = "security/role";

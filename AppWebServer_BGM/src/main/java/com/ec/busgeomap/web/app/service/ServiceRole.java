@@ -128,6 +128,6 @@ public class ServiceRole {
 		
 		ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME_ROLE).document(role.getId_rol()).delete();
 		
-		return "Role=[id:" + role.getId_rol() + ", name: " +role.getRol_name() +"] ELIMINADO...";
+		return writeResult.toString();
 	}
 }

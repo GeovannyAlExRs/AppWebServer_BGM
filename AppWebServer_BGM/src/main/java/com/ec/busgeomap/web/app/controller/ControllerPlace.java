@@ -65,7 +65,7 @@ public class ControllerPlace {
 	}
 	
 	@GetMapping("/edit_place/{pla_id}")
-	public String getEditRole(@PathVariable(name = "pla_id") String pla_id, Model model) throws InterruptedException, ExecutionException {
+	public String getEditPlace(@PathVariable(name = "pla_id") String pla_id, Model model) throws InterruptedException, ExecutionException {
 		log.info("EDITAR PLACE : " + pla_id);
 		
 		Place place = servicePlace.readByIdDoc(pla_id);
@@ -78,7 +78,7 @@ public class ControllerPlace {
 	}
 	
 	@PostMapping("/edit_place")
-	public String updateRole(@Valid @ModelAttribute("rol") Place place, BindingResult result, Model model) throws InterruptedException, ExecutionException {
+	public String updatePlace(@Valid @ModelAttribute("rol") Place place, BindingResult result, Model model) throws InterruptedException, ExecutionException {
 		log.info("ACTUALIZAR ROL : " + place.getPla_id());
 		
 		if (result.hasErrors()) {
@@ -112,6 +112,7 @@ public class ControllerPlace {
 		}
 		return viewPlace(model);
 	}
+	
 	private void addAttributePlace(Model model, Place place, String tab)  throws InterruptedException, ExecutionException {
 		model.addAttribute("place", place);
 		model.addAttribute("placeList", servicePlace.readAllPlace());

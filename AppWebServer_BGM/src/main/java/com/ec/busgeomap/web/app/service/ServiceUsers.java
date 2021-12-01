@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
+import com.ec.busgeomap.web.app.model.Employment;
 import com.ec.busgeomap.web.app.model.Users;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
@@ -22,11 +23,8 @@ import com.google.firebase.cloud.FirestoreClient;
 @Service
 public class ServiceUsers {
 
-	public static final String COL_NAME_USER="Users";
-	public static final String COL_NAME_EMPLOYMENT="Employment";
-	
+	public static final String COL_NAME_USER="Users";	
 	public static final String IDENTIFICATE_USERS="BGM_USER";
-	public static final String IDENTIFICATE_EMPLOYMENT="BGM_EMPL";
 	
 	public static final int ID_LENGTH=10;
 	
@@ -90,6 +88,8 @@ public class ServiceUsers {
 			
 			users = document.toObject(Users.class);
 			
+			users.setUse_employment_id(readEmploymentDoc(users)); // Buscar DOC EMPLOYMENT 
+			
 			arrayList.add(users);
 		}
 		
@@ -98,6 +98,27 @@ public class ServiceUsers {
 		return arrayList;
 	}
 
+	// Method to Find a Employment Doc
+	private String readEmploymentDoc(Users u) throws InterruptedException, ExecutionException{
+		Employment employment = null;
+		
+		DocumentReference docRef1 =  dbFirestore.collection("Employment").document(u.getUse_employment_id());
+		
+		ApiFuture<DocumentSnapshot> future = docRef1.get();
+		
+		DocumentSnapshot document = future.get();
+		
+		if (document.exists()) {
+			employment = document.toObject(Employment.class);
+
+			if (u.getUse_employment_id().equals(document.getId())) {
+				u.setUse_employment_id(employment.getEmp_name());
+			} 
+		}
+		
+		return employment.getEmp_name();
+	}
+	
 	// Method to Find a specific user
 	public Users readByIdDoc(String idDoc) throws InterruptedException, ExecutionException {
 		

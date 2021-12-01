@@ -1,1 +1,57 @@
-LISTA
+<div class="table-responsive list-role">
+    <table id="userList" class="table">
+        <thead class="thead-light">
+            <tr>
+                <th class="table-colum">Empleado</th>
+                <th >Cargo</th>
+                <th >Usuario</th>
+                <th >email</th>
+                <th >Estado</th>
+                <th >Acción</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th scope="col">Empleado</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Email</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr th:each="user: ${userList}">
+				<td th:text="${user.use_last_name} + ' ' + ${user.use_first_name}"></td>
+                <th th:text="${user.use_employment_id}"></th>
+                <td th:text="${user.use_name}"></td>
+                <td th:text="${user.use_email}"></td>
+                <td th:text="${user.use_status}"></td>
+                <td style="text-align: center;">
+                    <a href="#editar" class="btn btn-link btn-info" data-toggle="tooltip" data-original-title="Actualizar">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="#eliminar" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="deleteError" th:if="${deleteError}" class="alert alert-danger text-center" role="alert">
+        <span th:text="${deleteError}"></span>
+    </div>
+</div> 
+
+  <script type="text/javascript">
+    function confirmDelete(id){
+        $('#deleteModal').modal('show');
+        $("#userIdHiddenInput").val(id);
+    }
+    
+    function deleteRole(){
+        var id = $("#userIdHiddenInput").val();
+        window.location = "delete_role/"+id;
+    }
+    </script>

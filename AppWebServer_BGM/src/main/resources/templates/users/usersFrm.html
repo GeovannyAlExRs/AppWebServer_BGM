@@ -1,1 +1,97 @@
-FORMULARIO
+<form th:action="${editMode} ?@{/app_busgeomap/edit_users} :@{/app_busgeomap/users}" method="post" th:object="${u}" id="frm" enctype="multipart/form-data" role="form" autocomplete="off">
+
+<div class="row">  
+	<div class="col-md-6 col-lg-6" >
+  
+      <h3 class="mb-3">Datos personales</h3>
+      
+      <div class="form-group form-group-default" >
+                <label>ID DOCUMENT</label>
+                <input th:value="${u.use_id}" th:field="${u.use_id}" id="Name" type="text" class="form-control"> <!--th:if="${editMode}"-->
+            </div>
+
+
+            <div class="form-group form-group-default">
+                <label>Apellidos</label>
+                <input th:value="${u.use_last_name}" th:field="${u.use_last_name}" id="Name" type="text" class="form-control" placeholder="&#128100; Apellidos Completos">
+                <div th:if="${#fields.hasErrors('use_last_name')}" th:errors="*{use_last_name}" class="col-10 col-xs-11 col-sm-4 alert alert-danger" data-notify="container" role="alert" data-notify-position="bottom-left">Error</div>
+            </div>
+            <div class="form-group form-group-default">
+                <label>Nombres</label>
+                <input th:value="${u.use_first_name}" th:field="${u.use_first_name}" id="Name" type="text" class="form-control" placeholder="&#128100; Nombres Completos">
+                <div class="alert-danger" th:if="${#fields.hasErrors('use_first_name')}" th:errors="*{use_first_name}">Error</div>
+            </div>
+            <div class="form-group form-group-default">
+                <label>Dirección</label>
+                <input th:value="${u.use_address}" th:field="${u.use_address}" id="Name" type="text" class="form-control" placeholder="&#127968; Dirección Domiciliaria">
+                <div class="alert-danger" th:if="${#fields.hasErrors('use_address')}" th:errors="*{use_address}">Error</div>
+            </div>
+            <div class="form-group form-group-default">
+                <label>Tel/cel</label>
+                <input th:value="${u.use_phone}" th:field="${u.use_phone}" id="Name" type="text" class="form-control" placeholder="&#128222; +593 --- --- ----">
+                <!-- <div class="alert-danger" th:if="${#fields.hasErrors('use_phone')}" th:errors="*{use_phone}">Error</div> -->
+            </div>
+            <div class="form-group form-group-default">
+                <label>Email</label>
+                <input th:value="${u.use_email}" th:field="${u.use_email}" id="Name" type="email" class="form-control" placeholder="&#128231; Correo electrónico">
+                <div class="alert-danger" th:if="${#fields.hasErrors('use_email')}" th:errors="*{use_email}">Error</div>
+            </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-6">
+		<div class="add-photo-container" id="add-photo">
+        	<div class="fotoUser" id="add-file">
+            	<span class="camara"><i class="fas fa-camera"></i></span>
+			</div>
+            <input th:src="${u.use_photo}" type="file" name="file" id="fotoUser" class="class-foto-user"/>
+		</div>
+		<!-- <progress value="0" max="100" id="progressBar"></progress> -->
+            
+        <h3 class="mb-3">Datos del empleado</h3>
+		
+		<div class="form-group form-group-default">
+        	<label>Usuario</label>
+            <input th:value="${u.use_name}" th:field="${u.use_name}" id="Name" type="text" class="form-control" placeholder="&#128100; Nombre de usuario">
+			<div class="alert-danger" th:if="${#fields.hasErrors('use_name')}" th:errors="*{use_name}">Error</div>
+        </div>
+		
+		<div class="form-group form-group-default">
+			<label>Contraseña</label>
+            <input th:value="${u.use_password}" th:field="${u.use_password}" id="Name" type="password" class="form-control" placeholder="&#128272; ●●●●●●●●●●">
+            <div class="alert-danger" th:if="${#fields.hasErrors('use_password')}" th:errors="*{use_password}">Error</div>
+		</div>
+		
+		<div class="form-group form-group-default">
+        	<label>Cargo</label>
+            <select th:value="${u.use_employment_id}" th:field="${u.use_employment_id}" class="form-control" id="formGroupDefaultSelect">
+            	<option th:each="employment:${iEmployment}" th:value="${employment.emp_id}" th:text="${employment.emp_name}"></option>
+			</select>
+		</div>
+		
+		<div class="form-group form-group-default">
+        	<label>Rol/Perfil</label>
+            <select th:value="${u.use_roles_id}" th:field="${u.use_roles_id}" class="form-control" id="formGroupDefaultSelect">
+            	<option th:each="roles:${iRoles}" th:value="${roles.id_rol}" th:text="${roles.rol_name}"></option>
+			</select>
+		</div>
+	</div>
+</div>
+
+	<div class="card-body" style="text-align: right; padding-right: 50px;">
+        <div class="div-boton check-personal">
+            <input name="" type="checkbox" th:checked="${u.use_status}" th:value="${u.use_status}" th:field="${u.use_status}" id="userEstado"/> Estado (Activo)...
+            <!--<label for="userEstado">Acepte los términos y condiciones</label>-->
+        </div>
+        </br>
+        <button class="btn-bgm btn-bgm-clear" type="button" th:if="${editMode}" th:aria-hidden="${editMode}">
+            <a th:href="@{'/app_busgeomap/user'}" style="text-decoration-line: none; text-decoration: none;color: rgb(90, 95, 97);">
+                <i class="fas fa-minus-circle icons-bgm-space ico-bgm-clear"></i>Cancelar
+            </a>
+        </button>
+        <button class="btn-bgm btn-bgm-save" type="submit">
+            <i class="fab fa-telegram-plane icons-bgm-space ico-bgm-save"></i>Guardar
+            <!-- <p ></p> -->
+        </button>
+    </div> 
+      
+</form>

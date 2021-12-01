@@ -2,6 +2,7 @@ package com.ec.busgeomap.web.app.model;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.stereotype.Component;
@@ -40,7 +41,7 @@ public class Users {
 	//@NotBlank //no acepta Nulo (Solo texto)
 	private String use_photo;
 	
-	@NotBlank
+	@NotNull
 	private long use_registration_date;
 	
 	@NotBlank

@@ -6,7 +6,6 @@
                 <th >Cargo</th>
                 <th >Usuario</th>
                 <th >email</th>
-                <th >Estado</th>
                 <th >Acción</th>
             </tr>
         </thead>
@@ -16,7 +15,6 @@
                 <th scope="col">Cargo</th>
                 <th scope="col">Usuario</th>
                 <th scope="col">Email</th>
-                <th scope="col">Estado</th>
                 <th scope="col">Acción</th>
             </tr>
         </tfoot>
@@ -26,7 +24,6 @@
                 <th th:text="${user.use_employment_id}"></th>
                 <td th:text="${user.use_name}"></td>
                 <td th:text="${user.use_email}"></td>
-                <td th:text="${user.use_status}"></td>
                 <td style="text-align: center;">
                     <a href="#editar" class="btn btn-link btn-info" data-toggle="tooltip" data-original-title="Actualizar">
                         <i class="fas fa-edit"></i>

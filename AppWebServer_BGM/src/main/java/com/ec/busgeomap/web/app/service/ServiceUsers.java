@@ -25,6 +25,7 @@ public class ServiceUsers {
 
 	public static final String COL_NAME_USER="Users";	
 	public static final String IDENTIFICATE_USERS="BGM_USER";
+	public static final String COL_NAME_EMPLOYMENT = "Employment";
 	
 	public static final int ID_LENGTH=10;
 	
@@ -43,14 +44,18 @@ public class ServiceUsers {
 		u.setUse_last_name(users.getUse_last_name());
 		u.setUse_address(users.getUse_address());
 		u.setUse_phone(users.getUse_phone());
-		u.setUse_email(u.getUse_email());
+		u.setUse_email(users.getUse_email());
 		u.setUse_photo("NULL");
-		u.setUse_name(u.getUse_name());
-		users.setUse_password(u.getUse_password());
-		users.setUse_registration_date(new Date().getTime());
-		users.setUse_employment_id(u.getUse_employment_id());
-		users.setUse_status(u.getUse_status());
-		users.setUse_roles_id(u.getUse_roles_id());
+		u.setUse_name(users.getUse_name());
+		u.setUse_password(users.getUse_password());
+		long fecha = new Date().getTime();
+		System.out.println("\n > FECHA : " + fecha);
+		u.setUse_registration_date(fecha);
+		u.setUse_employment_id(users.getUse_employment_id());
+		u.setUse_status(users.getUse_status());
+		u.setUse_roles_id(users.getUse_roles_id());
+		
+		System.out.println("\n > USUARIOS : " + users);
 		
 		return users;
 	}
@@ -102,7 +107,7 @@ public class ServiceUsers {
 	private String readEmploymentDoc(Users u) throws InterruptedException, ExecutionException{
 		Employment employment = null;
 		
-		DocumentReference docRef1 =  dbFirestore.collection("Employment").document(u.getUse_employment_id());
+		DocumentReference docRef1 =  dbFirestore.collection(COL_NAME_EMPLOYMENT).document(u.getUse_employment_id());
 		
 		ApiFuture<DocumentSnapshot> future = docRef1.get();
 		

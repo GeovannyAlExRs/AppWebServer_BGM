@@ -2,11 +2,11 @@
     <table id="userList" class="table">
         <thead class="thead-light">
             <tr>
-                <th class="table-colum">Empleado</th>
-                <th >Cargo</th>
-                <th >Usuario</th>
-                <th >email</th>
-                <th >Acción</th>
+                <th class="col">Empleado</th>
+                <th class="col">Cargo</th>
+                <th class="col">Usuario</th>
+                <th class="col">email</th>
+                <th class="col">Acción</th>
             </tr>
         </thead>
         <tfoot>
@@ -20,15 +20,15 @@
         </tfoot>
         <tbody>
             <tr th:each="user: ${userList}">
-				<td th:text="${user.use_last_name} + ' ' + ${user.use_first_name}"></td>
-                <th th:text="${user.use_employment_id}"></th>
-                <td th:text="${user.use_name}"></td>
-                <td th:text="${user.use_email}"></td>
-                <td style="text-align: center;">
-                    <a href="#editar" class="btn btn-link btn-info" data-toggle="tooltip" data-original-title="Actualizar">
+				<td scope="row" th:text="${user.use_last_name} + ' ' + ${user.use_first_name}"></td>
+                <th scope="row" th:text="${user.use_employment_id}"></th>
+                <td scope="row" th:text="${user.use_name}"></td>
+                <td scope="row" th:text="${user.use_email}"></td>
+                <td scope="row" style="text-align: center;">
+                    <a href="#editar" th:href="@{'/app_busgeomap/edit_users/'+ ${user.use_id}}" class="btn btn-link btn-info" data-toggle="tooltip" data-original-title="Actualizar">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="#eliminar" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
+                    <a href="#eliminar" th:onclick="confirmDelete([[${user.use_id}]])" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
                         <i class="fas fa-trash-alt"></i>
                     </a>
                 </td>
@@ -49,6 +49,6 @@
     
     function deleteRole(){
         var id = $("#userIdHiddenInput").val();
-        window.location = "delete_role/"+id;
+        window.location = "delete_users/"+id;
     }
     </script>

@@ -23,8 +23,8 @@ public class Pages {
 
 	public static String CODE_QR_COLECTIVE = "codeqr/codeQr";
 	
-	// Template CODIGO QR (COOPERATIVA)
-	public static String COLECTIVE = "codeqr/colective";
+	// Template UNIDAD DE TRANSPORTE
+	public static String COLECTIVE = "colective/bus";
 		
 	public static String ASSIGNE_BUS = "cooperative/assignebus";
 			

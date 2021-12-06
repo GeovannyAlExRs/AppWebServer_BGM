@@ -119,7 +119,7 @@ public class ControllerUsers {
 	}
 	
 	@GetMapping("/delete_users/{use_id}")
-	public String deleteRole(@PathVariable(name = "use_id") String use_id, Model model) throws InterruptedException, ExecutionException {
+	public String deleteUsers(@PathVariable(name = "use_id") String use_id, Model model) throws InterruptedException, ExecutionException {
 		
 		try {
 			serviceUsers.deleteUsers(use_id);

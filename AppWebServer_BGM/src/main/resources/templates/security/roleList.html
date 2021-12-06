@@ -2,7 +2,7 @@
     <table id="userList" class="table">
         <thead class="thead-light">
             <tr>
-                <th class="table-colum">ID Document</th>
+                <th hidden="none" class="table-colum">ID Document</th>
                 <th class="col">Role</th>
                 <th class="descrip" scope="col">Descripción</th>
                 <th scope="col" hidden>Fecha</th>
@@ -12,7 +12,7 @@
         </thead>
         <tfoot>
             <tr>
-                <th scope="col">ID Document</th>
+                <th hidden="none" scope="col">ID Document</th>
                 <th scope="col">Role</th>
                 <th class="descrip" scope="col">Descripción</th>
                 <th scope="col" hidden>Fecha</th>
@@ -22,7 +22,7 @@
         </tfoot>
         <tbody>
             <tr th:each="roles: ${userList}">
-                <th th:text="${roles.id_rol}" scope="row"></th>
+                <th hidden="none" th:text="${roles.id_rol}" scope="row"></th>
                 <th th:text="${roles.rol_name}" scope="row"></th>
                 <td th:text="${roles.rol_description}" class="descrip"></td>
                 <td th:text="${roles.timestamp}" hidden></td>

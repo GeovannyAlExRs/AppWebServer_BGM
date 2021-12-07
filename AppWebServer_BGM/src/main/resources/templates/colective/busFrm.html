@@ -1,1 +1,62 @@
-FORMULARIO DE REGISTRO BUSES
+<form th:object="${bus}" th:action="${editMode} ?@{/app_busgeomap/edit_bus} :@{/app_busgeomap/bus}" method="post" enctype="multipart/form-data" autocomplete="off" role="form">
+    <h3 class="mb-3">Datos del Colectivo</h3>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div hidden="none" class="form-group form-group-default" >
+                <label>ID DOCUMENT</label>
+                <input th:value="${bus.bus_id}" th:field="${bus.bus_id}" id="Name" type="text" class="form-control"> <!--th:if="${editMode}"-->
+            </div>
+
+
+            <div class="form-group form-group-default">
+                <label>Marca</label>
+                <input th:value="${bus.bus_make}" th:field="${bus.bus_make}" id="Name" type="text" class="form-control" placeholder="&#128653; Marca">
+                <div th:if="${#fields.hasErrors('bus_make')}" th:errors="*{bus_make}" class="col-10 col-xs-11 col-sm-4 alert alert-danger" data-notify="container" role="alert" data-notify-position="bottom-left">Error</div>
+            </div>
+            <div class="form-group form-group-default">
+                <label>Modelo</label>
+                <input th:value="${bus.bus_model}" th:field="${bus.bus_model}" id="Name" type="text" class="form-control" placeholder="&#128653; Modelo">
+                <div class="alert-danger" th:if="${#fields.hasErrors('bus_model')}" th:errors="*{bus_model}">Error</div>
+            </div>
+            <div class="form-group form-group-default">
+                <label>Placa</label>
+                <input th:value="${bus.bus_registration_number}" th:field="${bus.bus_registration_number}" id="Name" type="text" class="form-control" placeholder="&#128653; Placa">
+                <div class="alert-danger" th:if="${#fields.hasErrors('bus_registration_number')}" th:errors="*{bus_registration_number}">Error</div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group form-group-default">
+                <label>Propietario</label>
+                <select th:value="${bus.bus_propietor_id}" th:field="${bus.bus_propietor_id}" class="form-control" id="formGroupDefaultSelect">
+                    <option th:each="u:${iUsers}" th:value="${u.use_id}" th:text="${u.use_last_name} + ' ' + ${u.use_first_name}"></option>
+                </select>
+            </div>
+            <div class="form-group form-group-default">
+                <label>Disco</label>
+                <input th:value="${bus.bus_number_disc}" th:field="${bus.bus_number_disc}" id="Name" type="number" class="form-control" min="0" max="25">
+                <!-- <div class="alert-danger" th:if="${#fields.hasErrors('use_phone')}" th:errors="*{use_phone}">Error</div> -->
+            </div>
+            <div class="form-group form-group-default">
+                <label>Capacidad</label>
+                <input th:value="${bus.bus_size}" th:field="${bus.bus_size}" id="Name" type="number" class="form-control" min="0">
+            </div>
+        </div>
+    </div>
+    <div class="card-body" style="text-align: right; padding-right: 50px;">
+        <div class="div-boton check-personal">
+            <input name="" type="checkbox" th:checked="${bus.bus_status}" th:value="${bus.bus_status}" th:field="${bus.bus_status}" id="userEstado"/> Estado (Activo)...
+            <!--<label for="userEstado">Acepte los términos y condiciones</label>-->
+        </div>
+        </br>
+        <button class="btn-bgm btn-bgm-clear" type="button" th:if="${editMode}" th:aria-hidden="${editMode}">
+            <a th:href="@{'/app_busgeomap/colective'}" style="text-decoration-line: none; text-decoration: none;color: rgb(90, 95, 97);">
+                <i class="fas fa-minus-circle icons-bgm-space ico-bgm-clear"></i>Cancelar
+            </a>
+        </button>
+        <button class="btn-bgm btn-bgm-save" type="submit">
+            <i class="fab fa-telegram-plane icons-bgm-space ico-bgm-save"></i>Guardar
+            <!-- <p ></p> -->
+        </button>
+    </div>
+</form>

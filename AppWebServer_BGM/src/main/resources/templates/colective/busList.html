@@ -2,56 +2,51 @@
     <table id="busList" class="table">
         <thead class="thead-light">
             <tr>
-                <th class="col">Nº Disco</th>
-                <th class="col">Propietario</th>
-                <th class="col">Marca/Modelo</th>
-                <th class="col">Nº Placa</th>
-                <th class="col">Estado</th>
-                <th scope="col">Acción</th>
+                <th class="table-colum">Disco</th>
+                <th>Marca/Modelo</th>
+                <th>Capacidad</th>
+                <th>Propietario</th>
+                <th style="width: 10%">Acción</th>
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <th scope="col">Nº Disco</th>
-                <th scope="col">Propietario</th>
+                <th scope="col">Disco</th>
                 <th scope="col">Marca/Modelo</th>
-                <th scope="col">Nº Placa</th>
-                <th scope="col">Estado</th>
+                <th scope="col">Capacidad</th>
+                <th scope="col">Propietario</th>
                 <th scope="col">Acción</th>
             </tr>
         </tfoot>
-        <tbody>
+       <tbody>
             <tr th:each="bus: ${busList}">
-                <th th:text="${bus.bus_number_disc}" scope="row"></th>
-                <th th:text="${bus.bus_propietor_id}" scope="row"></th>
-                <td th:text="${bus.bus_make} + ' ' + ${bus.bus_model}" scope="row"></td>
-                <td th:text="${bus.bus_registration_number}" scope="row"></td>
-                <td th:text="${bus.bus_state}" scope="row"></td>
-                <td style="text-align: center;">
-                    <a href="#editar" class="btn btn-link btn-info" data-toggle="tooltip" data-original-title="Actualizar">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    <a href="#eliminar" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
+                <td th:text="${bus.bus_number_disc}"> </td>
+                <td th:text="${bus.bus_make} + ' ' + ${bus.bus_model}"></td>
+                <td th:text="${bus.bus_size}"></td>
+                <td th:text="${bus.bus_propietor_id}"></td>
+                <td>
+                    <div class="form-button-action">
+                        <a href="#editar" th:href="@{'/app_busgeomap/edit_bus/'+ ${bus.bus_id}}" class="btn btn-link btn-info" data-original-title="Actualizar"> 
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="#eliminar" th:onclick="confirmDelete([[${bus.bus_id}]])" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
                 </td>
             </tr>
         </tbody>
-    </table>
+    </table>                                                    
+</div>
 
-    <div id="deleteError" th:if="${deleteError}" class="alert alert-danger text-center" role="alert">
-        <span th:text="${deleteError}"></span>
-    </div>
-</div> 
-
-  <script type="text/javascript">
+<script type="text/javascript">
     function confirmDelete(id){
         $('#deleteModal').modal('show');
         $("#userIdHiddenInput").val(id);
     }
     
-    function deleteRole(){
+    function deleteBus(){
         var id = $("#userIdHiddenInput").val();
         window.location = "delete_bus/"+id;
     }
-    </script>
+</script>

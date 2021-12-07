@@ -1,6 +1,7 @@
 package com.ec.busgeomap.web.app.model;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ public class Bus {
 	@Size(min=5, max=25, message="Inserte texto mayor a 4 caracteres")
 	private String bus_model;
 
-	//@NotBlank
+	@NotNull
 	private int bus_number_disc;
 
 	private long bus_registration_date;
@@ -27,15 +28,14 @@ public class Bus {
 	@Size(min=5, max=10, message="Inserte texto mayor a 5 caracteres")
 	private String bus_registration_number;
 
-	//@NotBlank
+	@NotNull
 	private int bus_size;
 
-	private String bus_propietor_id;
-
-	@NotBlank
+	//@NotBlank
 	@Size(min=5, max=25, message="Inserte texto mayor a 5 caracteres")
-	private String bus_state;
-
+	private String bus_propietor_id;
+	
+	//@NotNull
 	private boolean bus_status;
 
 	public Bus() {}
@@ -45,7 +45,7 @@ public class Bus {
 	}
 
 	public Bus(String bus_id, String bus_make, String bus_model, int bus_number_disc, long bus_registration_date, 
-			String bus_registration_number, int bus_size, String bus_propietor_id, String bus_state, boolean bus_status) {
+			String bus_registration_number, int bus_size, String bus_propietor_id, boolean bus_status) {
 		this.bus_id = bus_id;
 		this.bus_make = bus_make;
 		this.bus_model = bus_model;
@@ -54,7 +54,6 @@ public class Bus {
 		this.bus_registration_number = bus_registration_number;
 		this.bus_size = bus_size;
 		this.bus_propietor_id = bus_propietor_id;
-		this.bus_state = bus_state;
 		this.bus_status = bus_status;
 	}
 
@@ -122,14 +121,6 @@ public class Bus {
 		this.bus_propietor_id = bus_propietor_id;
 	}
 
-	public String getBus_state() {
-		return bus_state;
-	}
-
-	public void setBus_state(String bus_state) {
-		this.bus_state = bus_state;
-	}
-
 	public boolean getBus_status() {
 		return bus_status;
 	}
@@ -143,6 +134,6 @@ public class Bus {
 		return "Bus [bus_id=" + bus_id + ", bus_make=" + bus_make + ", bus_model=" + bus_model + ", bus_number_disc="
 				+ bus_number_disc + ", bus_registration_date=" + bus_registration_date + ", bus_registration_number="
 				+ bus_registration_number + ", bus_size=" + bus_size + ", bus_propietor_id=" + bus_propietor_id
-				+ ", bus_state=" + bus_state + ", bus_status=" + bus_status + "]";
+				+ ", bus_status=" + bus_status + "]";
 	}
 }

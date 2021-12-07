@@ -9,11 +9,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Bus;
+import com.ec.busgeomap.web.app.model.Users;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
@@ -23,7 +23,8 @@ import com.google.firebase.cloud.FirestoreClient;
 public class ServiceBus {
 	
 	public static final String COL_NAME_BUS="Bus";
-	public static final String IDENTIFICATE="BGM_BUS";
+	public static final String COL_NAME_USER="Users";
+	public static final String IDENTIFICATE="BGM_BUSE";
 	public static final int ID_LENGTH=10;
 
 	Firestore dbFirestore;
@@ -46,7 +47,6 @@ public class ServiceBus {
 		b.setBus_registration_date(new Date().getTime());
 		b.setBus_registration_number(bus.getBus_registration_number());
 		b.setBus_size(bus.getBus_size());
-		b.setBus_state(bus.getBus_state());
 		b.setBus_status(bus.getBus_status());
 		
 		return b;
@@ -73,7 +73,7 @@ public class ServiceBus {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 				
-		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_BUS).orderBy("bus_number_disc", Query.Direction.ASCENDING).get();
+		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_BUS).whereEqualTo("bus_status", true).get();
 				
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
@@ -81,9 +81,11 @@ public class ServiceBus {
 		
 		for (QueryDocumentSnapshot document : documents) {
 		
-			System.out.println("> " + document.getId() + " \t" + document.getString("bus_number_disc"));
+			System.out.println("> " + document.getId() + " \t" + document.getData());
 			
 			bus = document.toObject(Bus.class);
+			
+			bus.setBus_propietor_id(readUserDoc(bus));
 			
 			arrayList.add(bus);
 		}
@@ -91,6 +93,27 @@ public class ServiceBus {
 		System.out.println("\n > LISTADO: " +arrayList);
 		
 		return arrayList;
+	}
+	
+	// Method to Find a USER PROPIETOR Doc
+	private String readUserDoc(Bus b) throws InterruptedException, ExecutionException{
+		Users user = null;
+		
+		DocumentReference docRef1 =  dbFirestore.collection(COL_NAME_USER).document(b.getBus_propietor_id());
+		
+		ApiFuture<DocumentSnapshot> future = docRef1.get();
+		
+		DocumentSnapshot document = future.get();
+		
+		if (document.exists()) {
+			user = document.toObject(Users.class);
+
+			if (b.getBus_propietor_id().equals(document.getId())) {
+				b.setBus_propietor_id(user.getUse_last_name() + " " + user.getUse_first_name());
+			} 
+		}
+		
+		return user.getUse_last_name() + " " + user.getUse_first_name();
 	}
 	
 	// Method to Find a specific role
@@ -122,12 +145,12 @@ public class ServiceBus {
 		Bus b = mapBus(bus);
 		
 		dbFirestore.collection(COL_NAME_BUS).document(b.getBus_id()).set(bus);
-		System.err.println(" ROL Actualizado");
+		System.err.println(" BUS Actualizado");
 		
 		return dbFirestore.toString();
 	}
 	
-	// Method to Delete Rol
+	// Method to Delete BUS
 	public String deleteBus(String idDoc) throws InterruptedException, ExecutionException {
 		Bus bus = readByIdDoc(idDoc);
 		

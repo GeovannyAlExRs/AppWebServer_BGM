@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <meta name="description" content="Transporte público Cooperativa San Agustin, Chanduy - Santa Elena">
+    <meta name="author" content="BusGeoMap">
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap" rel="stylesheet"/>
+    
+    <!-- Iconos Fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css"/>
+    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+    <script th:src="@{/lib/plugin/webfont/webfont.min.js}"  src="../../static/lib/plugin/webfont/webfont.min.js"></script>
+
+
+    <!-- CSS Files -->
+    <link th:href="@{/css/atlantis.min.css}" href="../../static/css/atlantis.min.css" rel="stylesheet">
+
+    <link th:href="@{/css/dashboard.css}" href="../../static/css/dashboard.css"  rel="stylesheet"/>
+    <link th:href="@{/css/style_dashboard.css}" href="../../static/css/style_dashboard.css" rel="stylesheet"/>	
+    <link th:href="@{/css/style_bgm_form.css}" href="../../static/css/style_bgm_form.css" rel="stylesheet"/>	
+    <link th:href="@{/css/style_bgm_colective.css}" href="../../static/css/style_bgm_colective.css"  rel="stylesheet"/>
+    <!-- ICONO PROJECT-->
+    <link th:href="@{/img/ico/ico_chanduy.ico}" href="../../static/img/ico/ico_chanduy.ico" rel="shortcut icon" type="image/x-icon"/>
+
+    <title>BusGeoMap - Asignar Bus</title>
+	
+</head>
+
+<body>    
+    <div class="wrapper">
+
+		<div class="main-header">
+			<!-- Logo Header -->
+			<div class="logo-header bgm-dashboard-logo-header"> <!-- data-background-color="blue" -->
+				
+				<a href="index.html" class="logo">
+					<img th:src="@{/img/image/logo/lg_coop.png}" src="../../static/img/image/logo/lg_coop.png" alt="navbar brand" class="navbar-brand bgm-dashboard-logo-img" style="width: 150px;">
+				</a>
+				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span>
+						<!-- <i class="icon-menu bgm-dashboard-ico"></i> -->
+						<i class="fas fa-bars bgm-dashboard-ico"></i>
+					</span>
+				</button>
+				<button class="topbar-toggler more"><i class="fas fa-ellipsis-v bgm-dashboard-ico"></i></button>
+				<div class="nav-toggle">
+					<button class="btn btn-toggle toggle-sidebar">
+						<i class="icon-menu"></i>
+					</button>
+				</div>
+			</div>
+			<!-- End Logo Header -->
+
+			<!-- Navbar Header -->
+			<nav class="navbar navbar-header navbar-expand-lg bgm-dashboard-navbar-header"> <!--data-background-color="blue2"-->
+				
+				<div class="container-fluid">
+					
+					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+						<li class="nav-item dropdown hidden-caret bgm-dashboard-btn-ico">
+							<a class="nav-link dropdown-toggle bgm-dashboard-btn" href="#" role="button">
+								<i class="fa fa-home bgm-dashboard-ico"></i>
+							</a>
+						</li>
+						<li class="nav-item dropdown hidden-caret bgm-dashboard-btn-ico">
+							<a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fa fa-comments bgm-dashboard-ico"></i>
+							</a>
+							<ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="messageDropdown">
+								<li>
+									<div class="dropdown-title d-flex justify-content-between align-items-center">
+										Mensajes 									
+										<a href="#" class="small">Sin leer (2)</a>
+									</div>
+								</li>
+								<li>
+									<div class="message-notif-scroll scrollbar-outer">
+										<div class="notif-center">
+											<a href="#">
+												<div class="notif-img"> 
+													<img th:src="@{/img/image/photo/2400189375-Foto.jpg}" src="../../static/img/image/photo/2400189375-Foto.jpg" alt="Img Profile">
+												</div>
+												<div class="notif-content">
+													<span class="subject">Jimmy Denis</span>
+													<span class="block">
+														How are you ?
+													</span>
+													<span class="time">5 minutes ago</span> 
+												</div>
+											</a>
+											<a href="#">
+												<div class="notif-img"> 
+													<img th:src="@{/img/image/photo/2400189375-Foto.jpg}" src="../../static/img/image/photo/2400189375-Foto.jpg" alt="Img Profile">
+												</div>
+												<div class="notif-content">
+													<span class="subject">Chad</span>
+													<span class="block">
+														Ok, Thanks !
+													</span>
+													<span class="time">12 minutes ago</span> 
+												</div>
+											</a>
+											<a href="#">
+												<div class="notif-img"> 
+													<img th:src="@{/img/image/photo/2400189375-Foto.jpg}" src="../../static/img/image/photo/2400189375-Foto.jpg" alt="Img Profile">
+												</div>
+												<div class="notif-content">
+													<span class="subject">Jhon Doe</span>
+													<span class="block">
+														Ready for the meeting today...
+													</span>
+													<span class="time">12 minutes ago</span> 
+												</div>
+											</a>
+											
+										</div>
+									</div>
+								</li>
+								<li>
+									<a class="see-all" href="javascript:void(0);">Ver todos los mensajes<i class="fa fa-angle-right"></i> </a>
+								</li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown hidden-caret bgm-dashboard-btn-ico">
+							<a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fa fa-bell bgm-dashboard-ico"></i>
+								<span class="notification">4</span>
+							</a>
+							<ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+								<li>
+									<div class="dropdown-title">Tienes 4 nuevas notificaciones</div>
+								</li>
+								<li>
+									<div class="notif-scroll scrollbar-outer">
+										<div class="notif-center">
+											<a href="#">
+												<div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div>
+												<div class="notif-content">
+													<span class="block">
+														New user registered
+													</span>
+													<span class="time">5 minutes ago</span> 
+												</div>
+											</a>
+											<a href="#">
+												<div class="notif-icon notif-success"> <i class="fa fa-comment"></i> </div>
+												<div class="notif-content">
+													<span class="block">
+														Rahmad commented on Admin
+													</span>
+													<span class="time">12 minutes ago</span> 
+												</div>
+											</a>
+											<a href="#">
+												<div class="notif-img"> 
+													<img th:src="@{/img/image/photo/2400189375-Foto.jpg}" src="../../static/img/image/photo/2400189375-Foto.jpg" alt="Img Profile">
+												</div>
+												<div class="notif-content">
+													<span class="block">
+														Reza send messages to you
+													</span>
+													<span class="time">12 minutes ago</span> 
+												</div>
+											</a>
+											<a href="#">
+												<div class="notif-icon notif-danger"> <i class="fa fa-heart"></i> </div>
+												<div class="notif-content">
+													<span class="block">
+														Farrah liked Admin
+													</span>
+													<span class="time">17 minutes ago</span> 
+												</div>
+											</a>
+										</div>
+									</div>
+								</li>
+								<li>
+									<a class="see-all" href="javascript:void(0);">Ver todas las notificaciones<i class="fa fa-angle-right"></i> </a>
+								</li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown hidden-caret  bgm-dashboard-btn-ico">
+							<a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+								<i class="fas fa-tasks bgm-dashboard-ico"></i>
+							</a>
+							<div class="dropdown-menu quick-actions quick-actions-info animated fadeIn">
+								<div class="quick-actions-header">
+									<span class="title mb-1">BueGeoMap</span>
+									<span class="subtitle op-8">Servicios</span>
+								</div>
+								<div class="quick-actions-scroll scrollbar-outer">
+									<div class="quick-actions-items">
+										<div class="row m-0">
+											<a class="col-6 col-md-4 p-0" href="#">
+												<div class="quick-actions-item">
+													<i class="fas fa-map-marker-alt"></i>
+													<span class="text">Navegación</span>
+												</div>
+											</a>
+											<a class="col-6 col-md-4 p-0" href="#">
+												<div class="quick-actions-item">
+													<i class="fas fa-calendar"></i>
+													<span class="text">Viajes</span>
+												</div>
+											</a>
+											<a class="col-6 col-md-4 p-0" href="#">
+												<div class="quick-actions-item">
+													<i class="fas fa-user-tie"></i>
+													<span class="text">Personal</span>
+												</div>
+											</a>
+											<a class="col-6 col-md-4 p-0" href="#">
+												<div class="quick-actions-item">
+													<i class="fas fa-bus"></i>
+													<span class="text">Cooperativa</span>
+												</div>
+											</a>
+											<a class="col-6 col-md-4 p-0" href="#">
+												<div class="quick-actions-item">
+													<i class="fas fa-desktop"></i>
+													<span class="text">Monitoreo</span>
+												</div>
+											</a>
+											<a class="col-6 col-md-4 p-0" th:href="@{/app_busgeomap/role}">
+												<div class="quick-actions-item">
+													<i class="fas fa-user-secret"></i>
+													<span class="text">Roles</span>
+												</div>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="nav-item dropdown hidden-caret">
+							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+								<div class="avatar-sm">
+									<img th:src="@{/img/image/photo/2400189375-Foto.jpg}" src="../../static/img/image/photo/2400189375-Foto.jpg" alt="..." class="avatar-img rounded-circle">
+								</div>
+							</a>
+							<ul class="dropdown-menu dropdown-user animated fadeIn">
+								<div class="dropdown-user-scroll scrollbar-outer">
+									<li>
+										<div class="user-box">
+											<div class="avatar-lg">
+												<img th:src="@{/img/image/photo/2400189375-Foto.jpg}" src="../../static/img/image/photo/2400189375-Foto.jpg" alt="image profile" class="avatar-img rounded">
+											</div>
+											<div class="u-text">
+												<h4>Geovanny AlEx Rs</h4>
+												<p class="text-muted">geovanny@example.com</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+											</div>
+										</div>
+									</li>
+									<li>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="#">Perfil</a>
+										<a class="dropdown-item" href="#">Mensajes</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt ico "></i>Cerrar sesión</a>
+									</li>
+								</div>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<!-- End Navbar -->
+        </div>
+		
+		<!-- Sidebar -->
+		<div class="sidebar sidebar-style-2">			
+			<div class="sidebar-wrapper scrollbar scrollbar-inner">
+				<div class="sidebar-content">
+					<div class="user">
+						<div class="avatar-sm float-left mr-2">
+							<img th:src="@{/img/image/photo/2400189375-Foto.jpg}" src="../../static/img/image/photo/2400189375-Foto.jpg" alt="..." class="avatar-img rounded-circle">
+						</div>
+						<div class="info">
+							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+								<span>
+									Geovanny AlEx Rs
+									<span class="user-level">Administrator</span>
+									<span class="caret"></span>
+								</span>
+							</a>
+							<div class="clearfix"></div>
+
+							<div class="collapse in" id="collapseExample">
+								<ul class="nav">
+									<li>
+										<a href="#profile">
+											<span class="link-collapse">Mi Perfil</span>
+										</a>
+									</li>
+									<li>
+										<a href="#edit">
+											<span class="link-collapse">Editar Perfil</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<ul class="nav nav-primary">
+						
+						<li class="nav-section">
+							<span class="sidebar-mini-icon">
+								<i class="fa fa-ellipsis-h"></i>
+							</span>
+							<h4 class="text-section">Servicios</h4>
+						</li>
+						<li class="nav-item">
+							<a href="#base">
+								<i class="fas fa-map-marker-alt icons-bgm-space"></i>
+								<p>Navegación</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#sidebarLayouts">
+								<i class="fas fa-calendar icons-bgm-space"></i>
+								<p>Horarios de viaje</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#forms">
+								<i class="fas fa-comments icons-bgm-space"></i>
+								<p>Mensajes</p>
+							</a>
+						</li>
+					</ul>
+
+                    <ul class="nav nav-primary">
+						
+						<li class="nav-section">
+							<span class="sidebar-mini-icon">
+								<i class="fa fa-ellipsis-h"></i>
+							</span>
+							<h4 class="text-section">Cooperativa</h4>
+						</li>
+						<li class="nav-item">
+							<a th:href="@{/app_busgeomap/role}">
+								<i class="fas fa-user-secret icons-bgm-space"></i>
+								<p>Roles</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#sidebarLayouts">
+								<i class="fa fa-user icons-bgm-space"></i>
+								<p>Usuarios</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#forms">
+								<i class="fas fa-bus icons-bgm-space"></i>
+								<p>Transporte</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#sidebarLayouts">
+								<i class="fas fa-qrcode icons-bgm-space"></i>
+								<p>Generar Code QR</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#forms">
+								<i class="fas fa-calendar-alt icons-bgm-space"></i>
+								<p>Planificación</p>
+							</a>
+						</li>
+                        <li class="nav-item">
+							<a href="#base">
+								<i class="fas fa-location-arrow icons-bgm-space"></i>
+								<p>Rutas</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#forms">
+								<i class="fas fa-map-marker-alt icons-bgm-space"></i>
+								<p>Lugares/Paradas</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#forms">
+								<i class="fas fa-chart-line icons-bgm-space"></i>
+								<p>Reportes</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<!-- Panel principal -->
+		<div class="main-panel">
+			<div class="content">
+                
+                <div class="page-inner">
+
+					<div class="page-header">
+						<h4 class="page-title">BusGeoMap</h4>
+						<ul class="breadcrumbs">
+							<li class="nav-home">
+								<a href="#">
+									<i class="fa fa-home"></i>
+								</a>
+							</li>
+							<li class="separator">
+								<i class="fas fa-chevron-right"></i>
+							</li>
+							<li class="nav-item">
+								<a href="#">Cooperativa</a>
+							</li>
+							<li class="separator">
+								<i class="fas fa-chevron-right"></i>
+							</li>
+							<li class="nav-item">
+								<a th:href="@{/app_busgeomap/role}">Roles</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header" style="text-align: center;">
+									<div class="card-title">Asignar ocupantes del colectivo</div>
+								</div>
+								<div class="card-body">
+
+									<ul class="nav nav-tabs  nav-pills-no-bd nav-pills-icons" id="pills-tab-with-icon" role="tablist">
+										<li class="nav-item">
+											<a class="nav-link" th:classappend=" ${listTabBgm}" href="#bgm-list" id="pills-vuelta-tab-icon" role="tab" aria-controls="bgm-list" data-toggle="pill" aria-selected="true">
+												<i class="fas fa-list-ol icons-bgm-space"></i> Lista
+											</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" th:classappend=" ${formTabBgm}" href="#bgm-register" id="pills-ida-tab-icon" role="tab" aria-controls="bgm-register" data-toggle="pill" aria-selected="false">
+												<i class="fas fa-edit icons-bgm-space"></i> Registro
+											</a>
+										</li>
+									</ul>
+									
+									<div class="tab-content mt-2 mb-3" id="pills-with-icon-tabContent">
+										<div class="tab-pane fade show" th:classappend=" ${listTabBgm}" id="bgm-list" role="tabpanel" aria-labelledby="pills-vuelta-tab-icon">
+											<div class="card-body">
+												
+												<div class="card-body">
+													<div th:include="colective/assignebusList.html" th:remove="tag"></div>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane fade show" th:classappend=" ${formTabBgm}" id="bgm-register" role="tabpanel" aria-labelledby="pills-ida-tab-icon">
+											<div class="card-body">
+												<div th:include="colective/assignebusFrm.html" th:remove="tag"></div>
+											</div>
+										</div>
+									</div>
+									<div th:include="colective/assignebusDeleteModal.html" th:remove="tag"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<footer class="footer">
+				<div class="container-fluid">
+					<nav class="pull-left">
+						<ul class="nav">
+							<li class="nav-item">
+								<a class="nav-link" href="">
+									Company DTK
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">
+									Licenses
+								</a>
+							</li>
+						</ul>
+					</nav>
+					<div class="copyright ml-auto">
+						2020, made with <i class="fa fa-heart heart text-danger"></i> by <a href="https://www.themekita.com">Company DTK</a>
+					</div>				
+				</div>
+			</footer>
+		</div>
+        
+    
+	</div>
+    
+
+
+    <!-- Import JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <!--Libreias JavaScript-->
+    <!-- <script th:src="@{/lib/core/jquery.3.2.1.min.js}" src="../../static/lib/core/jquery.3.2.1.min.js"></script> -->
+    <script th:src="@{/lib/core/popper.min.js}" src="../../static/lib/core/popper.min.js"></script>
+    <!-- <script th:src="@{/lib/core/bootstrap.min.js}" src="../../static/lib/core/bootstrap.min.js"></script> -->
+
+    <script th:src="@{/lib/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}" src="../../static/lib/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script th:src="@{/lib/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js}" src="../../static/lib/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+
+    <script th:src="@{/lib/plugin/jquery-scrollbar/jquery.scrollbar.min.js}" src="../../static/lib/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+    
+	<!-- Sweet Alert -->
+	<script th:src="@{/lib/plugin/sweetalert/sweetalert.min.js}" src="../../static/lib/plugin/sweetalert/sweetalert.min.js"></script>
+
+	<!-- Atlantis JS -->
+	<script th:src="@{/js/atlantis.min.js}" src="../../static/js/atlantis.min.js"></script>
+</body>
+
+</html>

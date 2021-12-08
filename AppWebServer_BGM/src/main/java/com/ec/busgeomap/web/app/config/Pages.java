@@ -26,7 +26,7 @@ public class Pages {
 	// Template UNIDAD DE TRANSPORTE
 	public static String COLECTIVE = "colective/bus";
 		
-	public static String ASSIGNE_BUS = "cooperative/assignebus";
+	public static String ASSIGNE_BUS = "colective/assignebus";
 			
 	// Template REPORT (COOPERATIVA)
 	public static String REPORT = "cooperativa/report";

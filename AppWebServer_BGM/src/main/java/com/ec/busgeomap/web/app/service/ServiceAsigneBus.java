@@ -9,6 +9,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Assignes_Bus;
+import com.ec.busgeomap.web.app.model.Bus;
+import com.ec.busgeomap.web.app.model.Users;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -22,6 +24,7 @@ import com.google.firebase.cloud.FirestoreClient;
 public class ServiceAsigneBus {
 	
 	public static final String COL_NAME_ASSIGNE_BUS="Assignes_Bus";
+	public static final String COL_NAME_BUS="Bus";
 	public static final String COL_NAME_USER="Users";
 	public static final String IDENTIFICATE="BGM_BUSE";
 	public static final int ID_LENGTH=10;
@@ -47,7 +50,7 @@ public class ServiceAsigneBus {
 	}
 	
 	// Method to Find all BUS
-	public ArrayList<Assignes_Bus> readAllBus() throws InterruptedException, ExecutionException {
+	public ArrayList<Assignes_Bus> readAllAssignesBus() throws InterruptedException, ExecutionException {
 		
 		Assignes_Bus ab = null;
 		
@@ -55,7 +58,7 @@ public class ServiceAsigneBus {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 				
-		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_ASSIGNE_BUS).whereEqualTo("asb_status", true).get();
+		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_ASSIGNE_BUS).get();
 				
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
@@ -67,7 +70,11 @@ public class ServiceAsigneBus {
 			
 			ab = document.toObject(Assignes_Bus.class);
 			
-			//bus.setBus_propietor_id(readUserDoc(bus)); // Falta consultar, conductor y acompañante
+			ab.setAsb_bus_id(readBusDoc(ab));
+			
+			ab.setAsb_driver_id(readDriverDoc(ab));
+			
+			ab.setAsb_accompanist_id(readAccompanistDoc(ab));
 			
 			arrayList.add(ab);
 		}
@@ -77,6 +84,64 @@ public class ServiceAsigneBus {
 		return arrayList;
 	}
 
+	// Buscar Documento DRIVER (USERS)
+	private String readDriverDoc(Assignes_Bus ab) throws InterruptedException, ExecutionException {
+		Users users = null; 
+		
+		DocumentReference docRef1 =  dbFirestore.collection(COL_NAME_USER).document(ab.getAsb_driver_id());
+		ApiFuture<DocumentSnapshot> future = docRef1.get();
+		
+		DocumentSnapshot document1 = future.get();
+		
+		if (document1.exists()) {
+			users = document1.toObject(Users.class);
+			
+			if (ab.getAsb_driver_id().equals(document1.getId())) {
+				ab.setAsb_driver_id(users.getUse_last_name() + ' ' + users.getUse_first_name());
+			} 
+		}
+		return users.getUse_last_name() + ' ' + users.getUse_first_name();
+	}
+
+	// Buscar Documento ACOMPAÑANTE (USERS)
+	private String readAccompanistDoc(Assignes_Bus ab) throws InterruptedException, ExecutionException {
+		Users users = null; 
+		
+		DocumentReference docRef1 =  dbFirestore.collection(COL_NAME_USER).document(ab.getAsb_accompanist_id());
+		ApiFuture<DocumentSnapshot> future = docRef1.get();
+		
+		DocumentSnapshot document1 = future.get();
+		
+		if (document1.exists()) {
+			users = document1.toObject(Users.class);
+			
+			if (ab.getAsb_accompanist_id().equals(document1.getId())) {
+				ab.setAsb_accompanist_id(users.getUse_last_name() + ' ' + users.getUse_first_name());
+			} 
+		}
+		return users.getUse_last_name() + ' ' + users.getUse_first_name();
+	}
+	
+	// Method to Find a DISC BUS Doc
+	private String readBusDoc(Assignes_Bus ab) throws InterruptedException, ExecutionException {
+		Bus bus = null;
+		
+		DocumentReference docRef1 =  dbFirestore.collection("Bus").document(ab.getAsb_bus_id());
+		ApiFuture<DocumentSnapshot> future = docRef1.get();
+		DocumentSnapshot document1 = future.get();
+		
+		if (document1.exists()) {
+			bus = document1.toObject(Bus.class);
+			
+			if (ab.getAsb_bus_id().equals(document1.getId())) {
+				
+				ab.setAsb_bus_id(String.valueOf(bus.getBus_number_disc()));
+			} 
+		}
+		
+		return String.valueOf(bus.getBus_number_disc());
+	}
+	
 	// Method to create new BUS record
 	public String createBus(Assignes_Bus assignes_Bus) throws InterruptedException, ExecutionException {
 		

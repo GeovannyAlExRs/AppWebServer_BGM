@@ -1,1 +1,52 @@
-LISTA
+<div class="table-responsive list-role">
+    <table id="busList" class="table">
+        <thead class="thead-light">
+            <tr>
+                <th class="table-colum">Disco</th>
+                <th>Conductor</th>
+                <th>Acompañante</th>
+                <th>Estado</th>
+                <th style="width: 10%">Acción</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th scope="col">Disco</th>
+                <th scope="col">Conductor</th>
+                <th scope="col">Acompañante</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </tfoot>
+       <tbody>
+            <tr th:each="ab: ${busList}">
+                <td th:text="${ab.asb_bus_id}"> </td>
+                <td th:text="${ab.asb_driver_id}"></td>
+                <td th:text="${ab.asb_accompanist_id}"></td>
+                <td th:text="${ab.asb_status}"></td>
+                <td>
+                    <div class="form-button-action">
+                        <a href="#editar" class="btn btn-link btn-info" data-original-title="Actualizar"> 
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="#eliminar" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>                                                    
+</div>
+
+<script type="text/javascript">
+    function confirmDelete(id){
+        $('#deleteModal').modal('show');
+        $("#userIdHiddenInput").val(id);
+    }
+    
+    function deleteBus(){
+        var id = $("#userIdHiddenInput").val();
+        window.location = "delete_bus/"+id;
+    }
+</script>

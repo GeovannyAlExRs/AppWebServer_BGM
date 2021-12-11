@@ -1,1 +1,49 @@
-FORMULARIO
+<form th:object="${bus}" th:action="${editMode} ?@{/app_busgeomap/edit_assigne_bus} :@{/app_busgeomap/assigne_bus}" method="post" enctype="multipart/form-data" autocomplete="off" role="form">
+    <h3 class="mb-3">Datos del Colectivo</h3>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group form-group-default" >
+                <label>ID DOCUMENT</label>
+                <input th:value="${bus.asb_id}" th:field="${bus.asb_id}" id="Name" type="text" class="form-control"> <!--th:if="${editMode}"-->
+            </div>
+            
+            <div class="form-group form-group-default">
+                <label>Seleccionar Bus</label>
+                <select th:value="${bus.asb_bus_id}" th:field="${bus.asb_bus_id}" class="form-control" id="formGroupDefaultSelect">
+                    <option th:each="b:${busDiscList}" th:value="${b.bus_id}" th:text="${b.bus_number_disc}+' - '+${b.bus_model}+' '+${b.bus_make}"></option>
+                </select>
+            </div>
+
+            <div class="form-group form-group-default">
+                <label>Seleccionar el conductor</label>
+                <select th:value="${bus.asb_driver_id}" th:field="${bus.asb_driver_id}" class="form-control" id="formGroupDefaultSelect">
+                    <option th:each="u:${driversList}" th:value="${u.use_id}" th:text="${u.use_last_name} + ' ' + ${u.use_first_name}"></option>
+                </select>
+            </div>
+
+            <div class="form-group form-group-default">
+                <label>Seleccionar el acompañante</label>
+                <select th:value="${bus.asb_accompanist_id}" th:field="${bus.asb_accompanist_id}" class="form-control" id="formGroupDefaultSelect">
+                    <option th:each="u:${accompanyList}" th:value="${u.use_id}" th:text="${u.use_last_name} + ' ' + ${u.use_first_name}"></option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-body" style="text-align: right; padding-right: 50px;">
+        <div class="div-boton check-personal">
+            <input name="" type="checkbox" th:checked="${bus.asb_status}" th:value="${bus.asb_status}" th:field="${bus.asb_status}" id="userEstado"/> Estado (Activo)...
+            <!--<label for="userEstado">Acepte los términos y condiciones</label>-->
+        </div>
+        </br>
+        <button class="btn-bgm btn-bgm-clear" type="button" th:if="${editMode}" th:aria-hidden="${editMode}">
+            <a th:href="@{'/app_busgeomap/assigne_bus'}" style="text-decoration-line: none; text-decoration: none;color: rgb(90, 95, 97);">
+                <i class="fas fa-minus-circle icons-bgm-space ico-bgm-clear"></i>Cancelar
+            </a>
+        </button>
+        <button class="btn-bgm btn-bgm-save" type="submit">
+            <i class="fab fa-telegram-plane icons-bgm-space ico-bgm-save"></i>Guardar
+            <!-- <p ></p> -->
+        </button>
+    </div>
+</form>

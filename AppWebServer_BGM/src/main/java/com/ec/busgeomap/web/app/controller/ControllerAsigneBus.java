@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ec.busgeomap.web.app.config.Pages;
 import com.ec.busgeomap.web.app.model.Assignes_Bus;
 import com.ec.busgeomap.web.app.service.ServiceAsigneBus;
+import com.ec.busgeomap.web.app.service.ServiceBus;
 
 @Controller
 @RequestMapping("/app_busgeomap")
@@ -25,6 +26,9 @@ public class ControllerAsigneBus {
 	@Autowired
 	ServiceAsigneBus serviceAssigneBus;
 	
+	@Autowired
+	ServiceBus serviceBus;
+	
 	@GetMapping("/assigne_bus")
 	public String viewAssigneBus(Model model) throws InterruptedException, ExecutionException {
 		log.info("Ingreso al registro de RUTAS");
@@ -35,10 +39,10 @@ public class ControllerAsigneBus {
 	}
 	
 	private void addAttributeAssigneBus(Model model, Assignes_Bus bus, String tab) throws InterruptedException, ExecutionException {
-		//model.addAttribute("bus", bus);
+		model.addAttribute("bus", bus);
 		
 		model.addAttribute("busList", serviceAssigneBus.readAllAssignesBus());
-		//model.addAttribute("busDiscList", serviceBus.readAllBus());
+		model.addAttribute("busDiscList", serviceBus.readAllBus());
 		//model.addAttribute("driversList", serviceUsers.readAllDrivers("BGM_EMPL0yM3nTeR05"));
 		//model.addAttribute("accompanyList", serviceUsers.readAllAccompany("BGM_EMPL0yM3nTeR06"));
 		

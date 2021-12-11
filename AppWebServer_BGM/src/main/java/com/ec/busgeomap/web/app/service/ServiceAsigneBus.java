@@ -70,11 +70,11 @@ public class ServiceAsigneBus {
 			
 			ab = document.toObject(Assignes_Bus.class);
 			
-			ab.setAsb_bus_id(readBusDoc(ab));
+			ab.setAsb_bus_id(readBusDoc(ab)); // Buscar Disco del Bus
 			
-			ab.setAsb_driver_id(readDriverDoc(ab));
+			ab.setAsb_driver_id(readDriverDoc(ab)); // Buscar Conductor del Bus
 			
-			ab.setAsb_accompanist_id(readAccompanistDoc(ab));
+			ab.setAsb_accompanist_id(readAccompanistDoc(ab)); // Buscar Acompañante del Bus
 			
 			arrayList.add(ab);
 		}
@@ -143,7 +143,7 @@ public class ServiceAsigneBus {
 	}
 	
 	// Method to create new BUS record
-	public String createBus(Assignes_Bus assignes_Bus) throws InterruptedException, ExecutionException {
+	public String createAssignesBus(Assignes_Bus assignes_Bus) throws InterruptedException, ExecutionException {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Assignes_Bus;
 import com.ec.busgeomap.web.app.model.Bus;
+import com.ec.busgeomap.web.app.model.Employment;
 import com.ec.busgeomap.web.app.model.Users;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
@@ -141,6 +142,59 @@ public class ServiceAsigneBus {
 		
 		return String.valueOf(bus.getBus_number_disc());
 	}
+	
+	// Buscar Usuarios por el cargo "CONDUCTOR"
+	public ArrayList<Users> readDriversOrAccompany(String idEmployment) throws InterruptedException, ExecutionException {
+		
+		Users users = null;
+		
+		ArrayList<Users> arrayListUser = new ArrayList<>();
+		
+		dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_USER).whereEqualTo("use_employment_id", idEmployment).get();
+		
+		QuerySnapshot querySnapshot = query.get();
+		
+		List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+		
+		System.out.println("---- LISTA DE USUARIOS ----\n" );
+		for (QueryDocumentSnapshot document : documents) {
+			
+			System.out.println("> " + document.getData());
+			
+			users = document.toObject(Users.class);
+			
+			users.setUse_employment_id(readEmploymentDoc(users)); // Buscar DOC EMPLOYMENT 
+			
+			arrayListUser.add(users);
+		}
+		
+		return arrayListUser;
+	}
+	
+	private String readEmploymentDoc(Users u) throws InterruptedException, ExecutionException{
+		Employment employment = null;
+		
+		DocumentReference docRef1 =  dbFirestore.collection("Employment").document(u.getUse_employment_id());
+		
+		ApiFuture<DocumentSnapshot> future = docRef1.get();
+		
+		DocumentSnapshot document = future.get();
+		
+		if (document.exists()) {
+			employment = document.toObject(Employment.class);
+
+			if (u.getUse_employment_id().equals(document.getId())) {
+				u.setUse_employment_id(employment.getEmp_name());
+			} 
+		}
+		
+		return employment.getEmp_name();
+	}
+	
+	
+	// Buscar Usuarios por el cargo "OFICIAL"
 	
 	// Method to create new BUS record
 	public String createAssignesBus(Assignes_Bus assignes_Bus) throws InterruptedException, ExecutionException {

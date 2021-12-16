@@ -26,10 +26,10 @@
                 <td th:text="${ab.asb_status}"></td>
                 <td>
                     <div class="form-button-action">
-                        <a href="#editar" class="btn btn-link btn-info" data-original-title="Actualizar"> 
+                        <a href="#editar" th:href="@{'/app_busgeomap/edit_assigne_bus/'+ ${ab.asb_id}}" class="btn btn-link btn-info" data-original-title="Actualizar"> 
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a href="#eliminar" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
+                        <a href="#eliminar" th:onclick="confirmDelete([[${ab.asb_id}]])" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
@@ -47,6 +47,6 @@
     
     function deleteBus(){
         var id = $("#userIdHiddenInput").val();
-        window.location = "delete_bus/"+id;
+        window.location = "delete_assignebus/"+id;
     }
 </script>

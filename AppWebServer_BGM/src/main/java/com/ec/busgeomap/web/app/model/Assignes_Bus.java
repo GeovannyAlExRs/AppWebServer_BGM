@@ -15,7 +15,6 @@ private String asb_id;
 	@NotBlank
 	private String asb_bus_id;
 	
-	@NotBlank
 	private long bus_registration_date;
 
 	private boolean asb_status;

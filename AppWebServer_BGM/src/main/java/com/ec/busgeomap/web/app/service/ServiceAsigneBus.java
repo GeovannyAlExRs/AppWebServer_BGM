@@ -41,6 +41,7 @@ public class ServiceAsigneBus {
 		
 		Assignes_Bus ab = new Assignes_Bus();
 		
+		ab.setAsb_id(assignes_Bus.getAsb_id());
 		ab.setAsb_bus_id(assignes_Bus.getAsb_bus_id());
 		ab.setAsb_accompanist_id(assignes_Bus.getAsb_accompanist_id());
 		ab.setAsb_driver_id(assignes_Bus.getAsb_driver_id());
@@ -48,6 +49,18 @@ public class ServiceAsigneBus {
 		ab.setAsb_status(assignes_Bus.getAsb_status());
 		
 		return ab;
+	}
+
+	// Method to create new BUS record
+	public String createAssignesBus(Assignes_Bus assignes_Bus) throws InterruptedException, ExecutionException {
+		
+		dbFirestore = FirestoreClient.getFirestore();
+		
+		Assignes_Bus ab = mapBus(assignes_Bus);
+		
+		dbFirestore.collection(COL_NAME_ASSIGNE_BUS).document(assignes_Bus.getAsb_id()).set(ab);
+		
+		return dbFirestore.toString();
 	}
 	
 	// Method to Find all BUS
@@ -191,21 +204,6 @@ public class ServiceAsigneBus {
 		}
 		
 		return employment.getEmp_name();
-	}
-	
-	
-	// Buscar Usuarios por el cargo "OFICIAL"
-	
-	// Method to create new BUS record
-	public String createAssignesBus(Assignes_Bus assignes_Bus) throws InterruptedException, ExecutionException {
-		
-		dbFirestore = FirestoreClient.getFirestore();
-		
-		Assignes_Bus ab = mapBus(assignes_Bus);
-		
-		dbFirestore.collection(COL_NAME_ASSIGNE_BUS).document(assignes_Bus.getAsb_id()).set(ab);
-		
-		return dbFirestore.toString();
 	}
 	
 	// Method to Find a specific role

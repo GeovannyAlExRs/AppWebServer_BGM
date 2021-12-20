@@ -19,7 +19,7 @@ public class Pages {
 	public static String PLACE = "cooperative/place";
 		
 	// Template CODIGO QR (COOPERATIVA)
-	public static String CODE_QR = "codeqr/qrCode";
+	public static String CODE_QR = "qr/codeqr";
 
 	public static String CODE_QR_COLECTIVE = "codeqr/codeQr";
 	

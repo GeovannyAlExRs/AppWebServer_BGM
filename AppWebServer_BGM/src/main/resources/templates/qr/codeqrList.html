@@ -1,0 +1,41 @@
+<div class="table-responsive list-role">
+    <table id="userList" class="table">
+        <thead class="thead-light">
+            <tr>
+                <th hidden class="table-colum">ID Document</th>
+                <th class="table-colum">Disco</th>
+                <th >Descripción</th>
+                <th >Fecha</th>
+                <th >Codigo QR</th>
+                <th >Acción</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th hidden scope="col">ID Document</th>
+                <th scope="col">Disco</th>
+                <th scope="col">Descripción</th>
+                <th scope="col" >Fecha</th>
+                <th scope="col">Codigo QR</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr th:each="code: ${qrList}">
+                <th hiddenth:text="${code.gqr_code}"></th>
+                <th th:text="${code.gqr_asb_bus_id}"></th>
+                <td th:text="${code.gqr_description}"></td>
+                <td th:text="${code.gqr_registration_date}"></td>
+                <td th:text="${code.gqr_image}"></td>
+                <td style="text-align: center;">
+                    <a href="#editar" class="btn btn-link btn-info" data-toggle="tooltip" data-original-title="Actualizar">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="#eliminar" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

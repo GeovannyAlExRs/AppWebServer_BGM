@@ -12,14 +12,20 @@
         </button>
       </div>
       <div class="modal-body">
+
         <form th:object="${codeqr}" th:action="@{/app_busgeomap/codeqr}" method="post" enctype="multipart/form-data" autocomplete="off" role="form"> 
           <div class="form-group form-floating-label" style="padding: 25px;text-align: center;">
             <img th:src="@{/img/image/logo/logo_dtk.png}" src="../../static/img/image/logo/logo_dtk.png" alt="San Agustin" width="50%">
           </div>
           
+          <div class="form-group form-group-default" >
+            <label>ID DOCUMENT</label>
+            <input th:value="${codeqr.gqr_code}" th:field="${codeqr.gqr_code}" id="Name" type="text" class="form-control"> 
+        </div>
+
           <div class="form-group form-floating-label">
-            <select class="form-control input-border-bottom" id="selectFloatingLabel"> <!--th:field="${codeqr.gqr_number_disc_bus}" -->
-                <!--option th:each="bus:${itemcodeqr}" th:value="${bus.bus_number_disc}" th:text="${bus.bus_number_disc}"></option-->
+            <select th:field="${codeqr.gqr_asb_bus_id}" class="form-control input-border-bottom" id="selectFloatingLabel"> <!--th:field="${codeqr.gqr_asb_bus_id}" -->
+                <option th:each="bus:${itemcodeqr}" th:value="${bus.asb_id}" th:text="${bus.asb_bus_id}"></option>
             </select>
             <label for="selectFloatingLabel" class="placeholder">Seleccione el Número Disco</label>
           </div>

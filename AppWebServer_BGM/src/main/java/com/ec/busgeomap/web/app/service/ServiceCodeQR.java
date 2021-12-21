@@ -44,8 +44,11 @@ public class ServiceCodeQR {
 		
 		CodeQR code = mapCodeQR(qr);
 		
+		System.out.println("OBJETO QR ANTES DE GUARDAR > " + code);
 		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(code);
 		
 		return dbFirestore.toString();
 	}
+	
+	
 }

@@ -63,6 +63,38 @@ public class ServiceAsigneBus {
 		return dbFirestore.toString();
 	}
 	
+	// Method to Find DISC BUS
+	public ArrayList<Assignes_Bus> readAssignesBusByDisc() throws InterruptedException, ExecutionException {
+		
+		Assignes_Bus ab = null;
+		
+		ArrayList<Assignes_Bus> arrayList = new ArrayList<>();
+		
+		dbFirestore = FirestoreClient.getFirestore();
+				
+		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_ASSIGNE_BUS).get();
+				
+		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
+		
+		System.out.println("---- LISTA DE BUSES ----\n ID Document \t\t| NºBUS" );
+		
+		for (QueryDocumentSnapshot document : documents) {
+		
+			System.out.println("> " + document.getId() + " \t" + document.getData());
+			
+			ab = document.toObject(Assignes_Bus.class);
+			
+			ab.setAsb_bus_id(readBusDoc(ab)); // Buscar Disco del Bus
+
+			arrayList.add(ab);
+		}
+		
+		System.out.println("\n > LISTADO: " +arrayList);
+		
+		return arrayList;
+	}
+	
+
 	// Method to Find all BUS
 	public ArrayList<Assignes_Bus> readAllAssignesBus() throws InterruptedException, ExecutionException {
 		

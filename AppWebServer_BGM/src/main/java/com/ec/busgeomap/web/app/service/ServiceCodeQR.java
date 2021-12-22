@@ -1,13 +1,11 @@
 package com.ec.busgeomap.web.app.service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Assignes_Bus;
@@ -19,6 +17,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
 @Service
@@ -28,6 +27,8 @@ public class ServiceCodeQR {
 	public static final String COL_NAME_ASSIGNE_BUS="Assignes_Bus";
 	public static final String IDENTIFICATE="BGM_CODE";
 	public static final int ID_LENGTH=10;
+	public static final int OP_CREATE=1;
+	public static final int OP_UPDATE=2;
 	
 	Firestore dbFirestore;
 
@@ -37,7 +38,7 @@ public class ServiceCodeQR {
 	}
 	
 	// Mapping the Object of the CodeQR class
-	private CodeQR mapCodeQR(CodeQR code) {
+	private CodeQR mapCodeQR(CodeQR code, int option) {
 		CodeQR qr = new CodeQR();
 		
 		qr.setGqr_code(code.getGqr_code());
@@ -45,7 +46,14 @@ public class ServiceCodeQR {
 		qr.setGqr_image(code.getGqr_image());
 		qr.setGqr_registration_date(new Date().getTime());
 		qr.setGqr_asb_bus_id(code.getGqr_asb_bus_id());
-		qr.setGqr_status(code.getGqr_status());
+		
+		if (option == 1) {
+			// Mapping Object for Create (ESTADO)
+			qr.setGqr_status(true);
+		} if (option == 2) {
+			// Mapping Object for Update (ESTADO)
+			qr.setGqr_status(code.getGqr_status());
+		}
 		
 		return qr;
 	}
@@ -55,7 +63,7 @@ public class ServiceCodeQR {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		CodeQR code = mapCodeQR(qr);
+		CodeQR code = mapCodeQR(qr, OP_CREATE);
 		
 		System.out.println("OBJETO QR ANTES DE GUARDAR > " + code);
 		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(code);
@@ -67,8 +75,6 @@ public class ServiceCodeQR {
 	public ArrayList<CodeQR> readAllQR() throws InterruptedException, ExecutionException {
 		
 		CodeQR qr = null;
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		ArrayList<CodeQR> arrayList = new ArrayList<>();
 		
@@ -85,10 +91,9 @@ public class ServiceCodeQR {
 			System.out.println("> " + document.getId() + " \t" + document.getData());
 			
 			qr = document.toObject(CodeQR.class);
+			
 			qr.setGqr_asb_bus_id(readAssignesBusByDisc(qr));
-			//qr.setGqr_registration_date(new Date(qr.getGqr_registration_date()* 1000).getTime());
-			//qr.setGqr_registration_date(new Date().parse(qr.getGqr_registration_date(), DateTimeFormat.ISO));
-			//qr.setGqr_registration_date(sdf.parse(String.valueOf(qr.getGqr_registration_date())));
+			
 			arrayList.add(qr);
 		}
 		
@@ -136,5 +141,48 @@ public class ServiceCodeQR {
 		}
 		
 		return String.valueOf(bus.getBus_number_disc());
+	}
+
+	// Method to Update CODE QR
+	public String updateQR(CodeQR codeQR) throws Exception {
+		
+		dbFirestore = FirestoreClient.getFirestore();
+		
+		CodeQR qr = mapCodeQR(codeQR, OP_UPDATE);
+		
+		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(qr);
+		System.err.println(" QR Actualizado");
+		
+		return dbFirestore.toString();
+	}
+	
+	// Method to Delete CODE QR
+	public String deleteQR(String idDoc) throws InterruptedException, ExecutionException {
+		CodeQR qr = readByIdDoc(idDoc);
+		
+		ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).delete();
+		
+		return writeResult.toString();
+	}
+
+	// Method to Find a specific CODE QR
+	public CodeQR readByIdDoc(String idDoc) throws InterruptedException, ExecutionException {
+		
+		dbFirestore = FirestoreClient.getFirestore();
+		
+		DocumentReference docRef =  dbFirestore.collection(COL_NAME_CODE).document(idDoc);
+		
+		ApiFuture<DocumentSnapshot> future = docRef.get();
+		
+		DocumentSnapshot document = future.get();
+		
+		CodeQR qr = null;
+		
+		if (document.exists()) {
+			qr = document.toObject(CodeQR.class);
+			return qr;
+		}else {
+			return null;
+		}
 	}
 }

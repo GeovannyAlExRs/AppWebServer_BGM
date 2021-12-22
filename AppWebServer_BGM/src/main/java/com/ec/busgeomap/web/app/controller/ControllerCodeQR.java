@@ -12,11 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ec.busgeomap.web.app.config.Pages;
 import com.ec.busgeomap.web.app.model.CodeQR;
+import com.ec.busgeomap.web.app.model.Roles;
 import com.ec.busgeomap.web.app.service.ServiceAsigneBus;
 import com.ec.busgeomap.web.app.service.ServiceCodeQR;
 
@@ -65,6 +67,52 @@ public class ControllerCodeQR {
 		log.info("*** GUARDAR CODE QR***");
 		
 		return Pages.CODE_QR;
+	}
+	
+	@GetMapping("/edit_qr/{gqr_code}")
+	public String getEditCodeQR(@PathVariable(name = "gqr_code") String gqr_code, Model model) throws InterruptedException, ExecutionException {
+		log.info("EDITAR QR : " + gqr_code);
+		
+		CodeQR qr = serviceQR.readByIdDoc(gqr_code);
+		
+		addAttribute(model, qr);
+		
+		model.addAttribute("editMode", "true");
+		
+		return Pages.CODE_QR_FRM;
+	}
+	
+	@PostMapping("/edit_qr")
+	public String updateCodeQR(@Valid @ModelAttribute("codeqr") CodeQR qr, BindingResult result, Model model) throws InterruptedException, ExecutionException {
+		log.info("ACTUALIZAR QR : " + qr.getGqr_code());
+		
+		if (result.hasErrors()) {
+			
+			addAttribute(model, qr);
+			model.addAttribute("editMode", "true");
+			
+			model.addAttribute("errorSave", "Error al guardar, complete los datos");
+			System.err.println("**** ERROR... CAMPOS VACIOS *** ");
+			
+			// model.addAttribute("formErrorMessage", "Por favor seleccione la imagen");
+			
+		}else {
+			try {
+				serviceQR.updateQR(qr);
+				model.addAttribute("msgSuccess", "CODE QR"+ qr.getGqr_code() + " Actualizado.");
+				
+				// New Document ROL with auto ID (autoIdDocumentUser).
+				addAttribute(model, new CodeQR(serviceQR.autoIdDocument()));
+								
+			} catch (Exception e1) {
+				model.addAttribute("formErrorMessage", e1.getMessage());
+				
+				model.addAttribute("editMode", "true");
+				addAttribute(model, qr);
+			}
+		}	
+
+		return "redirect:codeqr";
 	}
 	
 	private void addAttribute(Model model, CodeQR codeQR)  throws InterruptedException, ExecutionException {

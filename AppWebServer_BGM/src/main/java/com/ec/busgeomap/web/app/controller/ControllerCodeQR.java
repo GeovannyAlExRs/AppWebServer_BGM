@@ -68,6 +68,7 @@ public class ControllerCodeQR {
 	}
 	
 	private void addAttribute(Model model, CodeQR codeQR)  throws InterruptedException, ExecutionException {
+		model.addAttribute("qrList", serviceQR.readAllQR());
 		model.addAttribute("codeqr", codeQR);
 		model.addAttribute("itemcodeqr", serviceAsigneBus.readAssignesBusByDisc());
 	}

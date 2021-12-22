@@ -4,6 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,6 +19,7 @@ public class CodeQR {
 	@NotNull //Valor no nulo
 	private String gqr_asb_bus_id;
 
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	private long gqr_registration_date;
 	
 	private String gqr_image;

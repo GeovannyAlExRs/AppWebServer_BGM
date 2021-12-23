@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ec.busgeomap.web.app.config.Pages;
 import com.ec.busgeomap.web.app.model.CodeQR;
-import com.ec.busgeomap.web.app.model.Roles;
 import com.ec.busgeomap.web.app.service.ServiceAsigneBus;
 import com.ec.busgeomap.web.app.service.ServiceCodeQR;
 

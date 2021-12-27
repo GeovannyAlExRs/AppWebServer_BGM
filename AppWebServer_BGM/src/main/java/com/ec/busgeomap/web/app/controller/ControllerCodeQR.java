@@ -60,7 +60,6 @@ public class ControllerCodeQR {
 				
 				addAttribute(model, codeqr);
 			}
-			
 		}
 		
 		log.info("*** GUARDAR CODE QR***");
@@ -93,8 +92,6 @@ public class ControllerCodeQR {
 			model.addAttribute("errorSave", "Error al guardar, complete los datos");
 			System.err.println("**** ERROR... CAMPOS VACIOS *** ");
 			
-			// model.addAttribute("formErrorMessage", "Por favor seleccione la imagen");
-			
 		}else {
 			try {
 				serviceQR.updateQR(qr);
@@ -112,6 +109,16 @@ public class ControllerCodeQR {
 		}	
 
 		return "redirect:codeqr";
+	}
+	
+	@GetMapping("/delete_qr/{gqr_code}")
+	public String deleteCodeQR(@PathVariable(name = "gqr_code") String gqr_code, Model model) throws InterruptedException, ExecutionException {
+		try {
+			serviceQR.deleteQR(gqr_code);
+		} catch (Exception e) {
+			model.addAttribute("deleteError", "El codigo QR no se pudo eliminar");
+		}
+		return viewCodeQR(model);
 	}
 	
 	private void addAttribute(Model model, CodeQR codeQR)  throws InterruptedException, ExecutionException {

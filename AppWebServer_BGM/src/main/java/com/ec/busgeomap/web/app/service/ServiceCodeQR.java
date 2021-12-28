@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
@@ -231,31 +232,39 @@ public class ServiceCodeQR {
 		
 		storageClient = StorageClient.getInstance();
 		
+		//storage = StorageOptions.get
+		//https://medium.com/analytics-vidhya/spring-boot-with-firebase-storage-73f574af8c4
+		//https://medium.com/teamarimac/file-upload-and-download-with-spring-boot-firebase-af068bc62614
 		Bucket bucket = storageClient.bucket();
 		System.out.println(">>>>>>> BUCKET DE IMG QR : " + bucket);	
 		
 		String qcodePath = "C:/qr/" + code + ".png";
+		System.out.println(">>>>>>> PATH  : " + qcodePath);	
 		
 		QRCodeWriter qrCodeWriter = new QRCodeWriter();
 		
 		BitMatrix bitMatrix = qrCodeWriter.encode(code, BarcodeFormat.QR_CODE, width, height);
 		
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		MatrixToImageWriter.writeToStream(bitMatrix, "png", outputStream);
+				
 		Path pathC = FileSystems.getDefault().getPath(qcodePath);
+		MatrixToImageWriter.writeToPath(bitMatrix, "png", pathC);
+		
 		
 		String qrIMG = code + ".png";
 		String blobImgQR = "imgQR/"+qrIMG;
 		String projectId = "practica1-busgeomap";
 		InputStream inputFile = new FileInputStream(qcodePath);
 		
-		MatrixToImageWriter.writeToStream(bitMatrix, "png", outputStream);
-		MatrixToImageWriter.writeToPath(bitMatrix, "png", pathC);
+		File qrFile = new File(qcodePath);
+		System.out.println(">>>>>>> FILE  : " + qrFile + " - FILE PATH : " + qrFile.toPath());	
 		
 		// comenzando explorar API para guardar IMG
-		//BlobId blobId = BlobId.of(bucket.toString(), qrIMG);
-		//BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("img/qr").build();
-		//storage.create(blobInfo);
-		storageClient.bucket().create(blobImgQR, inputFile, Bucket.BlobWriteOption.userProject(projectId));
+		BlobId blobId = BlobId.of(bucket.toString(), qrIMG);
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(blobImgQR).build();
+		storage.create(blobInfo, Files.readAllBytes(qrFile.toPath()));
+		//storageClient.bucket().create(blobImgQR, inputFile, Bucket.BlobWriteOption.userProject(projectId));
 		
 		byte[] qrData = outputStream.toByteArray();
 		

@@ -35,7 +35,7 @@ public class FirebaseInitialize {
 		FirebaseOptions options = new FirebaseOptions.Builder()
 		  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
 		  .setDatabaseUrl("https://practica1-busgeomap.firebaseio.com")
-		  .setStorageBucket("practica1-busgeomap.appspot.com") 
+		  .setStorageBucket("practica1-busgeomap.appspot.com/") //gs://practica1-busgeomap.appspot.com/
 		  .build();
 		 
 		if (FirebaseApp.getApps().isEmpty()) {

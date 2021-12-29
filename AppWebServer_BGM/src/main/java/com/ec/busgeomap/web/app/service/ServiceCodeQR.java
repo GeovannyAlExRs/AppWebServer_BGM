@@ -247,26 +247,30 @@ public class ServiceCodeQR {
 		
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		MatrixToImageWriter.writeToStream(bitMatrix, "png", outputStream);
-				
+		
+		byte[] qrData = outputStream.toByteArray();
+		
 		Path pathC = FileSystems.getDefault().getPath(qcodePath);
 		MatrixToImageWriter.writeToPath(bitMatrix, "png", pathC);
 		
 		
 		String qrIMG = code + ".png";
-		String blobImgQR = "imgQR/"+qrIMG;
+		String blobImgQR = "qr/";
 		String projectId = "practica1-busgeomap";
-		InputStream inputFile = new FileInputStream(qcodePath);
+		//InputStream inputFile = new FileInputStream(qcodePath);
+		//System.out.println(">>>>>>> INPUT FILE  : " + inputFile);
 		
 		File qrFile = new File(qcodePath);
 		System.out.println(">>>>>>> FILE  : " + qrFile + " - FILE PATH : " + qrFile.toPath());	
 		
-		// comenzando explorar API para guardar IMG
+		storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
+		
 		BlobId blobId = BlobId.of(bucket.toString(), qrIMG);
 		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(blobImgQR).build();
-		storage.create(blobInfo, Files.readAllBytes(qrFile.toPath()));
+		storage.create(blobInfo, qrData);
 		//storageClient.bucket().create(blobImgQR, inputFile, Bucket.BlobWriteOption.userProject(projectId));
 		
-		byte[] qrData = outputStream.toByteArray();
+		
 		
 		return qrData;
 	}

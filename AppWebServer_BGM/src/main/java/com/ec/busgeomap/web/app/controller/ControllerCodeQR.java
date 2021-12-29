@@ -55,14 +55,13 @@ public class ControllerCodeQR {
 			try {
 				serviceQR.createQR(codeqr);
 				addAttribute(model, new CodeQR(serviceQR.autoIdDocument()));
+				log.info("*** GUARDAR CODE QR CON EXITO***");
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
-				
+				log.error("XXXXX ERROR AL GUARDAR CODE QR XXXXX");
 				addAttribute(model, codeqr);
 			}
 		}
-		
-		log.info("*** GUARDAR CODE QR***");
 		
 		return Pages.CODE_QR;
 	}

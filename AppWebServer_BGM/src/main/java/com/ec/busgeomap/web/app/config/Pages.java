@@ -20,7 +20,7 @@ public class Pages {
 		
 	// Template CODIGO QR (COOPERATIVA)
 	public static String CODE_QR = "qr/codeqr";
-	public static String CODE_QR_FRM = "qr/codeqrFrm";
+	public static String CODE_QR_GENERATOR = "qr/codeqrGenerator";
 
 	public static String CODE_QR_COLECTIVE = "codeqr/codeQr";
 	

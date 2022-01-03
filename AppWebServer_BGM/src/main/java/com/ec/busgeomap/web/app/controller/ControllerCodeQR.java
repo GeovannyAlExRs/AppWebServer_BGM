@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ec.busgeomap.web.app.config.Pages;
 import com.ec.busgeomap.web.app.model.CodeQR;
@@ -44,16 +46,17 @@ public class ControllerCodeQR {
 		return Pages.CODE_QR;
 	}
 	
-	@PostMapping("/codeqr")
-	public String saveCodeQR(@Valid @ModelAttribute("codeqr") CodeQR codeqr, BindingResult result, Model model) throws InterruptedException, ExecutionException {
-		log.info("GENERAR NUEVO CODIGO QR : " + codeqr.getGqr_description());
+	@PostMapping("/generator_qr") //codeqr
+	public String generatorCodeQR(@Valid @ModelAttribute("codeqr") CodeQR codeqr, BindingResult result, Model model) throws InterruptedException, ExecutionException {
+		log.info("GENERAR NUEVO CODIGO QR : " + codeqr.getGqr_code() + " " + codeqr.getGqr_description());
 		
 		if (result.hasErrors()) {
 			addAttribute(model, codeqr);
 			model.addAttribute("errorSave", "Error al guardar, complete los datos");
 		} else {
 			try {
-				serviceQR.createQR(codeqr);
+				//serviceQR.createQR(codeqr, null);
+				serviceQR.generatorQR(codeqr);
 				addAttribute(model, new CodeQR(serviceQR.autoIdDocument()));
 				log.info("*** GUARDAR CODE QR CON EXITO***");
 			} catch (Exception e) {
@@ -62,6 +65,16 @@ public class ControllerCodeQR {
 				addAttribute(model, codeqr);
 			}
 		}
+		
+		return Pages.CODE_QR_GENERATOR;
+	}
+	
+	//FALTA OBTENER DATOS DEL QR GENERADO EN MEMORIA
+	@GetMapping("/generator_qr")
+	public String viewGenerateCodeQR(Model model, CodeQR qr) throws InterruptedException, ExecutionException {
+		log.info("CODE QR GENERADO");
+		
+		addAttribute(model, serviceQR.readByIdDoc(qr.getGqr_code()));
 		
 		return Pages.CODE_QR;
 	}
@@ -76,7 +89,7 @@ public class ControllerCodeQR {
 		
 		model.addAttribute("editMode", "true");
 		
-		return Pages.CODE_QR_FRM;
+		return Pages.CODE_QR_GENERATOR;
 	}
 	
 	@PostMapping("/edit_qr")
@@ -93,7 +106,7 @@ public class ControllerCodeQR {
 			
 		}else {
 			try {
-				serviceQR.updateQR(qr);
+				//serviceQR.updateQR(qr);
 				model.addAttribute("msgSuccess", "CODE QR"+ qr.getGqr_code() + " Actualizado.");
 				
 				// New Document ROL with auto ID (autoIdDocumentUser).

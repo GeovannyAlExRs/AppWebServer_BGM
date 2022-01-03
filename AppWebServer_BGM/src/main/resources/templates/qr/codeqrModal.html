@@ -13,7 +13,7 @@
       </div>
       <div class="modal-body">
 
-        <form th:object="${codeqr}" th:action="@{/app_busgeomap/codeqr}" method="post" enctype="multipart/form-data" autocomplete="off" role="form"> 
+        <form th:object="${codeqr}" th:action="@{/app_busgeomap/generator_qr}" method="post" enctype="multipart/form-data" autocomplete="off" role="form"> 
           <div class="form-group form-floating-label" style="padding: 25px;text-align: center;">
             <img th:src="@{/img/image/logo/logo_dtk.png}" src="../../static/img/image/logo/logo_dtk.png" alt="San Agustin" width="50%">
           </div>
@@ -34,6 +34,7 @@
             <input th:field="${codeqr.gqr_description}" id="inputFloatingLabel" type="text" class="form-control input-border-bottom">
             <label for="inputFloatingLabel" class="placeholder">Descripción</label>
           </div>
+          
           </br>
           <div class="modal-footer">
             <button type="button" class="btn-bgm btn-bgm-clear" data-dismiss="modal">

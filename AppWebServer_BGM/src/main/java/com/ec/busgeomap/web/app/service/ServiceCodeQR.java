@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ec.busgeomap.web.app.model.Assignes_Bus;
 import com.ec.busgeomap.web.app.model.Bus;
@@ -49,8 +51,9 @@ public class ServiceCodeQR {
 	public static final String COL_NAME_ASSIGNE_BUS="Assignes_Bus";
 	public static final String IDENTIFICATE="BGM_CODE";
 	public static final int ID_LENGTH=10;
-	public static final int OP_CREATE=1;
-	public static final int OP_UPDATE=2;
+	public static final int OP_GENERATE=1;
+	public static final int OP_CREATE=2;
+	public static final int OP_UPDATE=3;
 	
 	Firestore dbFirestore;
 	StorageClient storageClient;
@@ -62,36 +65,38 @@ public class ServiceCodeQR {
 	}
 	
 	// Mapping the Object of the CodeQR class
-	private CodeQR mapCodeQR(CodeQR code, int option) throws WriterException, IOException {
+	private CodeQR mapCodeQR(CodeQR code, MultipartFile file, int option) throws WriterException, IOException {
 		
 		CodeQR qr = new CodeQR();
 		
 		if (option == 1) {
-			System.out.println("ENTRO A LA OPCION[1] CREAR");
+			System.out.println("ENTRO A LA OPCION[1] GENERAR");
 			qr.setGqr_code(code.getGqr_code());
 			qr.setGqr_description(code.getGqr_description());
 			qr.setGqr_registration_date(new Date().getTime());
 			qr.setGqr_asb_bus_id(code.getGqr_asb_bus_id());
 			
-			byte [] imgQR = generatorQRCode(qr.getGqr_code(), 500, 500);
-			System.out.println("---->> BYTE IMG QR : " + imgQR);
+			//byte [] imgQR = generatorQRCode(qr.getGqr_code(), 500, 500, file);
+			//System.out.println("---->> BYTE IMG QR : " + imgQR);			
 			
-			/*byte [] imgQR = generatorQRCode(qr.getGqr_code(), 500, 500);
-			// aqui jugamos con la imagen QR
-			Map<String, String> map = new HashMap();
-			map.put("firebaseStorageDownloadTokens", imgQR.toString());
-			
-			BlobId blobId = BlobId.of(bucket.toString(), imgQR.toString());
-			BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
-					.setMetadata(map)
-					.setContentType("qr/png")
-					.build();
-			storage.create(blobInfo);*/
 			qr.setGqr_image(code.getGqr_image());
 			// Mapping Object for Create (ESTADO)
 			qr.setGqr_status(true);
-		} if (option == 2) {
-			System.out.println("ENTRO A LA OPCION[2] ACTUALIZAR");
+		} 
+		if (option == 2) {
+			System.out.println("ENTRO A LA OPCION[2] CREAR");
+			qr.setGqr_code(code.getGqr_code());
+			qr.setGqr_description(code.getGqr_description());
+			qr.setGqr_registration_date(new Date().getTime());
+			qr.setGqr_asb_bus_id(code.getGqr_asb_bus_id());
+			
+			//llamar funcion para almacenar la IMG QR en Storage
+			
+			qr.setGqr_image(code.getGqr_image());
+			// Mapping Object for Create (ESTADO)
+			qr.setGqr_status(code.getGqr_status());
+		} if (option == 3) {
+			System.out.println("ENTRO A LA OPCION[3] ACTUALIZAR");
 			qr.setGqr_image(code.getGqr_image());
 			// Mapping Object for Update (ESTADO)
 			qr.setGqr_status(code.getGqr_status());
@@ -100,12 +105,26 @@ public class ServiceCodeQR {
 		return qr;
 	}
 	
-	// Method to create new QR record
-	public String createQR(CodeQR qr) throws InterruptedException, ExecutionException, WriterException, IOException {
+	// Generator Code QR a Memory
+	public String generatorQR(CodeQR qr) throws WriterException, IOException {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		CodeQR code = mapCodeQR(qr, OP_CREATE);
+		CodeQR code = mapCodeQR(qr, null, OP_GENERATE);
+		
+		System.out.println(" CODE QR GENERATOR> " + code);
+		
+		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(code);
+		
+		return dbFirestore.toString();
+	}
+	
+	// Method to create new QR record
+	public String createQR(CodeQR qr, MultipartFile file) throws InterruptedException, ExecutionException, WriterException, IOException {
+		
+		dbFirestore = FirestoreClient.getFirestore();
+		
+		CodeQR code = mapCodeQR(qr, file, OP_CREATE);
 		
 		System.out.println("OBJETO QR ANTES DE GUARDAR > " + code);
 		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(code);
@@ -186,11 +205,11 @@ public class ServiceCodeQR {
 	}
 
 	// Method to Update CODE QR
-	public String updateQR(CodeQR codeQR) throws Exception {
+	public String updateQR(CodeQR codeQR, MultipartFile file) throws Exception {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		CodeQR qr = mapCodeQR(codeQR, OP_UPDATE);
+		CodeQR qr = mapCodeQR(codeQR, file, OP_UPDATE);
 		
 		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(qr);
 		System.err.println(" QR Actualizado");
@@ -227,16 +246,8 @@ public class ServiceCodeQR {
 			return null;
 		}
 	}
-	
-	private byte[] generatorQRCode(String code, int width, int height) throws WriterException, IOException {
 		
-		storageClient = StorageClient.getInstance();
-		
-		//storage = StorageOptions.get
-		//https://medium.com/analytics-vidhya/spring-boot-with-firebase-storage-73f574af8c4
-		//https://medium.com/teamarimac/file-upload-and-download-with-spring-boot-firebase-af068bc62614
-		Bucket bucket = storageClient.bucket();
-		System.out.println(">>>>>>> BUCKET DE IMG QR : " + bucket);	
+	private byte[] generatorQRCode(String code, int width, int height, MultipartFile file) throws WriterException, IOException {
 		
 		String qcodePath = "C:/qr/" + code + ".png";
 		System.out.println(">>>>>>> PATH  : " + qcodePath);	
@@ -253,6 +264,36 @@ public class ServiceCodeQR {
 		Path pathC = FileSystems.getDefault().getPath(qcodePath);
 		MatrixToImageWriter.writeToPath(bitMatrix, "png", pathC);
 		
+		return qrData;
+	}
+	
+	private String uploadCodeQR(CodeQR code) throws WriterException, IOException {
+		
+		storageClient = StorageClient.getInstance();
+		
+		//storage = StorageOptions.get
+		//https://medium.com/analytics-vidhya/spring-boot-with-firebase-storage-73f574af8c4
+		//https://medium.com/teamarimac/file-upload-and-download-with-spring-boot-firebase-af068bc62614
+		Bucket bucket = storageClient.bucket();
+		System.out.println(">>>>>>> BUCKET DE IMG QR : " + bucket);	
+		
+		String qcodePath = "C:/qr/" + code.getGqr_code() + ".png";
+		System.out.println(">>>>>>> PATH  : " + qcodePath);	
+		
+		QRCodeWriter qrCodeWriter = new QRCodeWriter();
+		
+		BitMatrix bitMatrix = qrCodeWriter.encode(code.getGqr_code(), BarcodeFormat.QR_CODE, 250, 250);
+		
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		MatrixToImageWriter.writeToStream(bitMatrix, "png", outputStream);
+		
+		byte[] qrData = outputStream.toByteArray();
+		
+		Path pathC = FileSystems.getDefault().getPath(qcodePath);
+		MatrixToImageWriter.writeToPath(bitMatrix, "png", pathC);
+		
+		Path pathMulti = Paths.get(qcodePath);
+		//file.transferTo(Files.write(pathMulti, qrData));
 		
 		String qrIMG = code + ".png";
 		String blobImgQR = "qr/";
@@ -263,15 +304,13 @@ public class ServiceCodeQR {
 		File qrFile = new File(qcodePath);
 		System.out.println(">>>>>>> FILE  : " + qrFile + " - FILE PATH : " + qrFile.toPath());	
 		
-		storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
+		//storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
 		
 		BlobId blobId = BlobId.of(bucket.toString(), qrIMG);
 		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(blobImgQR).build();
-		storage.create(blobInfo, qrData);
-		//storageClient.bucket().create(blobImgQR, inputFile, Bucket.BlobWriteOption.userProject(projectId));
-		
-		
-		
-		return qrData;
+		//storage.create(blobInfo, file.getInputStream());
+		//storageClient.bucket().create(blobImgQR, file.getInputStream(), Bucket.BlobWriteOption.userProject(projectId));
+						
+		return null;
 	}
 }

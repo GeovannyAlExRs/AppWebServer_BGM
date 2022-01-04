@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ec.busgeomap.web.app.config.Pages;
 import com.ec.busgeomap.web.app.model.CodeQR;
@@ -28,8 +26,6 @@ import com.ec.busgeomap.web.app.service.ServiceCodeQR;
 public class ControllerCodeQR {
 
 	private final Log log = LogFactory.getLog(getClass());
-	//private final String TAB_LIST_BGM = "listTabBgm";
-	//private final String TAB_FORM_BGM = "formTabBgm";
 
 	@Autowired
 	ServiceAsigneBus serviceAsigneBus;
@@ -56,8 +52,9 @@ public class ControllerCodeQR {
 		} else {
 			try {
 				//serviceQR.createQR(codeqr, null);
-				serviceQR.generatorQR(codeqr);
-				addAttribute(model, new CodeQR(serviceQR.autoIdDocument()));
+				CodeQR qrID = serviceQR.generatorQR(codeqr);
+				
+				addAttribute(model, qrID);
 				log.info("*** GUARDAR CODE QR CON EXITO***");
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
@@ -68,7 +65,7 @@ public class ControllerCodeQR {
 		
 		return Pages.CODE_QR_GENERATOR;
 	}
-	
+
 	//FALTA OBTENER DATOS DEL QR GENERADO EN MEMORIA
 	@GetMapping("/generator_qr")
 	public String viewGenerateCodeQR(Model model, CodeQR qr) throws InterruptedException, ExecutionException {
@@ -76,9 +73,9 @@ public class ControllerCodeQR {
 		
 		addAttribute(model, serviceQR.readByIdDoc(qr.getGqr_code()));
 		
-		return Pages.CODE_QR;
+		return Pages.CODE_QR_GENERATOR;
 	}
-	
+		
 	@GetMapping("/edit_qr/{gqr_code}")
 	public String getEditCodeQR(@PathVariable(name = "gqr_code") String gqr_code, Model model) throws InterruptedException, ExecutionException {
 		log.info("EDITAR QR : " + gqr_code);
@@ -137,5 +134,12 @@ public class ControllerCodeQR {
 		model.addAttribute("qrList", serviceQR.readAllQR());
 		model.addAttribute("codeqr", codeQR);
 		model.addAttribute("itemcodeqr", serviceAsigneBus.readAssignesBusByDisc());
+		
+		try {
+			model.addAttribute("codeImg", serviceQR.readCodeQRImg(codeQR.getGqr_code()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -1,5 +1,5 @@
 <form th:object="${codeqr}" th:action="${editMode} ?@{/app_busgeomap/generator_qr_edit} :@{/app_busgeomap/codeqr}" method="post" enctype="multipart/form-data" autocomplete="off" role="form">
-    <h3 class="mb-3">Datos del Colectivo</h3>
+    <h3 class="mb-3">Datos del Codigo QR</h3>
     <div class="row">
         <div class="col-md-6 col-lg-6">
             <div class="form-group form-group-default" >
@@ -8,20 +8,28 @@
             </div>
             
             <div class="form-group form-group-default">
-                <input th:value="${codeqr.gqr_asb_bus_id}" th:field="${codeqr.gqr_asb_bus_id}" type="text" th:disabled="${disableFields}" class="form-control"/>
                 <label for="inputFloatingLabel" class="placeholder">Disco del Bus</label>
+                <input th:value="${codeqr.gqr_asb_bus_id}" th:field="${codeqr.gqr_asb_bus_id}" type="text" th:disabled="${disableFields}" class="form-control"/>
             </div>
 
             <div class="form-group form-group-default">
-                <input th:field="${codeqr.gqr_description}" id="inputFloatingLabel" type="text" class="form-control input-border-bottom">
                 <label for="inputFloatingLabel" class="placeholder">Descripción</label>
+                <input th:field="${codeqr.gqr_description}" id="inputFloatingLabel" type="text" class="form-control input-border-bottom">
             </div>
 
             <div class="form-group form-floating-label">
-                <input th:text="${code.gqr_image}" id="inputFloatingLabel" type="file" class="form-control input-border-bottom">
+                <p th:text="${codeImg}" style="color: green;"></p>
+                <input th:src="${codeImg}" id="inputFloatingLabel" type="file" class="form-control input-border-bottom">
                 <label for="inputFloatingLabel" class="placeholder">IMAGEN QR</label>
             </div>
 
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="card-bgm-codeqr">
+                <span class="codigo-qr">
+                    <img class="fas fa-qrcode" alt="QR Code"/> <!--th:src="${codeImg}" -->
+                </span>
+            </div>
         </div>
     </div>
     <div class="card-body" style="text-align: right; padding-right: 50px;">

@@ -1,5 +1,6 @@
 package com.ec.busgeomap.web.app.service;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -39,9 +42,15 @@ import com.google.cloud.storage.StorageOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.cloud.StorageClient;
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.LuminanceSource;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.Result;
 import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 @Service
@@ -76,8 +85,8 @@ public class ServiceCodeQR {
 			qr.setGqr_registration_date(new Date().getTime());
 			qr.setGqr_asb_bus_id(code.getGqr_asb_bus_id());
 			
-			//byte [] imgQR = generatorQRCode(qr.getGqr_code(), 500, 500, file);
-			//System.out.println("---->> BYTE IMG QR : " + imgQR);			
+			byte [] imgQR = generatorQRCode(qr.getGqr_code(), 500, 500, file);
+			System.out.println("---->> BYTE IMG QR : " + imgQR);			
 			
 			qr.setGqr_image(code.getGqr_image());
 			// Mapping Object for Create (ESTADO)
@@ -106,7 +115,7 @@ public class ServiceCodeQR {
 	}
 	
 	// Generator Code QR a Memory
-	public String generatorQR(CodeQR qr) throws WriterException, IOException {
+	public CodeQR generatorQR(CodeQR qr) throws WriterException, IOException {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
@@ -116,7 +125,7 @@ public class ServiceCodeQR {
 		
 		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(code);
 		
-		return dbFirestore.toString();
+		return code;
 	}
 	
 	// Method to create new QR record
@@ -248,9 +257,18 @@ public class ServiceCodeQR {
 	}
 		
 	private byte[] generatorQRCode(String code, int width, int height, MultipartFile file) throws WriterException, IOException {
+
+		String nameCodeQR = code + ".png";
 		
-		String qcodePath = "C:/qr/" + code + ".png";
-		System.out.println(">>>>>>> PATH  : " + qcodePath);	
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append(System.getProperty("user.home"));
+		builder.append(File.separator);
+		builder.append("codeqr");
+		builder.append(File.separator);
+		builder.append(nameCodeQR);
+		
+		Path path = Paths.get(builder.toString());
 		
 		QRCodeWriter qrCodeWriter = new QRCodeWriter();
 		
@@ -261,10 +279,37 @@ public class ServiceCodeQR {
 		
 		byte[] qrData = outputStream.toByteArray();
 		
-		Path pathC = FileSystems.getDefault().getPath(qcodePath);
-		MatrixToImageWriter.writeToPath(bitMatrix, "png", pathC);
+		MatrixToImageWriter.writeToPath(bitMatrix, "png", path);
 		
 		return qrData;
+	}
+	
+	public String readCodeQRImg(String code) throws Exception {
+		
+		String nameCodeQR = code + ".png";
+		
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append(System.getProperty("user.home"));
+		builder.append(File.separator);
+		builder.append("codeqr");
+		builder.append(File.separator);
+		builder.append(nameCodeQR);
+		
+		File file = new File(builder.toString());
+		
+		BufferedImage bufferedImage = ImageIO.read(file);
+		
+		LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
+		
+		BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+		
+		Result result = new MultiFormatReader().decode(bitmap);
+		
+		System.out.println("NOMBRE DE LA IMAGEN READ" + result.getText());
+		System.out.println("NOMBRE DE LA IMAGEN RUTA" + builder.toString());
+		
+		return builder.toString();
 	}
 	
 	private String uploadCodeQR(CodeQR code) throws WriterException, IOException {

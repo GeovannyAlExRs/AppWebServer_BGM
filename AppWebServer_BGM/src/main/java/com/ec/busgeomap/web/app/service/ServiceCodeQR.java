@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -74,7 +75,7 @@ public class ServiceCodeQR {
 	}
 	
 	// Mapping the Object of the CodeQR class
-	private CodeQR mapCodeQR(CodeQR code, MultipartFile file, int option) throws WriterException, IOException {
+	private CodeQR mapCodeQR(CodeQR code, int option) throws WriterException, IOException {
 		
 		CodeQR qr = new CodeQR();
 		
@@ -85,10 +86,11 @@ public class ServiceCodeQR {
 			qr.setGqr_registration_date(new Date().getTime());
 			qr.setGqr_asb_bus_id(code.getGqr_asb_bus_id());
 			
-			byte [] imgQR = generatorQRCode(qr.getGqr_code(), 500, 500, file);
+			byte [] imgQR = generatorQRCode(qr.getGqr_code(), 500, 500);
 			System.out.println("---->> BYTE IMG QR : " + imgQR);			
-			
-			qr.setGqr_image(code.getGqr_image());
+			String qrcodeIMG = Base64.getEncoder().encodeToString(imgQR);
+			System.out.println("---->> CONVERT BYTE IMG QR : " + qrcodeIMG);
+			qr.setGqr_image(qrcodeIMG);
 			// Mapping Object for Create (ESTADO)
 			qr.setGqr_status(true);
 		} 
@@ -119,7 +121,7 @@ public class ServiceCodeQR {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		CodeQR code = mapCodeQR(qr, null, OP_GENERATE);
+		CodeQR code = mapCodeQR(qr, OP_GENERATE);
 		
 		System.out.println(" CODE QR GENERATOR> " + code);
 		
@@ -133,7 +135,7 @@ public class ServiceCodeQR {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		CodeQR code = mapCodeQR(qr, file, OP_CREATE);
+		CodeQR code = mapCodeQR(qr, OP_CREATE);
 		
 		System.out.println("OBJETO QR ANTES DE GUARDAR > " + code);
 		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(code);
@@ -218,7 +220,7 @@ public class ServiceCodeQR {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		CodeQR qr = mapCodeQR(codeQR, file, OP_UPDATE);
+		CodeQR qr = mapCodeQR(codeQR, OP_UPDATE);
 		
 		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(qr);
 		System.err.println(" QR Actualizado");
@@ -256,9 +258,9 @@ public class ServiceCodeQR {
 		}
 	}
 		
-	private byte[] generatorQRCode(String code, int width, int height, MultipartFile file) throws WriterException, IOException {
+	private byte[] generatorQRCode(String code, int width, int height) throws WriterException, IOException {
 
-		String nameCodeQR = code + ".png";
+		/*String nameCodeQR = code + ".png";
 		
 		StringBuilder builder = new StringBuilder();
 		
@@ -268,7 +270,7 @@ public class ServiceCodeQR {
 		builder.append(File.separator);
 		builder.append(nameCodeQR);
 		
-		Path path = Paths.get(builder.toString());
+		Path path = Paths.get(builder.toString());*/
 		
 		QRCodeWriter qrCodeWriter = new QRCodeWriter();
 		
@@ -279,7 +281,7 @@ public class ServiceCodeQR {
 		
 		byte[] qrData = outputStream.toByteArray();
 		
-		MatrixToImageWriter.writeToPath(bitMatrix, "png", path);
+		//MatrixToImageWriter.writeToPath(bitMatrix, "png", path);
 		
 		return qrData;
 	}

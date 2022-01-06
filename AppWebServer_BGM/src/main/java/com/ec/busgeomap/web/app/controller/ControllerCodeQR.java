@@ -135,11 +135,11 @@ public class ControllerCodeQR {
 		model.addAttribute("codeqr", codeQR);
 		model.addAttribute("itemcodeqr", serviceAsigneBus.readAssignesBusByDisc());
 		
-		try {
+		/*try {
 			model.addAttribute("codeImg", serviceQR.readCodeQRImg(codeQR.getGqr_code()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

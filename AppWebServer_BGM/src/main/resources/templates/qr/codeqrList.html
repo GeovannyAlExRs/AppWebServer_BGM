@@ -29,7 +29,7 @@
                 <td th:text="${code.gqr_description}"></td>
                 <td th:text="${#calendars.format(code.gqr_registration_date, 'dd/MM/yyyy')}"></td>
                 <td th:text="${#calendars.format(code.gqr_registration_date, 'HH:mm')}"></td>
-                <td th:text="${code.gqr_image}"></td>
+                <td><img th:src="${'data:image/png;base64,' + code.gqr_image}" width="50" height="50"></td>
                 <td style="text-align: center;">
                     <a href="#editar" th:href="@{'/app_busgeomap/edit_qr/'+ ${code.gqr_code}}" class="btn btn-link btn-info" data-toggle="tooltip" data-original-title="Actualizar">
                         <i class="fas fa-edit"></i>

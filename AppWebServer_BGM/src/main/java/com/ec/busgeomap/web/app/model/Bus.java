@@ -32,7 +32,6 @@ public class Bus {
 	private int bus_size;
 
 	//@NotBlank
-	@Size(min=5, max=25, message="Inserte texto mayor a 5 caracteres")
 	private String bus_propietor_id;
 	
 	//@NotNull

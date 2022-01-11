@@ -59,7 +59,7 @@ public class ServiceBus {
 		
 		Bus bus = mapBus(b);
 		
-		dbFirestore.collection(COL_NAME_BUS).document(b.getBus_id()).set(bus);
+		dbFirestore.collection(COL_NAME_BUS).document(bus.getBus_id()).set(bus);
 		
 		return dbFirestore.toString();
 	}
@@ -89,8 +89,6 @@ public class ServiceBus {
 			
 			arrayList.add(bus);
 		}
-		
-		System.out.println("\n > LISTADO: " +arrayList);
 		
 		return arrayList;
 	}

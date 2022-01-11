@@ -46,11 +46,11 @@ public class ControllerBus {
 	
 	@PostMapping("/bus")
 	public String saveBus(@Valid @ModelAttribute("bus") Bus bus, BindingResult result, Model model) throws InterruptedException, ExecutionException {
-		log.info("CREAR NUEVO REGISTRO BUS DISCO : " + bus.getBus_number_disc());
+		log.info("CREAR NUEVO REGISTRO BUS DISCO : " + bus.getBus_number_disc() + " - ID : " +bus.getBus_id());
 		
 		if (result.hasErrors()) {
 			addAttributeBus(model, bus, TAB_FORM_BGM);
-			//model.addAttribute("errorSave", "Error al guardar, complete los datos");
+			model.addAttribute("errorSave", "Error al guardar, complete los datos");
 		} else {
 			try {
 				serviceBus.createBus(bus);

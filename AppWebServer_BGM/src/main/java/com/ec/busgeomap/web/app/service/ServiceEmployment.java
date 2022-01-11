@@ -52,8 +52,6 @@ public class ServiceEmployment {
 			arrayList.add(employment);
 		}
 		
-		System.out.println("\n > LISTADO: " +arrayList);
-		
 		return arrayList;
 	}
 	

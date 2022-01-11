@@ -11,29 +11,29 @@ public class Users {
 
 	private String use_id;
 
-	@NotBlank //no acepta Nulo (Solo texto)
+	@NotBlank(message = "Ingrese apellidos") //no acepta Nulo (Solo texto)
 	@Size(min = 4, max = 25, message = "Inserte texto mayor a 4 caracteres")
 	private String use_first_name;
 	
-	@NotBlank //no acepta Nulo (Solo texto)
+	@NotBlank(message = "Ingrese nombres") //no acepta Nulo (Solo texto)
 	@Size(min = 4, max = 25, message = "Inserte texto mayor a 4 caracteres")
 	private String use_last_name;
 	
-	@NotBlank //no acepta Nulo (Solo texto)
+	@NotBlank(message = "Ingrese direccion") //no acepta Nulo (Solo texto)
 	@Size(min = 5, max = 25, message = "Inserte texto mayor a 5 caracteres")
 	private String use_address;
 		
 	@Email(message = "Email no valido")
 	private String use_email;
 	
-	@NotBlank //no acepta Nulo (Solo texto)
+	@NotBlank(message = "Ingrese numero celular") //no acepta Nulo (Solo texto)
 	private String use_phone;
 	
-	@NotBlank //no acepta Nulo (Solo texto)
+	@NotBlank(message = "Ingrese nombre de usuario") //no acepta Nulo (Solo texto)
 	@Size(min = 4, max = 20, message = "Inserte texto mayor a 4 caracteres")
 	private String use_name;
 	
-	@NotBlank //no acepta Nulo (Solo texto)
+	@NotBlank(message = "Ingrese clave") //no acepta Nulo (Solo texto)
 	@Size(min = 4, max = 20, message = "Inserte texto mayor a 4 caracteres")
 	private String use_password;
 	

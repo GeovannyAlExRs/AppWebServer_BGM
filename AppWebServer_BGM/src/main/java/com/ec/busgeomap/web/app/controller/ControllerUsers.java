@@ -49,7 +49,7 @@ public class ControllerUsers {
 	}
 	
 	@PostMapping("/users")
-	public String saveUser(@Valid @ModelAttribute("users") Users users, BindingResult result, Model model) throws InterruptedException, ExecutionException {
+	public String saveUser(@Valid @ModelAttribute("u") Users users, BindingResult result, Model model) throws InterruptedException, ExecutionException {
 		log.info("CREAR NUEVO REGISTRO USERS : " + users.getUse_name());
 		
 		if (result.hasErrors()) {
@@ -88,7 +88,7 @@ public class ControllerUsers {
 	}
 	
 	@PostMapping("/edit_users")
-	public String updateUsers(@Valid @ModelAttribute("users") Users users, BindingResult result, Model model) throws InterruptedException, ExecutionException {
+	public String updateUsers(@Valid @ModelAttribute("u") Users users, BindingResult result, Model model) throws InterruptedException, ExecutionException {
 		log.info("ACTUALIZAR ROL : " + users.getUse_id());
 		
 		if (result.hasErrors()) {

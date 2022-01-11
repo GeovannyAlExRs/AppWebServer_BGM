@@ -48,16 +48,12 @@ public class ServiceUsers {
 		u.setUse_photo("NULL");
 		u.setUse_name(users.getUse_name());
 		u.setUse_password(users.getUse_password());
-		long fecha = new Date().getTime();
-		System.out.println("\n > FECHA : " + fecha);
-		u.setUse_registration_date(fecha);
+		u.setUse_registration_date(new Date().getTime());
 		u.setUse_employment_id(users.getUse_employment_id());
 		u.setUse_status(users.getUse_status());
 		u.setUse_roles_id(users.getUse_roles_id());
 		
-		System.out.println("\n > USUARIOS : " + users);
-		
-		return users;
+		return u;
 	}
 
 	//Method to create new Users record
@@ -97,9 +93,7 @@ public class ServiceUsers {
 			
 			arrayList.add(users);
 		}
-		
-		System.out.println("\n > LISTADO: " +arrayList);
-		
+
 		return arrayList;
 	}
 

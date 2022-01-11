@@ -1,41 +1,38 @@
-<form th:object="${codeqr}" th:action="${editMode} ?@{/app_busgeomap/generator_qr_edit} :@{/app_busgeomap/codeqr}" method="post" enctype="multipart/form-data" autocomplete="off" role="form">
-    <h3 class="mb-3">Datos del Codigo QR</h3>
+<form th:object="${codeqr}" th:action="${editMode} ?@{/app_busgeomap/edit_qr} :@{/app_busgeomap/codeqr}" method="post" enctype="multipart/form-data" autocomplete="off" role="form">
     <div class="row">
         <div class="col-md-6 col-lg-6">
+            <h3 class="mb-3">Datos del Codigo QR</h3>
             <div class="form-group form-group-default" >
                 <label>ID DOCUMENT</label>
                 <input th:value="${codeqr.gqr_code}" th:field="${codeqr.gqr_code}" id="Name" type="text" class="form-control"> 
             </div>
             
-            <div class="form-group form-group-default">
-                <label for="inputFloatingLabel" class="placeholder">Disco del Bus</label>
-                <input th:value="${codeqr.gqr_asb_bus_id}" th:field="${codeqr.gqr_asb_bus_id}" type="text" th:disabled="${disableFields}" class="form-control"/>
-            </div>
+            <div class="form-group form-floating-label">
+                <label>Disco del bus</label>
+                <select th:value="${codeqr.gqr_asb_bus_id}" th:field="${codeqr.gqr_asb_bus_id}" disabled="disabled" class="form-control input-border-bottom" id="selectFloatingLabel"> <!--th:field="${codeqr.gqr_asb_bus_id}" -->
+                    <option th:each="bus:${itemcodeqr}" th:value="${bus.asb_id}" th:text="${bus.asb_bus_id}"></option>
+                </select>
+              </div>
 
             <div class="form-group form-group-default">
                 <label for="inputFloatingLabel" class="placeholder">Descripción</label>
-                <input th:field="${codeqr.gqr_description}" id="inputFloatingLabel" type="text" class="form-control input-border-bottom">
+                <input th:value="${codeqr.gqr_description}" th:field="${codeqr.gqr_description}" id="inputFloatingLabel" type="text" class="form-control input-border-bottom">
             </div>
 
-            <div class="form-group form-floating-label">
-                <p th:text="${codeqr.gqr_image}" style="color: green;"></p>
-                <input th:src="${codeqr.gqr_image}" id="inputFloatingLabel" type="file" class="form-control input-border-bottom">
-                <label for="inputFloatingLabel" class="placeholder">IMAGEN QR</label>
+            <div class="div-boton check-personal">
+                <input name="" type="checkbox" th:checked="${codeqr.gqr_status}" th:value="${codeqr.gqr_status}" th:field="${codeqr.gqr_status}" id="userEstado"/> Estado (Activo)...
             </div>
 
         </div>
         <div class="col-md-6 col-lg-6">
             <div class="card-bgm-codeqr">
                 <span class="codigo-qr">
-                    <img th:src="${'data:image/png;base64,' + codeqr.gqr_image}" alt="QR Code" height="300" width="300"/> <!--th:src="${codeImg}" -->
+                    <img th:src="${'data:image/png;base64,' + codeqr.gqr_image}" th:value="${codeqr.gqr_image}" alt="QR Code" height="300" width="300"/>
                 </span>
             </div>
         </div>
     </div>
     <div class="card-body" style="text-align: right; padding-right: 50px;">
-        <div class="div-boton check-personal">
-            <input name="" type="checkbox" th:checked="${codeqr.gqr_status}" th:value="${codeqr.gqr_status}" th:field="${codeqr.gqr_status}" id="userEstado"/> Estado (Activo)...
-        </div>
         </br>
         <button class="btn-bgm btn-bgm-clear" type="button" th:if="${editMode}" th:aria-hidden="${editMode}">
             <a th:href="@{'/app_busgeomap/codeqr'}" style="text-decoration-line: none; text-decoration: none;color: rgb(90, 95, 97);">

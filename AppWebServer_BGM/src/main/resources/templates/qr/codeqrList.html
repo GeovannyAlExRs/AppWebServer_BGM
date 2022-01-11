@@ -34,6 +34,9 @@
                     <a href="#editar" th:href="@{'/app_busgeomap/edit_qr/'+ ${code.gqr_code}}" class="btn btn-link btn-info" data-toggle="tooltip" data-original-title="Actualizar">
                         <i class="fas fa-edit"></i>
                     </a>
+                    <a th:href="@{/app_busgeomap/pdf/?gqr_code=} + ${codeqr.gqr_code}" target="_ blank" class="btn btn-link btn-danger" data-original-title="Remove"> <!--onclick="'javascript:confirmDelete(\''+ ${codeqr.gqr_code} + '\');'" -->
+                        <i class="fas fa-file-pdf"></i>
+                    </a>
                     <a href="#eliminar" th:onclick="confirmDelete([[${code.gqr_code}]])" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
                         <i class="fas fa-trash-alt"></i>
                     </a>

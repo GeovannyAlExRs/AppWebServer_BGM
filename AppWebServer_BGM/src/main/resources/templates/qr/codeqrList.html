@@ -7,7 +7,7 @@
                 <th >Descripción</th>
                 <th >Fecha</th>
                 <th >Hora</th>
-                <th >Codigo QR</th>
+                <th >Code QR</th>
                 <th >Acción</th>
             </tr>
         </thead>
@@ -18,7 +18,7 @@
                 <th scope="col">Descripción</th>
                 <th scope="col" >Fecha</th>
                 <th scope="col" >Hora</th>
-                <th scope="col">Codigo QR</th>
+                <th scope="col">Code QR</th>
                 <th scope="col">Acción</th>
             </tr>
         </tfoot>
@@ -30,14 +30,14 @@
                 <td th:text="${#calendars.format(code.gqr_registration_date, 'dd/MM/yyyy')}"></td>
                 <td th:text="${#calendars.format(code.gqr_registration_date, 'HH:mm')}"></td>
                 <td><img th:src="${'data:image/png;base64,' + code.gqr_image}" width="50" height="50"></td>
-                <td style="text-align: center;">
-                    <a href="#editar" th:href="@{'/app_busgeomap/edit_qr/'+ ${code.gqr_code}}" class="btn btn-link btn-info" data-toggle="tooltip" data-original-title="Actualizar">
+                <td >
+                    <!--a href="#editar" th:href="@{'/app_busgeomap/edit_qr/'+ ${code.gqr_code}}" class="btn btn-link btn-info" data-toggle="tooltip" data-original-title="Actualizar">
                         <i class="fas fa-edit"></i>
-                    </a>
-                    <a th:href="@{/app_busgeomap/pdf/?gqr_code=} + ${codeqr.gqr_code}" target="_ blank" class="btn btn-link btn-danger" data-original-title="Remove"> <!--onclick="'javascript:confirmDelete(\''+ ${codeqr.gqr_code} + '\');'" -->
+                    </a-->
+                    <a th:href="@{/app_busgeomap/pdf/?gqr_code=} + ${code.gqr_code}" target="_ blank" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Generar PDF">
                         <i class="fas fa-file-pdf"></i>
                     </a>
-                    <a href="#eliminar" th:onclick="confirmDelete([[${code.gqr_code}]])" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
+                    <a href="#eliminar" th:onclick="confirmDelete([[${code.gqr_code}]])" class="btn btn-link btn-bgm-clear" data-toggle="tooltip" title="" data-original-title="Eliminar">
                         <i class="fas fa-trash-alt"></i>
                     </a>
                 </td>

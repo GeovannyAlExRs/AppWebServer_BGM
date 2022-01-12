@@ -18,6 +18,11 @@ import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord;
+import com.google.firebase.auth.UserRecord.CreateRequest;
+import com.google.firebase.auth.UserRecord.UpdateRequest;
 import com.google.firebase.cloud.FirestoreClient;
 
 @Service
@@ -29,25 +34,62 @@ public class ServiceUsers {
 	
 	public static final int ID_LENGTH=10;
 	
+	public static final int OPTION_CREATE = 1;
+	public static final int OPTION_UPDATE = 2;
+	
 	Firestore dbFirestore;
 	
 	// Method to generate Random ID DOCUMENT
 	public String autoIdDocumentUsers() {
-		return IDENTIFICATE_USERS + RandomStringUtils.randomAlphanumeric(ID_LENGTH);		}
+		return IDENTIFICATE_USERS + RandomStringUtils.randomAlphanumeric(ID_LENGTH);		
+	}
 
-	private Users mapUsers(Users users) {
+	private Users mapUsers(Users users, int option) throws FirebaseAuthException {
+		
+		System.out.println("MAPEAR OBJETO USER : " + users);
 		
 		Users u = new Users();
 		
-		u.setUse_id(users.getUse_id());
+		String uid = "";
+		String email = "";
+		
+		if (option == 1) {
+			
+			CreateRequest createUsers = new CreateRequest()
+					.setUid(users.getUse_id())
+					.setEmail(users.getUse_email())
+					.setPassword(users.getUse_password());
+			
+			UserRecord userRecord = FirebaseAuth.getInstance().createUser(createUsers);
+			
+			uid = userRecord.getUid();
+			email = userRecord.getEmail();
+			
+			System.err.println("*** CREATE FIREBASE AUTH ***\n - UID : " + uid + "\n - Email : " + email);
+			
+		} else {
+			UpdateRequest updateUsers = new UpdateRequest(users.getUse_id())
+					.setEmail(users.getUse_email())
+					.setPassword(users.getUse_password());
+			
+			UserRecord userRecord = FirebaseAuth.getInstance().updateUser(updateUsers);
+			
+			uid = userRecord.getUid();
+			email = userRecord.getEmail();
+			
+			System.err.println("*** UPDATE FIREBASE AUTH ***\n - UID : " + uid + "\n - Email : " + email);
+		}
+		
+		u.setUse_id(uid);
+		u.setUse_email(email);
+		u.setUse_password(users.getUse_password());
+		
 		u.setUse_first_name(users.getUse_first_name());
 		u.setUse_last_name(users.getUse_last_name());
 		u.setUse_address(users.getUse_address());
 		u.setUse_phone(users.getUse_phone());
-		u.setUse_email(users.getUse_email());
 		u.setUse_photo("NULL");
-		u.setUse_name(users.getUse_name());
-		u.setUse_password(users.getUse_password());
+		u.setUse_name(users.getUse_name());		
 		u.setUse_registration_date(new Date().getTime());
 		u.setUse_employment_id(users.getUse_employment_id());
 		u.setUse_status(users.getUse_status());
@@ -57,11 +99,11 @@ public class ServiceUsers {
 	}
 
 	//Method to create new Users record
-	public String createUsers(Users u) throws InterruptedException, ExecutionException {
+	public String createUsers(Users u) throws InterruptedException, ExecutionException, FirebaseAuthException {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Users users = mapUsers(u);
+		Users users = mapUsers(u, OPTION_CREATE);
 		
 		dbFirestore.collection(COL_NAME_USER).document(u.getUse_id()).set(users);
 		
@@ -144,7 +186,7 @@ public class ServiceUsers {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Users users = mapUsers(u);
+		Users users = mapUsers(u, OPTION_UPDATE);
 		
 		dbFirestore.collection(COL_NAME_USER).document(users.getUse_id()).set(users);
 		System.err.println("USUARIO Actualizado");

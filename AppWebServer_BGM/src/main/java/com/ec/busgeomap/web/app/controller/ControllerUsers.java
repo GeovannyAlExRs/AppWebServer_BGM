@@ -76,7 +76,7 @@ public class ControllerUsers {
 	
 	@GetMapping("/edit_users/{use_id}")
 	public String getEditUsers(@PathVariable(name = "use_id") String use_id, Model model) throws InterruptedException, ExecutionException {
-		log.info("EDITAR ROL : " + use_id);
+		log.info(" COMENZAR A EDITAR USERS : " + use_id);
 		
 		Users users = serviceUsers.readByIdDoc(use_id);
 		
@@ -89,7 +89,7 @@ public class ControllerUsers {
 	
 	@PostMapping("/edit_users")
 	public String updateUsers(@Valid @ModelAttribute("u") Users users, BindingResult result, Model model) throws InterruptedException, ExecutionException {
-		log.info("ACTUALIZAR ROL : " + users.getUse_id());
+		log.info("ACTUALIZAR USERS : " + users.getUse_id() + " UserName : " + users.getUse_name());
 		
 		if (result.hasErrors()) {
 			

@@ -53,6 +53,7 @@ public class ControllerCodeQR {
 			try {
 				//serviceQR.createQR(codeqr, null);
 				CodeQR qrID = serviceQR.generatorQR(codeqr);
+				//CodeQR qr = serviceQR.readByIdDoc(qrID.getGqr_code());
 				
 				addAttribute(model, qrID);
 				log.info("*** GUARDAR CODE QR CON EXITO***");
@@ -66,16 +67,30 @@ public class ControllerCodeQR {
 		return Pages.CODE_QR_GENERATOR;
 	}
 
-	//FALTA OBTENER DATOS DEL QR GENERADO EN MEMORIA
-	@GetMapping("/generator_qr")
-	public String viewGenerateCodeQR(Model model, CodeQR qr) throws InterruptedException, ExecutionException {
-		log.info("CODE QR GENERADO");
+	@PostMapping("/codeqr")
+	public String createCodeQR(@Valid @ModelAttribute("codeqr") CodeQR codeqr, BindingResult result, Model model) throws InterruptedException, ExecutionException {
+		log.info("CREAR CODIGO QR : " + codeqr.getGqr_code() + " " + codeqr.getGqr_description());
 		
-		addAttribute(model, serviceQR.readByIdDoc(qr.getGqr_code()));
+		if (result.hasErrors()) {
+			addAttribute(model, codeqr);
+			model.addAttribute("errorSave", "Error al guardar, complete los datos");
+		} else {
+			try {
+				serviceQR.createQR(codeqr);
+				
+				addAttribute(model, new CodeQR(serviceQR.autoIdDocument()));
+				
+				log.info("*** GUARDAR CODE QR CON EXITO***");
+			} catch (Exception e) {
+				model.addAttribute("formErrorMessage", e.getMessage());
+				log.error("XXXXX ERROR AL GUARDAR CODE QR XXXXX");
+				addAttribute(model, codeqr);
+			}
+		}
 		
-		return Pages.CODE_QR_GENERATOR;
+		return viewCodeQR(model);
 	}
-		
+	
 	@GetMapping("/edit_qr/{gqr_code}")
 	public String getEditCodeQR(@PathVariable(name = "gqr_code") String gqr_code, Model model) throws InterruptedException, ExecutionException {
 		log.info("EDITAR QR : " + gqr_code);
@@ -91,7 +106,7 @@ public class ControllerCodeQR {
 	
 	@PostMapping("/edit_qr")
 	public String updateCodeQR(@Valid @ModelAttribute("codeqr") CodeQR qr, BindingResult result, Model model) throws InterruptedException, ExecutionException {
-		log.info("ACTUALIZAR QR : " + qr.getGqr_code());
+		log.info("ACTUALIZAR QR : " + qr);
 		
 		if (result.hasErrors()) {
 			
@@ -99,11 +114,11 @@ public class ControllerCodeQR {
 			model.addAttribute("editMode", "true");
 			
 			model.addAttribute("errorSave", "Error al guardar, complete los datos");
-			System.err.println("**** ERROR... CAMPOS VACIOS *** ");
+			System.err.println("**** ERROR... CAMPOS VACIOS *** " + result);
 			
 		}else {
 			try {
-				//serviceQR.updateQR(qr);
+				serviceQR.updateQR(qr);
 				model.addAttribute("msgSuccess", "CODE QR"+ qr.getGqr_code() + " Actualizado.");
 				
 				// New Document ROL with auto ID (autoIdDocumentUser).
@@ -134,12 +149,5 @@ public class ControllerCodeQR {
 		model.addAttribute("qrList", serviceQR.readAllQR());
 		model.addAttribute("codeqr", codeQR);
 		model.addAttribute("itemcodeqr", serviceAsigneBus.readAssignesBusByDisc());
-		
-		/*try {
-			model.addAttribute("codeImg", serviceQR.readCodeQRImg(codeQR.getGqr_code()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 	}
 }

@@ -3,26 +3,17 @@ package com.ec.busgeomap.web.app.service;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ec.busgeomap.web.app.model.Assignes_Bus;
 import com.ec.busgeomap.web.app.model.Bus;
@@ -34,14 +25,7 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.cloud.StorageClient;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
@@ -57,6 +41,9 @@ import com.google.zxing.qrcode.QRCodeWriter;
 @Service
 public class ServiceCodeQR {
 	
+	/*@Autowired
+	private ResourceLoader resourceLoader;*/
+	
 	public static final String COL_NAME_CODE="CodeQR";
 	public static final String COL_NAME_ASSIGNE_BUS="Assignes_Bus";
 	public static final String IDENTIFICATE="BGM_CODE";
@@ -66,8 +53,6 @@ public class ServiceCodeQR {
 	public static final int OP_UPDATE=3;
 	
 	Firestore dbFirestore;
-	StorageClient storageClient;
-	Storage storage;
 	
 	// Method to generate Random ID DOCUMENT
 	public String autoIdDocument() {
@@ -80,38 +65,36 @@ public class ServiceCodeQR {
 		CodeQR qr = new CodeQR();
 		
 		if (option == 1) {
+			
 			System.out.println("ENTRO A LA OPCION[1] GENERAR");
 			qr.setGqr_code(code.getGqr_code());
 			qr.setGqr_description(code.getGqr_description());
 			qr.setGqr_registration_date(new Date().getTime());
 			qr.setGqr_asb_bus_id(code.getGqr_asb_bus_id());
 			
-			byte [] imgQR = generatorQRCode(qr.getGqr_code(), 500, 500);
-			System.out.println("---->> BYTE IMG QR : " + imgQR);			
+			byte [] imgQR = generatorQRCode(qr.getGqr_code(), 500, 500);		
 			String qrcodeIMG = Base64.getEncoder().encodeToString(imgQR);
-			System.out.println("---->> CONVERT BYTE IMG QR : " + qrcodeIMG);
 			qr.setGqr_image(qrcodeIMG);
-			// Mapping Object for Create (ESTADO)
+			
 			qr.setGqr_status(true);
+			
 		} 
-		if (option == 2) {
-			System.out.println("ENTRO A LA OPCION[2] CREAR");
+		if (option == 2 || option == 3) {
+			
+			System.out.println("ENTRO A LA OPCION[2] CREAR - OPCION[3] ACTUALIZAR");
 			qr.setGqr_code(code.getGqr_code());
 			qr.setGqr_description(code.getGqr_description());
 			qr.setGqr_registration_date(new Date().getTime());
 			qr.setGqr_asb_bus_id(code.getGqr_asb_bus_id());
-			
-			//llamar funcion para almacenar la IMG QR en Storage
-			
-			qr.setGqr_image(code.getGqr_image());
-			// Mapping Object for Create (ESTADO)
+			byte [] imgQR = generatorQRCode(qr.getGqr_code(), 500, 500);		
+			String qrcodeIMG = Base64.getEncoder().encodeToString(imgQR);
+			qr.setGqr_image(qrcodeIMG);
+			//qr.setGqr_image(code.getGqr_image());
 			qr.setGqr_status(code.getGqr_status());
-		} if (option == 3) {
-			System.out.println("ENTRO A LA OPCION[3] ACTUALIZAR");
-			qr.setGqr_image(code.getGqr_image());
-			// Mapping Object for Update (ESTADO)
-			qr.setGqr_status(code.getGqr_status());
-		}
+			
+		} 
+		
+		System.out.println(" OBJETO DE LA OPCION [" + option + "] : " + qr);
 		
 		return qr;
 	}
@@ -131,7 +114,7 @@ public class ServiceCodeQR {
 	}
 	
 	// Method to create new QR record
-	public String createQR(CodeQR qr, MultipartFile file) throws InterruptedException, ExecutionException, WriterException, IOException {
+	public String createQR(CodeQR qr) throws InterruptedException, ExecutionException, WriterException, IOException {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
@@ -216,7 +199,7 @@ public class ServiceCodeQR {
 	}
 
 	// Method to Update CODE QR
-	public String updateQR(CodeQR codeQR, MultipartFile file) throws Exception {
+	public String updateQR(CodeQR codeQR) throws Exception {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
@@ -252,6 +235,7 @@ public class ServiceCodeQR {
 		
 		if (document.exists()) {
 			qr = document.toObject(CodeQR.class);
+			System.out.println("OBJETO QR RECUPERADO : "+ qr);
 			return qr;
 		}else {
 			return null;
@@ -312,52 +296,5 @@ public class ServiceCodeQR {
 		System.out.println("NOMBRE DE LA IMAGEN RUTA" + builder.toString());
 		
 		return builder.toString();
-	}
-	
-	private String uploadCodeQR(CodeQR code) throws WriterException, IOException {
-		
-		storageClient = StorageClient.getInstance();
-		
-		//storage = StorageOptions.get
-		//https://medium.com/analytics-vidhya/spring-boot-with-firebase-storage-73f574af8c4
-		//https://medium.com/teamarimac/file-upload-and-download-with-spring-boot-firebase-af068bc62614
-		Bucket bucket = storageClient.bucket();
-		System.out.println(">>>>>>> BUCKET DE IMG QR : " + bucket);	
-		
-		String qcodePath = "C:/qr/" + code.getGqr_code() + ".png";
-		System.out.println(">>>>>>> PATH  : " + qcodePath);	
-		
-		QRCodeWriter qrCodeWriter = new QRCodeWriter();
-		
-		BitMatrix bitMatrix = qrCodeWriter.encode(code.getGqr_code(), BarcodeFormat.QR_CODE, 250, 250);
-		
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		MatrixToImageWriter.writeToStream(bitMatrix, "png", outputStream);
-		
-		byte[] qrData = outputStream.toByteArray();
-		
-		Path pathC = FileSystems.getDefault().getPath(qcodePath);
-		MatrixToImageWriter.writeToPath(bitMatrix, "png", pathC);
-		
-		Path pathMulti = Paths.get(qcodePath);
-		//file.transferTo(Files.write(pathMulti, qrData));
-		
-		String qrIMG = code + ".png";
-		String blobImgQR = "qr/";
-		String projectId = "practica1-busgeomap";
-		//InputStream inputFile = new FileInputStream(qcodePath);
-		//System.out.println(">>>>>>> INPUT FILE  : " + inputFile);
-		
-		File qrFile = new File(qcodePath);
-		System.out.println(">>>>>>> FILE  : " + qrFile + " - FILE PATH : " + qrFile.toPath());	
-		
-		//storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-		
-		BlobId blobId = BlobId.of(bucket.toString(), qrIMG);
-		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(blobImgQR).build();
-		//storage.create(blobInfo, file.getInputStream());
-		//storageClient.bucket().create(blobImgQR, file.getInputStream(), Bucket.BlobWriteOption.userProject(projectId));
-						
-		return null;
 	}
 }

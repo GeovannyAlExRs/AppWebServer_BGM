@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content="Transporte público Cooperativa San Agustin, Chanduy - Santa Elena">
+    <meta name="author" content="BusGeoMap">
+	
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap" rel="stylesheet"/>
+    
+    <!-- Iconos Fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css"/>
+    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+    <script th:src="@{/lib/plugin/webfont/webfont.min.js}" src="../../static/lib/plugin/webfont/webfont.min.js"></script>
+
+    <!-- CSS Files -->
+	<link th:href="@{/css/styleLogin.css}" href="../../static/css/styleLogin.css" rel="stylesheet">
+
+    <!-- ICONO PROJECT-->
+    <link th:href="@{/img/ico/ico_chanduy.ico}" href="../../static/img/ico/ico_chanduy.ico" rel="shortcut icon" type="image/x-icon"/>
+
+    <title>BusGeoMap - Login</title>
+
+</head>
+
+<body class="bg-default">
+  <!-- Navbar -->
+  <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/busgeomap/}" href="../index.html">
+        <img th:src="@{/img/image/logo/lg_coop.png}" src="../../static/img/image/logo/lg_coop.png">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse navbar-custom-collapse collapse" id="navbar-collapse">
+        <div class="navbar-collapse-header">
+          <div class="row">
+            <div class="col-6 collapse-brand">
+              <a th:href="@{/busgeomap/}" href="../index.html">
+                <img th:src="@{/img/image/logo/lg_coop.png}" src="../../static/img/image/logo/lg_coop.png">
+              </a>
+            </div>
+            <div class="col-6 collapse-close">
+              <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <span class="nav-link-inner--text">Inicio</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="login.html" class="nav-link">
+              <span class="nav-link-inner--text">Servicios</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="register.html" class="nav-link">
+              <span class="nav-link-inner--text">Login</span>
+            </a>
+          </li>
+        </ul>
+        <hr class="d-lg-none" />
+        <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon" href="https://www.facebook.com/" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
+              <i class="fab fa-facebook-square"></i>
+              <span class="nav-link-inner--text d-lg-none">Facebook</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon" href="https://www.instagram.com/" target="_blank" data-toggle="tooltip" data-original-title="Follow us on Instagram">
+              <i class="fab fa-instagram"></i>
+              <span class="nav-link-inner--text d-lg-none">Instagram</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon" href="https://twitter.com/" target="_blank" data-toggle="tooltip" data-original-title="Follow us on Twitter">
+              <i class="fab fa-twitter-square"></i>
+              <span class="nav-link-inner--text d-lg-none">Twitter</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon" href="https://github.com/" target="_blank" data-toggle="tooltip" data-original-title="Star us on Github">
+              <i class="fab fa-github"></i>
+              <span class="nav-link-inner--text d-lg-none">Github</span>
+            </a>
+          </li>
+          <li class="nav-item d-none d-lg-block ml-lg-4">
+            <a href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=ad_upgrade_pro" target="_blank" class="btn btn-neutral btn-icon">
+              <span class="btn-inner--icon">
+                <i class="fas fa-user"></i>
+              </span>
+              <span class="nav-link-inner--text">Login</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Main content -->
+  <div class="main-content">
+    <!-- Header -->
+    <div class="header bg-gradient-primary py-7 py-lg-8 pt-lg-9">
+      <div class="container">
+        <div class="header-body text-center mb-5">
+          <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8 px-5">
+              <h1 class="text-white">Bienvenido a BusGeoMap</h1>
+              <p class="text-lead text-white">Servimos a la comunidad.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="separator separator-bottom separator-skew zindex-100">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+        </svg>
+      </div>
+    </div>
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+          <div class="card bg-secondary border-0 mb-0">
+            <div class="card-header bg-transparent pb-5">
+              <div class="text-center">
+                <a href="#" class="btn-neutral-user">
+                  <span class="btn-login-user">
+					  <img th:src="@{/img/image/vector/img_user5.png}" src="../../static/img/image/vector/img_user5.png"></span>
+                </a>
+              </div>
+            </div>
+                <div class="card-body px-lg-5 py-lg-5">
+                    <div class="text-center text-muted mb-4">
+                        <small>Iniciar Sesion</small>
+                    </div>
+                <form th:action="@{/app_busgeomap/users}" method="get" role="form"><!--th:object="${u}" -->
+                    <div class="form-group mb-3">
+                        <div class="input-group input-group-merge input-group-alternative">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" placeholder="Email"> <!--th:value="${u.use_email}" th:field="${u.use_email}" -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group input-group-merge input-group-alternative">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-unlock-alt"></i></span>
+                            </div>
+                            <input type="password" class="form-control" placeholder="Password"> <!--th:value="${u.use_password}" th:field="${u.use_password}" -->
+                        </div>
+                    </div>
+                                    
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary my-4">Autenticar</button>
+                    </div>
+                </form>
+                </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="py-5" id="footer-main">
+    <div class="container">
+      <div class="row align-items-center justify-content-xl-between">
+        <div class="col-xl-6">
+          <div class="copyright text-center text-xl-left text-muted">
+            &copy; 2021 <a href="https://www.facebook.com" class="font-weight-bold ml-1" target="_blank">BusGeoMap</a>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+            <li class="nav-item">
+              <a href="#" class="nav-link" target="_blank">Información</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" target="_blank">Contáctenos</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Import JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+  <!-- Argon Scripts -->
+  <script th:src="@{/js/argonjs/bootstrap.bundle.min.js}" src="../../static/js/argonjs/bootstrap.bundle.min.js"></script>
+  <script th:src="@{/js/argonjs/js-cookie/js.cookie.js}" src="../../static/js/argonjs/js-cookie/js.cookie.js"></script>
+  <script th:src="@{/js/argonjs/jquery.scrollbar/jquery.scrollbar.min.js}" src="../../static/js/argonjs/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+  <script th:src="@{/js/argonjs/jquery-scroll-lock/dist/jquery-scrollLock.min.js}" src="../../static/js/argonjs/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+
+  <script th:src="@{/js/argonjs/argon.js}" src="../../static/js/argonjs/argon.js"></script>
+</body>
+
+</html>

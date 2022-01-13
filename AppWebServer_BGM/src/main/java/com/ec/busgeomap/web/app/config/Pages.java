@@ -5,15 +5,15 @@ public class Pages {
 	// Template INDEX
 	public static String HOME = "index";
 	
+	// Template LOGIN
+	public static String LOGIN = "security/login";
+		
 	// Template "USER"
 	public static String USERS = "users/users";
 		
 	// Template ROLES (COOPERATIVA)
 	public static String ROLES = "security/role";
-		
-	// Template LOGIN
-	public static String LOGIN = "security/login";
-		
+	
 	public static String ROUTE = "cooperative/route";
 	
 	public static String PLACE = "cooperative/place";

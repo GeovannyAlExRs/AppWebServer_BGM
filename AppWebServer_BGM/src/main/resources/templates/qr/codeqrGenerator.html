@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6 col-lg-6">
             <h3 class="mb-3">Datos del Codigo QR</h3>
-            <div class="form-group form-group-default" >
+            <div th:hidden="none" class="form-group form-group-default" >
                 <label>ID DOCUMENT</label>
                 <input th:value="${codeqr.gqr_code}" th:field="${codeqr.gqr_code}" th:readonly="true" id="Name" type="text" class="form-control"> 
             </div>

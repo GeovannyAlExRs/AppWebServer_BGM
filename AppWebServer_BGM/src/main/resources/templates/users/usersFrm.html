@@ -5,7 +5,7 @@
   
       <h3 class="mb-3">Datos personales</h3>
       
-      <div class="form-group form-group-default" >
+      <div th:hidden="none" class="form-group form-group-default" >
                 <label>ID DOCUMENT</label>
                 <input th:value="${u.use_id}" th:field="${u.use_id}" id="Name" type="text" class="form-control"> 
             </div>
@@ -39,7 +39,7 @@
     </div>
     
     <div class="col-md-6 col-lg-6">
-		<div class="add-photo-container" id="add-photo">
+		<div th:hidden="none" class="add-photo-container" id="add-photo">
         	<div class="fotoUser" id="add-file">
             	<span class="camara"><i class="fas fa-camera"></i></span>
 			</div>

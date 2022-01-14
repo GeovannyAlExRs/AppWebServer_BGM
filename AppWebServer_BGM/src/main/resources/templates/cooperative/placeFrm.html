@@ -1,9 +1,9 @@
 <form th:action="${editMode} ?@{/app_busgeomap/edit_place} :@{/app_busgeomap/place}" method="post" th:object="${place}" id="frm" role="form" autocomplete="off">
     <div class="col-md-6 col-lg-6" >
   
-      <h3 class="mb-3">Ingrese un nuevo rol</h3>
+      <h3 class="mb-3">Ingrese un nuevo lugar</h3>
       
-      <div class="form-group form-group-default">
+      <div th:hidden="none" class="form-group form-group-default">
         <label>ID Document</label>
         <input th:value="${place.pla_id}" th:field="${place.pla_id}" type="text" th:disabled="${disableFields}" class="form-control" placeholder="&#128100; Documento Role"/>
       </div>
@@ -12,6 +12,8 @@
         <label>Lugar</label>
         <input th:value="${place.pla_name}" th:field="${place.pla_name}" type="text" th:disabled="${disableFields}" class="form-control"/> <!--placeholder="&#128100; Nombre del rol"-->
       </div>
+
+      <div class="alert-danger" th:if="${#fields.hasErrors('pla_name')}" th:errors="*{pla_name}">Error</div>
   
       <div class="form-group form-group-default">
         <label>Descripción</label>

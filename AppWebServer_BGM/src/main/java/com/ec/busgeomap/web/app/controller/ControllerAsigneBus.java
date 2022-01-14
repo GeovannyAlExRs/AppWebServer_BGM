@@ -26,6 +26,7 @@ import com.ec.busgeomap.web.app.service.ServiceBus;
 public class ControllerAsigneBus {
 
 	private final Log log = LogFactory.getLog(getClass());
+	
 	private final String TAB_LIST_BGM = "listTabBgm";
 	private final String TAB_FORM_BGM = "formTabBgm";
 	
@@ -37,7 +38,7 @@ public class ControllerAsigneBus {
 	
 	@GetMapping("/assigne_bus")
 	public String viewAssigneBus(Model model) throws InterruptedException, ExecutionException {
-		log.info("Ingreso al registro de RUTAS");
+		log.info("INICIAR MODULO RUTAS");
 		
 		addAttributeAssigneBus(model, new Assignes_Bus(serviceAssigneBus.autoIdDocument()), TAB_LIST_BGM);
 		
@@ -91,7 +92,6 @@ public class ControllerAsigneBus {
 			model.addAttribute("editMode", "true");
 			
 			model.addAttribute("errorSave", "Error al guardar, complete los datos");
-			System.err.println("**** ERROR... CAMPOS VACIOS *** ");
 			
 		}else {
 			try {
@@ -115,10 +115,8 @@ public class ControllerAsigneBus {
 	public String deleteBus(@PathVariable(name = "bus_id") String bus_id, Model model) throws InterruptedException, ExecutionException {
 		
 		try {
-			System.err.println("ELIMINAR ASSIGNE BUS : " + bus_id);
-
 			serviceAssigneBus.deleteAssigneBus(bus_id);
-							
+			log.info("(PLACE) : REGISTRO ELIMINADO");
 		} catch (Exception e1) {
 			//model.addAttribute("deleteError", e1.getMessage());
 			model.addAttribute("deleteError","La ASIGNACN no se pudo eliminar");
@@ -127,12 +125,13 @@ public class ControllerAsigneBus {
 	}
 	
 	private void addAttributeAssigneBus(Model model, Assignes_Bus bus, String tab) throws InterruptedException, ExecutionException {
+		log.info("HOLA ASIGNAR BUS");
 		model.addAttribute("bus", bus);
 		
-		model.addAttribute("busList", serviceAssigneBus.readAllAssignesBus());
 		model.addAttribute("busDiscList", serviceBus.readAllBus());
 		model.addAttribute("driversList", serviceAssigneBus.readDriversOrAccompany("BGM_EMPL0yM3nTeR05"));
 		model.addAttribute("accompanyList", serviceAssigneBus.readDriversOrAccompany("BGM_EMPL0yM3nTeR06"));
+		model.addAttribute("busList", serviceAssigneBus.readAllAssignesBus());
 		
 		model.addAttribute(tab, "active");
 	}

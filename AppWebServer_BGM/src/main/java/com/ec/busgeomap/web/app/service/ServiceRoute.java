@@ -1,12 +1,16 @@
 package com.ec.busgeomap.web.app.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import com.ec.busgeomap.web.app.model.Place;
 import com.ec.busgeomap.web.app.model.Route;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
@@ -21,7 +25,10 @@ import com.google.firebase.cloud.FirestoreClient;
 @Service
 public class ServiceRoute {
 	
+	private final Log log = LogFactory.getLog(getClass());
+	
 	public static final String COL_NAME_ROUTE="Route";
+	public static final String COL_NAME_PLACE="Place";
 	public static final String IDENTIFICATE="BGM_ROU";
 	public static final int ID_LENGTH=10;
 	
@@ -39,7 +46,9 @@ public class ServiceRoute {
 		
 		r.setRou_id(route.getRou_id());
 		r.setRou_name(route.getRou_name());
-		r.setRou_registration_date(route.getRou_registration_date());
+		r.setRou_registration_date(new Date().getTime());
+		r.setRou_place_destination(route.getRou_place_destination());
+		r.setRou_place_starting(route.getRou_place_starting());
 		r.setRou_status(route.getRou_status());
 		
 		return r;
@@ -70,22 +79,41 @@ public class ServiceRoute {
 				
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
-		System.out.println("---- LISTA DE RUTAS ----\n ID Document \t\t| ROL \t| DESCRIPCION \t| ESTADO" );
-		
 		for (QueryDocumentSnapshot document : documents) {
 		
-			System.out.println("> " + document.getId() + " \t" + document.getString("rou_name"));
+			//System.out.println("> " + document.getId() + " \t" + document.getString("rou_name"));
 			
 			route = document.toObject(Route.class);
-			
+			route.setRou_place_starting(readPlace(route.getRou_place_starting()));
+			route.setRou_place_destination(readPlace(route.getRou_place_destination()));
 			arrayList.add(route);
 		}
 		
-		System.out.println("\n > LISTADO: " +arrayList);
+		log.info("(ROUTE) Nº DE REGISTROS: [" + arrayList.size() + "]");
 		
 		return arrayList;
 	}
 	
+	private String readPlace(String placeID) throws InterruptedException, ExecutionException {
+		Place place = null;
+		
+		DocumentReference docRef1 =  dbFirestore.collection(COL_NAME_PLACE).document(placeID);
+		
+		ApiFuture<DocumentSnapshot> future = docRef1.get();
+		
+		DocumentSnapshot document = future.get();
+		
+		if (document.exists()) {
+			place = document.toObject(Place.class);
+
+			if (placeID.equals(document.getId())) {
+				return place.getPla_name();
+			} 
+		}
+		
+		return null;
+	}
+
 	// Method to Find a specific route
 	public Route readByIdDoc(String idDoc) throws InterruptedException, ExecutionException {
 		
@@ -115,7 +143,6 @@ public class ServiceRoute {
 		Route r = mapRoute(route);
 			
 		dbFirestore.collection(COL_NAME_ROUTE).document(r.getRou_id()).set(r);
-		System.err.println(" RUTA Actualizado");
 			
 		return dbFirestore.toString();
 	}

@@ -1,1 +1,52 @@
-LISTA
+<div class="table-responsive list-role">
+    <table id="routeList" class="table">
+        <thead class="thead-light">
+            <tr>
+                <th class="table-colum">Ruta</th>
+                <th>Fecha</th>
+                <th>Lugar de Partida</th>
+                <th>Lugar de Destino</th>
+                <th style="width: 10%">Acción</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th scope="col">Ruta</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Lugar de Partida</th>
+                <th scope="col">Lugar de Destino</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </tfoot>
+       <tbody>
+            <tr th:each="route: ${routeList}">
+                <td th:text="${route.rou_name}"> </td>
+                <td th:text="${#calendars.format(route.rou_registration_date, 'dd/MM/yyyy')}"></td>
+                <td th:text="${route.rou_place_starting}"></td>
+                <td th:text="${route.rou_place_destination}"></td>
+                <td>
+                    <div class="form-button-action">
+                        <a href="#editar" th:href="@{'/app_busgeomap/edit_route/'+ ${route.rou_id}}" class="btn btn-link btn-info" data-original-title="Actualizar"> 
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="#eliminar" th:onclick="confirmDelete([[${route.rou_id}]])" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>                                                    
+</div>
+
+<script type="text/javascript">
+    function confirmDelete(id){
+        $('#deleteModal').modal('show');
+        $("#userIdHiddenInput").val(id);
+    }
+    
+    function deleteRoute(){
+        var id = $("#userIdHiddenInput").val();
+        window.location = "delete_route/"+id;
+    }
+</script>

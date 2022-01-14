@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Assignes_Bus;
@@ -23,6 +25,8 @@ import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class ServiceAsigneBus {
+	
+	private final Log log = LogFactory.getLog(getClass());
 	
 	public static final String COL_NAME_ASSIGNE_BUS="Assignes_Bus";
 	public static final String COL_NAME_BUS="Bus";
@@ -76,11 +80,9 @@ public class ServiceAsigneBus {
 				
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
-		System.out.println("---- LISTA DE BUSES ----\n ID Document \t\t| NºBUS" );
-		
 		for (QueryDocumentSnapshot document : documents) {
 		
-			System.out.println("> " + document.getId() + " \t" + document.getData());
+			//System.out.println("> " + document.getId() + " \t" + document.getData());
 			
 			ab = document.toObject(Assignes_Bus.class);
 			
@@ -89,7 +91,7 @@ public class ServiceAsigneBus {
 			arrayList.add(ab);
 		}
 		
-		System.out.println("\n > LISTADO: " +arrayList);
+		log.info("(DISC BUS) Nº DE REGISTROS: [" + arrayList.size() + "]");
 		
 		return arrayList;
 	}
@@ -108,11 +110,9 @@ public class ServiceAsigneBus {
 				
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
-		System.out.println("---- LISTA DE ASIGNACION DE BUSES ----\n ID Document \t\t| NºBUS" );
-		
 		for (QueryDocumentSnapshot document : documents) {
 		
-			System.out.println("> " + document.getId() + " \t" + document.getData());
+			//System.out.println("> " + document.getId() + " \t" + document.getData());
 			
 			ab = document.toObject(Assignes_Bus.class);
 			
@@ -125,7 +125,7 @@ public class ServiceAsigneBus {
 			arrayList.add(ab);
 		}
 		
-		System.out.println("\n > LISTADO: " +arrayList);
+		log.info("(ASIGNAR BUS) Nº DE REGISTROS: [" + arrayList.size() + "]");
 		
 		return arrayList;
 	}
@@ -172,7 +172,7 @@ public class ServiceAsigneBus {
 	private String readBusDoc(Assignes_Bus ab) throws InterruptedException, ExecutionException {
 		Bus bus = null;
 		
-		DocumentReference docRef1 =  dbFirestore.collection("Bus").document(ab.getAsb_bus_id());
+		DocumentReference docRef1 =  dbFirestore.collection(COL_NAME_BUS).document(ab.getAsb_bus_id());
 		ApiFuture<DocumentSnapshot> future = docRef1.get();
 		DocumentSnapshot document1 = future.get();
 		
@@ -181,11 +181,13 @@ public class ServiceAsigneBus {
 			
 			if (ab.getAsb_bus_id().equals(document1.getId())) {
 				
-				ab.setAsb_bus_id(String.valueOf(bus.getBus_number_disc()));
+				String infomationBus = String.valueOf(bus.getBus_number_disc()) + " - " + bus.getBus_make() + " " + bus.getBus_model();
+				
+				return infomationBus;
 			} 
 		}
 		
-		return String.valueOf(bus.getBus_number_disc());
+		return null;
 	}
 	
 	// Buscar Usuarios por el cargo "CONDUCTOR"
@@ -193,7 +195,7 @@ public class ServiceAsigneBus {
 		
 		Users users = null;
 		
-		ArrayList<Users> arrayListUser = new ArrayList<>();
+		ArrayList<Users> arrayList = new ArrayList<>();
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
@@ -203,19 +205,19 @@ public class ServiceAsigneBus {
 		
 		List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
 		
-		System.out.println("---- LISTA DE USUARIOS ----\n" );
 		for (QueryDocumentSnapshot document : documents) {
 			
-			System.out.println("> " + document.getData());
-			
+			//System.out.println("> " + document.getData());
 			users = document.toObject(Users.class);
 			
 			users.setUse_employment_id(readEmploymentDoc(users)); // Buscar DOC EMPLOYMENT 
 			
-			arrayListUser.add(users);
+			arrayList.add(users);
 		}
 		
-		return arrayListUser;
+		log.info("(PERSONAL DEL BUS) Nº DE REGISTROS: [" + arrayList.size() + "] TIPE USER : " + users.getUse_employment_id());
+		
+		return arrayList;
 	}
 	
 	private String readEmploymentDoc(Users u) throws InterruptedException, ExecutionException{
@@ -267,7 +269,6 @@ public class ServiceAsigneBus {
 		Assignes_Bus ab = mapBus(assignes_Bus);
 		
 		dbFirestore.collection(COL_NAME_ASSIGNE_BUS).document(ab.getAsb_id()).set(assignes_Bus);
-		System.err.println("Actualizado");
 		
 		return dbFirestore.toString();
 	}

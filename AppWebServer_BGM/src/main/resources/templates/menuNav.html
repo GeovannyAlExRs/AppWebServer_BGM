@@ -1,0 +1,98 @@
+<div class="container-fluid">
+					
+    <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+
+        <li class="nav-item dropdown hidden-caret bgm-dashboard-btn-ico">
+            <a class="nav-link dropdown-toggle bgm-dashboard-btn" th:href="@{/app_busgeomap/home}" role="button">
+                <i class="fa fa-home bgm-dashboard-ico"></i>
+            </a>
+        </li>
+
+        <li class="nav-item dropdown hidden-caret  bgm-dashboard-btn-ico">
+            <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+                <i class="fas fa-tasks bgm-dashboard-ico"></i>
+            </a>
+            <div class="dropdown-menu quick-actions quick-actions-info animated fadeIn">
+                <div class="quick-actions-header">
+                    <span class="title mb-1">BueGeoMap</span>
+                    <span class="subtitle op-8">Servicios</span>
+                </div>
+                <div class="quick-actions-scroll scrollbar-outer">
+                    <div class="quick-actions-items">
+                        <div class="row m-0">
+                            <a th:href="@{#falta_map}" class="col-6 col-md-4 p-0">
+                                <div class="quick-actions-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span class="text">Navegación</span>
+                                </div>
+                            </a>
+                            <a th:href="@{#falta_horarios}" class="col-6 col-md-4 p-0">
+                                <div class="quick-actions-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span class="text">Viajes</span>
+                                </div>
+                            </a>
+                            <a th:href="@{/app_busgeomap/users}" class="col-6 col-md-4 p-0">
+                                <div class="quick-actions-item">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span class="text">Personal</span>
+                                </div>
+                            </a>
+                            <a th:href="@{/app_busgeomap/bus}" class="col-6 col-md-4 p-0">
+                                <div class="quick-actions-item">
+                                    <i class="fas fa-bus"></i>
+                                    <span class="text">Transporte</span>
+                                </div>
+                            </a>
+                            <a href="#falta_map" class="col-6 col-md-4 p-0">
+                                <div class="quick-actions-item">
+                                    <i class="fas fa-desktop"></i>
+                                    <span class="text">Monitoreo</span>
+                                </div>
+                            </a>
+                            <a th:href="@{/app_busgeomap/role}" class="col-6 col-md-4 p-0">
+                                <div class="quick-actions-item">
+                                    <i class="fas fa-user-secret"></i>
+                                    <span class="text">Roles</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+        <li class="nav-item dropdown hidden-caret">
+            <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+                <div class="avatar-sm">
+                    <img th:src="@{/img/image/photo/2400189375-Foto.jpg}" src="../static/img/image/photo/2400189375-Foto.jpg" alt="..." class="avatar-img rounded-circle">
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-user animated fadeIn">
+                <div class="dropdown-user-scroll scrollbar-outer">
+                    <li>
+                        <div class="user-box">
+                            <div class="avatar-lg">
+                                <img th:src="@{/img/image/photo/2400189375-Foto.jpg}" src="../../static/img/image/photo/2400189375-Foto.jpg" alt="image profile" class="avatar-img rounded">
+                            </div>
+                            <div class="u-text">
+                                <h4>Geovanny AlEx Rs</h4>
+                                <p class="text-muted">geovanny@example.com</p>
+                                <!--a href="profile.html" class="btn btn-xs btn-secondary btn-sm">Ver Perfil</a-->
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                        <!--a class="dropdown-item" href="#">Perfil</a>
+                        <a class="dropdown-item" href="#">Mensajes</a>
+                        <div-- class="dropdown-divider"></div-->
+                        <a class="dropdown-item" href="#"> <!--th:href="@{/logout}"-->
+                            <i class="fas fa-sign-out-alt ico "></i>Cerrar sesión
+                        </a>
+                    </li>
+                </div>
+            </ul>
+        </li>
+    </ul>
+</div>

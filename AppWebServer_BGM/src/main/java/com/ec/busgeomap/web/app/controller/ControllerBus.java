@@ -1,5 +1,7 @@
 package com.ec.busgeomap.web.app.controller;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import javax.validation.Valid;
@@ -26,8 +28,11 @@ import com.ec.busgeomap.web.app.service.ServiceUsers;
 public class ControllerBus {
 
 	private final Log log = LogFactory.getLog(getClass());
+	
 	private final String TAB_LIST_BGM = "listTabBgm";
 	private final String TAB_FORM_BGM = "formTabBgm";
+	
+	private static final long LOAD_TIME = 2500;
 	
 	@Autowired
 	ServiceBus serviceBus;
@@ -54,7 +59,7 @@ public class ControllerBus {
 		} else {
 			try {
 				serviceBus.createBus(bus);
-				
+				loadTime();
 				// New Document BUS with auto ID (autoIdDocumentUser).
 				addAttributeBus(model, new Bus(serviceBus.autoIdDocument()), TAB_LIST_BGM);
 				
@@ -118,7 +123,7 @@ public class ControllerBus {
 		
 		try {
 			serviceBus.deleteBus(bus_id);
-							
+			log.info("(BUS) : REGISTRO ELIMINADO");
 		} catch (Exception e1) {
 			//model.addAttribute("deleteError", e1.getMessage());
 			model.addAttribute("deleteError","El COLECTIVO no se pudo eliminar");
@@ -128,9 +133,23 @@ public class ControllerBus {
 	}
 	
 	private void addAttributeBus(Model model, Bus bus, String tab)  throws InterruptedException, ExecutionException {
+		log.info(" HOLA BUS");
 		model.addAttribute("bus", bus);
-		model.addAttribute("busList", serviceBus.readAllBus());
 		model.addAttribute("iUsers", serviceUsers.readAllUsers());
+		model.addAttribute("busList", serviceBus.readAllBus());
 		model.addAttribute(tab, "active"); 
+	}
+	
+	private void loadTime() {
+	    TimerTask timerTask = new TimerTask() {
+	        @Override
+	        public void run() {
+	        	log.info("HICISTE UNA PAUSA DE " + LOAD_TIME);
+	        }
+	    };
+	
+	    Timer timer = new Timer();
+	    timer.schedule(timerTask, LOAD_TIME);
+		
 	}
 }

@@ -51,12 +51,10 @@ public class ControllerCodeQR {
 			model.addAttribute("errorSave", "Error al guardar, complete los datos");
 		} else {
 			try {
-				//serviceQR.createQR(codeqr, null);
 				CodeQR qrID = serviceQR.generatorQR(codeqr);
-				//CodeQR qr = serviceQR.readByIdDoc(qrID.getGqr_code());
 				
 				addAttribute(model, qrID);
-				log.info("*** GUARDAR CODE QR CON EXITO***");
+				log.info("*** CODE QR GENERADO CON EXITO***");
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
 				log.error("XXXXX ERROR AL GUARDAR CODE QR XXXXX");
@@ -79,14 +77,15 @@ public class ControllerCodeQR {
 				serviceQR.createQR(codeqr);
 				
 				addAttribute(model, new CodeQR(serviceQR.autoIdDocument()));
-				
-				log.info("*** GUARDAR CODE QR CON EXITO***");
+
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
 				log.error("XXXXX ERROR AL GUARDAR CODE QR XXXXX");
 				addAttribute(model, codeqr);
 			}
 		}
+		
+		log.info("*** GUARDAR CODE QR CON EXITO***");
 		
 		return viewCodeQR(model);
 	}
@@ -114,8 +113,6 @@ public class ControllerCodeQR {
 			model.addAttribute("editMode", "true");
 			
 			model.addAttribute("errorSave", "Error al guardar, complete los datos");
-			System.err.println("**** ERROR... CAMPOS VACIOS *** " + result);
-			
 		}else {
 			try {
 				serviceQR.updateQR(qr);
@@ -139,6 +136,7 @@ public class ControllerCodeQR {
 	public String deleteCodeQR(@PathVariable(name = "gqr_code") String gqr_code, Model model) throws InterruptedException, ExecutionException {
 		try {
 			serviceQR.deleteQR(gqr_code);
+			log.info("(CODE QR) : REGISTRO ELIMINADO");
 		} catch (Exception e) {
 			model.addAttribute("deleteError", "El codigo QR no se pudo eliminar");
 		}
@@ -146,8 +144,10 @@ public class ControllerCodeQR {
 	}
 	
 	private void addAttribute(Model model, CodeQR codeQR)  throws InterruptedException, ExecutionException {
-		model.addAttribute("qrList", serviceQR.readAllQR());
+		log.info("HOLA CODE QR");
+		
 		model.addAttribute("codeqr", codeQR);
 		model.addAttribute("itemcodeqr", serviceAsigneBus.readAssignesBusByDisc());
+		model.addAttribute("qrList", serviceQR.readAllQR());
 	}
 }

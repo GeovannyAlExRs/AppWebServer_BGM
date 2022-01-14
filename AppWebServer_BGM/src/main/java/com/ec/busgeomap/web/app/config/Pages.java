@@ -16,6 +16,8 @@ public class Pages {
 	
 	public static String ROUTE = "cooperative/route";
 	
+	public static String SCHEDULE = "cooperative/schedule";
+	
 	public static String PLACE = "cooperative/place";
 		
 	// Template CODIGO QR (COOPERATIVA)

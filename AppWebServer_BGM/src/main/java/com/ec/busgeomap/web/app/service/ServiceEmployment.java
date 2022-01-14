@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Employment;
@@ -16,6 +18,8 @@ import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class ServiceEmployment {
+	
+	private final Log log = LogFactory.getLog(getClass());
 	
 	public static final String COL_NAME_EMPLOYMENT = "Employment";
 	public static final String IDENTIFICATE = "BGM_EMPL";
@@ -41,16 +45,15 @@ public class ServiceEmployment {
 				
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
-		System.out.println("---- LISTA DE CARGOS ----\n" );
-		
 		for (QueryDocumentSnapshot document : documents) {
 		
-			System.out.println("> " + document.getId() + " \t" + document.getString("emp_name"));
-			
+			//System.out.println("> " + document.getId() + " \t" + document.getString("emp_name"));
 			employment = document.toObject(Employment.class);
 			
 			arrayList.add(employment);
 		}
+		
+		log.info("(EMPLOYMENT) Nº DE REGISTROS: [" + arrayList.size() + "]");
 		
 		return arrayList;
 	}

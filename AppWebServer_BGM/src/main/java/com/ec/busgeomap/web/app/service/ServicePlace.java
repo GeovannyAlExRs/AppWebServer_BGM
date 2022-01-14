@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Place;
@@ -20,6 +22,8 @@ import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class ServicePlace {
+	
+	private final Log log = LogFactory.getLog(getClass());
 
 	public static final String COL_NAME_PLACE="Place";
 	public static final String IDENTIFICATE="BGM_PLAC";
@@ -52,7 +56,7 @@ public class ServicePlace {
 		Place place = mapPlace(p);
 		
 		dbFirestore.collection(COL_NAME_PLACE).document(p.getPla_id()).set(place);
-		
+				
 		return dbFirestore.toString();
 	}
 	
@@ -69,16 +73,18 @@ public class ServicePlace {
 		
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
-		System.out.println("---- LISTA DE LUGARES (PUNTO DE PARADAS) ----" );
+		//System.out.println("---- LISTA DE LUGARES (PUNTO DE PARADAS) ----" );
 		
 		for (QueryDocumentSnapshot document : documents) {
-			System.out.println("> " + document.getId() + " \t" + document.getString("pla_name") + "\t " + document.getString("pla_description"));
+			//System.out.println("> " + document.getId() + " \t" + document.getString("pla_name") + "\t " + document.getString("pla_description"));
 			
 			place = document.toObject(Place.class);
 			
 			arrayList.add(place);
 		}
 
+		log.info("(PLACE) Nº DE REGISTROS: [" + arrayList.size() + "]");
+		
 		return arrayList;
 	}
 	
@@ -111,7 +117,6 @@ public class ServicePlace {
 		Place place = mapPlace(p);
 		
 		dbFirestore.collection(COL_NAME_PLACE).document(p.getPla_id()).set(place);
-		System.err.println(" PLACE Actualizado");
 		
 		return dbFirestore.toString();
 	}

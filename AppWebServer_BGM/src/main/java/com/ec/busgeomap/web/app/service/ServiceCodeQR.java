@@ -13,6 +13,8 @@ import java.util.concurrent.ExecutionException;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Assignes_Bus;
@@ -41,8 +43,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 @Service
 public class ServiceCodeQR {
 	
-	/*@Autowired
-	private ResourceLoader resourceLoader;*/
+	private final Log log = LogFactory.getLog(getClass());
 	
 	public static final String COL_NAME_CODE="CodeQR";
 	public static final String COL_NAME_ASSIGNE_BUS="Assignes_Bus";
@@ -65,8 +66,8 @@ public class ServiceCodeQR {
 		CodeQR qr = new CodeQR();
 		
 		if (option == 1) {
+			//log.info("ENTRO A LA OPCION[1] GENERAR");
 			
-			System.out.println("ENTRO A LA OPCION[1] GENERAR");
 			qr.setGqr_code(code.getGqr_code());
 			qr.setGqr_description(code.getGqr_description());
 			qr.setGqr_registration_date(new Date().getTime());
@@ -80,8 +81,8 @@ public class ServiceCodeQR {
 			
 		} 
 		if (option == 2 || option == 3) {
+			//log.info("ENTRO A LA OPCION[2] CREAR - OPCION[3] ACTUALIZAR");
 			
-			System.out.println("ENTRO A LA OPCION[2] CREAR - OPCION[3] ACTUALIZAR");
 			qr.setGqr_code(code.getGqr_code());
 			qr.setGqr_description(code.getGqr_description());
 			qr.setGqr_registration_date(new Date().getTime());
@@ -94,8 +95,8 @@ public class ServiceCodeQR {
 			
 		} 
 		
-		System.out.println(" OBJETO DE LA OPCION [" + option + "] : " + qr);
-		
+		//log.info(" OBJETO DE LA OPCION [" + option + "] : " + qr);
+				
 		return qr;
 	}
 	
@@ -104,10 +105,8 @@ public class ServiceCodeQR {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		CodeQR code = mapCodeQR(qr, OP_GENERATE);
-		
-		System.out.println(" CODE QR GENERATOR> " + code);
-		
+		CodeQR code = mapCodeQR(qr, OP_GENERATE);	
+		//log.info(" CODE QR GENERATOR> " + code);
 		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(code);
 		
 		return code;
@@ -119,8 +118,7 @@ public class ServiceCodeQR {
 		dbFirestore = FirestoreClient.getFirestore();
 		
 		CodeQR code = mapCodeQR(qr, OP_CREATE);
-		
-		System.out.println("OBJETO QR ANTES DE GUARDAR > " + code);
+		//log.info("OBJETO QR ANTES DE GUARDAR > " + code);
 		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(code);
 		
 		return dbFirestore.toString();
@@ -139,12 +137,9 @@ public class ServiceCodeQR {
 				
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
-		System.out.println("---- LISTA DE QR ----\n ID Document \t\t| Code QR");
-		
 		for (QueryDocumentSnapshot document : documents) {
 		
-			System.out.println("> " + document.getId() + " \t" + document.getData());
-			
+			//System.out.println("> " + document.getId() + " \t" + document.getData());
 			qr = document.toObject(CodeQR.class);
 			
 			qr.setGqr_asb_bus_id(readAssignesBusByDisc(qr));
@@ -152,7 +147,7 @@ public class ServiceCodeQR {
 			arrayList.add(qr);
 		}
 		
-		System.out.println("\n > LISTADO: " +arrayList);
+		log.info("(CODE QR) Nº DE REGISTROS: [" + arrayList.size() + "]");
 		
 		return arrayList;
 	}
@@ -206,7 +201,6 @@ public class ServiceCodeQR {
 		CodeQR qr = mapCodeQR(codeQR, OP_UPDATE);
 		
 		dbFirestore.collection(COL_NAME_CODE).document(qr.getGqr_code()).set(qr);
-		System.err.println(" QR Actualizado");
 		
 		return dbFirestore.toString();
 	}
@@ -235,7 +229,7 @@ public class ServiceCodeQR {
 		
 		if (document.exists()) {
 			qr = document.toObject(CodeQR.class);
-			System.out.println("OBJETO QR RECUPERADO : "+ qr);
+			//log.info("OBJETO QR RECUPERADO : "+ qr);
 			return qr;
 		}else {
 			return null;
@@ -292,8 +286,8 @@ public class ServiceCodeQR {
 		
 		Result result = new MultiFormatReader().decode(bitmap);
 		
-		System.out.println("NOMBRE DE LA IMAGEN READ" + result.getText());
-		System.out.println("NOMBRE DE LA IMAGEN RUTA" + builder.toString());
+		log.info("NOMBRE DE LA IMAGEN READ" + result.getText());
+		log.info("NOMBRE DE LA IMAGEN RUTA" + builder.toString());
 		
 		return builder.toString();
 	}

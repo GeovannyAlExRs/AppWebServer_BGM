@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Bus;
@@ -21,6 +23,8 @@ import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class ServiceBus {
+	
+	private final Log log = LogFactory.getLog(getClass());
 	
 	public static final String COL_NAME_BUS="Bus";
 	public static final String COL_NAME_USER="Users";
@@ -77,11 +81,9 @@ public class ServiceBus {
 				
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
-		System.out.println("---- LISTA DE BUSES ----\n ID Document \t\t| NºBUS" );
-		
 		for (QueryDocumentSnapshot document : documents) {
 		
-			System.out.println("> " + document.getId() + " \t" + document.getData());
+			//System.out.println("> " + document.getId() + " \t" + document.getData());
 			
 			bus = document.toObject(Bus.class);
 			
@@ -89,6 +91,8 @@ public class ServiceBus {
 			
 			arrayList.add(bus);
 		}
+		
+		log.info("(BUS) Nº DE REGISTROS: [" + arrayList.size() + "]");
 		
 		return arrayList;
 	}
@@ -143,7 +147,6 @@ public class ServiceBus {
 		Bus b = mapBus(bus);
 		
 		dbFirestore.collection(COL_NAME_BUS).document(b.getBus_id()).set(bus);
-		System.err.println(" BUS Actualizado");
 		
 		return dbFirestore.toString();
 	}

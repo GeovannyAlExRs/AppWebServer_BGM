@@ -1,5 +1,7 @@
 package com.ec.busgeomap.web.app.controller;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import javax.validation.Valid;
@@ -25,9 +27,12 @@ import com.ec.busgeomap.web.app.service.ServicePlace;
 public class ControllerPlace {
 	
 	private final Log log = LogFactory.getLog(getClass());
+	
 	private final String TAB_LIST_BGM = "listTabBgm";
 	private final String TAB_FORM_BGM = "formTabBgm";
 	
+    private static final long LOAD_TIME = 2500;
+    
 	@Autowired
 	ServicePlace servicePlace;
 
@@ -41,7 +46,7 @@ public class ControllerPlace {
 	}
 	
 	@PostMapping("/place")
-	public String savePlace(@Valid @ModelAttribute("place") Place place, BindingResult result, Model model) throws InterruptedException, ExecutionException {
+	public String savePlace(@Valid @ModelAttribute("place") Place place, BindingResult result, Model model) throws InterruptedException, ExecutionException  {
 		log.info("CREAR NUEVO REGISTRO PLACE : " + place.getPla_name());
 		
 		if (result.hasErrors()) {
@@ -51,6 +56,9 @@ public class ControllerPlace {
 		} else {
 			try {
 				servicePlace.createPlace(place);
+				
+				loadTime();
+				
 				addAttributePlace(model, new Place(servicePlace.autoIdDocumentPlace()), TAB_LIST_BGM);
 			}catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
@@ -59,11 +67,11 @@ public class ControllerPlace {
 			}
 		}
 		
-		log.info("*** GUARDAR PLACE ***");
+		log.info("*** GUARDAR LUGARES DE PARADAS ***");
 		
 		return Pages.PLACE;
 	}
-	
+
 	@GetMapping("/edit_place/{pla_id}")
 	public String getEditPlace(@PathVariable(name = "pla_id") String pla_id, Model model) throws InterruptedException, ExecutionException {
 		log.info("EDITAR PLACE : " + pla_id);
@@ -107,6 +115,7 @@ public class ControllerPlace {
 	public String deletePlace(@PathVariable(name = "pla_id") String pla_id, Model model) throws InterruptedException, ExecutionException {
 		try {
 			servicePlace.deletePlace(pla_id);
+			log.info("(PLACE) : REGISTRO ELIMINADO");
 		}catch (Exception e1) {
 			model.addAttribute("deleteError", "El Rol no se pudo eliminar");
 		}
@@ -114,8 +123,22 @@ public class ControllerPlace {
 	}
 	
 	private void addAttributePlace(Model model, Place place, String tab)  throws InterruptedException, ExecutionException {
+		log.info("HOLA XD");
 		model.addAttribute("place", place);
 		model.addAttribute("placeList", servicePlace.readAllPlace());
 		model.addAttribute(tab, "active"); 
+	}
+		
+	private void loadTime() {
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+               log.info("HICISTE UNA PAUSA DE " + LOAD_TIME);
+            }
+        };
+
+        Timer timer = new Timer();
+        timer.schedule(timerTask, LOAD_TIME);
+		
 	}
 }

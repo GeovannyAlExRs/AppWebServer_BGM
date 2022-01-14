@@ -1,0 +1,51 @@
+<form th:object="${schedule}" th:action="${editMode} ?@{/app_busgeomap/edit_route} :@{/app_busgeomap/schedule}" method="post" autocomplete="off" role="form" id="frm"> <!--enctype="multipart/form-data" -->
+    <h3 class="mb-3">Datos de la Ruta</h3>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div hidden="none" class="form-group form-group-default" >
+                <label>ID DOCUMENT</label>
+                <input th:value="${schedule.sch_id}" th:field="${schedule.sch_id}" id="Name" type="text" class="form-control"> <!--th:if="${editMode}"-->
+            </div>
+            <div class="form-group form-group-default">
+                <label>Estado</label>
+                <input th:value="${schedule.sch_state}" th:field="${schedule.sch_state}" id="Name" type="text" class="form-control" placeholder="&#128653; Descripcion de la ruta">
+            </div>
+            <div class="form-group form-group-default">
+                <label>Seleccione la Unidad de Transporte</label>
+                <select th:value="${schedule.sch_asb_id_number_disc}" th:field="${schedule.sch_asb_id_number_disc}" class="form-control" id="formGroupDefaultSelect">
+                    <option th:each="bus:${iDisco}" th:value="${bus.asb_id}" th:text="${bus.asb_bus_id}"></option>
+                </select>
+            </div>
+            <div class="form-group form-group-default">
+                <label>Lugar de Destino</label>
+                <select th:value="${schedule.sch_rou_id_name}" th:field="${schedule.sch_rou_id_name}" class="form-control" id="formGroupDefaultSelect">
+                    <option th:each="route:${iRoute}" th:value="${route.rou_id}" th:text="${route.rou_name} + ' | ' + ${route.rou_place_starting} + ' - ' + ${route.rou_place_destination}"></option>
+                </select>
+            </div>
+
+            <div class="form-group form-group-default">
+                <label>Lugar de Destino</label>
+                <div class="form-group form-floating-label">
+                    <input id="inputFloatingLabel" type="time" class="form-control input-border-bottom">
+                </div>
+            </div>
+
+            <div class="div-boton check-personal">
+                <input name="" type="checkbox" th:checked="${schedule.sch_status}" th:value="${schedule.sch_status}" th:field="${schedule.sch_status}" id="userEstado"/> Estado (Activo)...
+            </div>
+            </br>
+        </div>
+    </div>
+    <div class="card-body" style="text-align: right; padding-right: 50px;">
+        
+        <button class="btn-bgm btn-bgm-clear" type="button" th:if="${editMode}" th:aria-hidden="${editMode}">
+            <a th:href="@{'/app_busgeomap/route'}" style="text-decoration-line: none; text-decoration: none;color: rgb(90, 95, 97);">
+                <i class="fas fa-minus-circle icons-bgm-space ico-bgm-clear"></i>Cancelar
+            </a>
+        </button>
+        <button class="btn-bgm btn-bgm-save" type="submit">
+            <i class="fab fa-telegram-plane icons-bgm-space ico-bgm-save"></i>Guardar
+            <!-- <p ></p> -->
+        </button>
+    </div>
+</form>

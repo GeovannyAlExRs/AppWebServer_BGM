@@ -148,13 +148,13 @@
                     <div class="text-center text-muted mb-4">
                         <small>Iniciar Sesion</small>
                     </div>
-                <form th:action="@{/app_busgeomap/users}" method="get" role="form"><!--th:object="${u}" -->
+                <form th:action="@{/app_busgeomap/login}" method="post" role="form"><!--th:object="${u}" -->
                     <div class="form-group mb-3">
                         <div class="input-group input-group-merge input-group-alternative">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                             </div>
-                            <input type="email" class="form-control" placeholder="Email"> <!--th:value="${u.use_email}" th:field="${u.use_email}" -->
+                            <input type="text" class="form-control" placeholder="UserName" name="username"> <!--th:value="${u.use_email}" th:field="${u.use_email}" -->
                         </div>
                     </div>
 
@@ -163,13 +163,16 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-unlock-alt"></i></span>
                             </div>
-                            <input type="password" class="form-control" placeholder="Password"> <!--th:value="${u.use_password}" th:field="${u.use_password}" -->
+                            <input type="password" class="form-control" placeholder="Password" name="password"> <!--th:value="${u.use_password}" th:field="${u.use_password}" -->
                         </div>
                     </div>
                                     
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary my-4">Autenticar</button>
                     </div>
+
+                    <div th:if="${param.error}" class="alert alert-danger" role="alert">Email o Contraseña INCORRECTA</div>
+                    <div th:if="${param.logout}" class="alert alert-success" role="alert">Cerro sesion correctamente</div>
                 </form>
                 </div>
           </div>

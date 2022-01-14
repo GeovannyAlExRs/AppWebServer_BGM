@@ -27,6 +27,7 @@ import com.ec.busgeomap.web.app.service.ServiceUsers;
 public class ControllerUsers {
 	
 	private final Log log = LogFactory.getLog(getClass());
+	
 	private final String TAB_LIST_BGM = "listTabBgm";
 	private final String TAB_FORM_BGM = "formTabBgm";
 	
@@ -97,7 +98,6 @@ public class ControllerUsers {
 			model.addAttribute("editMode", "true");
 			
 			model.addAttribute("errorSave", "Error al guardar, complete los datos");
-			System.err.println("**** ERROR... CAMPOS VACIOS *** ");
 			
 		}else {
 			try {
@@ -122,8 +122,8 @@ public class ControllerUsers {
 	public String deleteUsers(@PathVariable(name = "use_id") String use_id, Model model) throws InterruptedException, ExecutionException {
 		
 		try {
+			log.info("(USERS) : REGISTRO ELIMINADO");
 			serviceUsers.deleteUsers(use_id);
-							
 		} catch (Exception e1) {
 			//model.addAttribute("deleteError", e1.getMessage());
 			model.addAttribute("deleteError","El USUARIO no se pudo eliminar");
@@ -133,10 +133,12 @@ public class ControllerUsers {
 	}
 	
 	private void addAttribute(Model model, Users u, String tab)  throws InterruptedException, ExecutionException {
+		log.info("HOLA USERS");
 		model.addAttribute("u", u);
-		model.addAttribute("userList", serviceUsers.readAllUsers());
+		
 		model.addAttribute("iRoles", serviceRole.readAllRol());
 		model.addAttribute("iEmployment", serviceEmployment.readAllEmployment());
+		model.addAttribute("userList", serviceUsers.readAllUsers());
 		model.addAttribute(tab, "active"); 
 	}
 }

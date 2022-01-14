@@ -37,6 +37,8 @@ public class Users {
 	@Size(min = 4, max = 20, message = "Inserte texto mayor a 4 caracteres")
 	private String use_password;
 	
+	private String use_pass_crypt;
+	
 	//@NotBlank //no acepta Nulo (Solo texto)
 	private String use_photo;
 		
@@ -57,9 +59,11 @@ public class Users {
 		this.use_id = use_id;
 	}
 
-	public Users(String use_id, String use_first_name, String use_last_name, String use_address, String use_email, String use_phone, 
-			String use_name, String use_password, String use_photo, long use_registration_date, String use_employment_id, 
-			String use_roles_id, boolean use_status) {
+	
+
+	public Users(String use_id, String use_first_name, String use_last_name, String use_address, String use_email, 
+			String use_phone, String use_name, String use_password, String use_pass_crypt, String use_photo, 
+			long use_registration_date, String use_employment_id, String use_roles_id, boolean use_status) {
 		this.use_id = use_id;
 		this.use_first_name = use_first_name;
 		this.use_last_name = use_last_name;
@@ -68,6 +72,7 @@ public class Users {
 		this.use_phone = use_phone;
 		this.use_name = use_name;
 		this.use_password = use_password;
+		this.use_pass_crypt = use_pass_crypt;
 		this.use_photo = use_photo;
 		this.use_registration_date = use_registration_date;
 		this.use_employment_id = use_employment_id;
@@ -138,6 +143,14 @@ public class Users {
 	public void setUse_password(String use_password) {
 		this.use_password = use_password;
 	}
+	
+	public String getUse_pass_crypt() {
+		return use_pass_crypt;
+	}
+
+	public void setUse_pass_crypt(String use_pass_crypt) {
+		this.use_pass_crypt = use_pass_crypt;
+	}
 
 	public String getUse_photo() {
 		return use_photo;
@@ -183,8 +196,9 @@ public class Users {
 	public String toString() {
 		return "Users [use_id=" + use_id + ", use_first_name=" + use_first_name + ", use_last_name=" + use_last_name
 				+ ", use_address=" + use_address + ", use_email=" + use_email + ", use_phone=" + use_phone
-				+ ", use_name=" + use_name + ", use_password=" + use_password + ", use_photo=" + use_photo
-				+ ", use_registration_date=" + use_registration_date + ", use_employment_id=" + use_employment_id
-				+ ", use_roles_id=" + use_roles_id + ", use_status=" + use_status + "]";
+				+ ", use_name=" + use_name + ", use_password=" + use_password + ", use_pass_crypt=" + use_pass_crypt
+				+ ", use_photo=" + use_photo + ", use_registration_date=" + use_registration_date
+				+ ", use_employment_id=" + use_employment_id + ", use_roles_id=" + use_roles_id + ", use_status="
+				+ use_status + "]";
 	}
 }

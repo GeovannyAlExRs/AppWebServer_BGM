@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Employment;
@@ -27,7 +31,9 @@ import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class ServiceUsers {
-
+	
+	private final Log log = LogFactory.getLog(getClass());
+	
 	public static final String COL_NAME_USER="Users";	
 	public static final String IDENTIFICATE_USERS="BGM_USER";
 	public static final String COL_NAME_EMPLOYMENT = "Employment";
@@ -39,6 +45,9 @@ public class ServiceUsers {
 	
 	Firestore dbFirestore;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	// Method to generate Random ID DOCUMENT
 	public String autoIdDocumentUsers() {
 		return IDENTIFICATE_USERS + RandomStringUtils.randomAlphanumeric(ID_LENGTH);		
@@ -46,43 +55,48 @@ public class ServiceUsers {
 
 	private Users mapUsers(Users users, int option) throws FirebaseAuthException {
 		
-		System.out.println("MAPEAR OBJETO USER : " + users);
-		
 		Users u = new Users();
 		
 		String uid = "";
 		String email = "";
+		String password = users.getUse_password();
+		
+		String passwordCrypt = passwordEncoder.encode(users.getUse_password());
+		
+		log.info("USERNAME " + users.getUse_name() + ", PASSWORD: (" + password + "), PASSWORD ENCRIPTADO : " + passwordCrypt);
 		
 		if (option == 1) {
 			
 			CreateRequest createUsers = new CreateRequest()
 					.setUid(users.getUse_id())
 					.setEmail(users.getUse_email())
-					.setPassword(users.getUse_password());
+					.setPassword(password);
 			
 			UserRecord userRecord = FirebaseAuth.getInstance().createUser(createUsers);
 			
 			uid = userRecord.getUid();
 			email = userRecord.getEmail();
 			
-			System.err.println("*** CREATE FIREBASE AUTH ***\n - UID : " + uid + "\n - Email : " + email);
+			log.info("CREATE FIREBASE AUTH - UID : " + uid + " - Email : " + email);
 			
-		} else {
+		} else if (option == 2) {
+			
 			UpdateRequest updateUsers = new UpdateRequest(users.getUse_id())
 					.setEmail(users.getUse_email())
-					.setPassword(users.getUse_password());
+					.setPassword(password);
 			
 			UserRecord userRecord = FirebaseAuth.getInstance().updateUser(updateUsers);
 			
 			uid = userRecord.getUid();
 			email = userRecord.getEmail();
 			
-			System.err.println("*** UPDATE FIREBASE AUTH ***\n - UID : " + uid + "\n - Email : " + email);
+			log.info("UPDATE FIREBASE AUTH - UID : " + uid + " - Email : " + email);
 		}
 		
 		u.setUse_id(uid);
 		u.setUse_email(email);
-		u.setUse_password(users.getUse_password());
+		u.setUse_password(password);
+		u.setUse_pass_crypt(passwordCrypt);
 		
 		u.setUse_first_name(users.getUse_first_name());
 		u.setUse_last_name(users.getUse_last_name());
@@ -123,11 +137,9 @@ public class ServiceUsers {
 				
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
-		System.out.println("---- LISTA DE USERS ----\n ID Document \t\t| ROL \t| DESCRIPCION \t| ESTADO" );
-		
 		for (QueryDocumentSnapshot document : documents) {
 		
-			System.out.println("> " + document.getId() + " \t" + document.getString("use_name") + "\t " + document.getString("use_last_name") + " \t" +  document.getString("use_first_name"));
+			//System.out.println(document.getId() + " \t"+ document.getString("use_last_name") + " " +  document.getString("use_first_name"));
 			
 			users = document.toObject(Users.class);
 			
@@ -136,9 +148,33 @@ public class ServiceUsers {
 			arrayList.add(users);
 		}
 
+		log.info("(USERS) Nº DE REGISTROS: [" + arrayList.size() + "]");
+		
 		return arrayList;
 	}
 
+	// Method to Find a Users Doc
+	public Users readUsersDoc(String username) throws InterruptedException, ExecutionException {
+		
+		Users users = null;
+		
+		dbFirestore = FirestoreClient.getFirestore();
+				
+		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_USER).whereEqualTo("use_name", username).get();
+				
+		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
+		
+		for (QueryDocumentSnapshot document : documents) {
+		
+			//System.out.println("> " + document.getId() + " \t" + document.getString("use_name") + "\t " + document.getString("use_last_name") + " \t" +  document.getString("use_first_name"));
+			users = document.toObject(Users.class);
+		}
+
+		log.info("(USERS) USERNAME: " + users );
+		
+		return users;
+	}
+	
 	// Method to Find a Employment Doc
 	private String readEmploymentDoc(Users u) throws InterruptedException, ExecutionException{
 		Employment employment = null;
@@ -189,17 +225,16 @@ public class ServiceUsers {
 		Users users = mapUsers(u, OPTION_UPDATE);
 		
 		dbFirestore.collection(COL_NAME_USER).document(users.getUse_id()).set(users);
-		System.err.println("USUARIO Actualizado");
 		
 		return dbFirestore.toString();
 	}
 	
 	// Method to Delete USERS
-	public String deleteUsers(String idDoc) throws InterruptedException, ExecutionException {
+	public String deleteUsers(String idDoc) throws InterruptedException, ExecutionException, FirebaseAuthException {
 		Users users = readByIdDoc(idDoc);
 		
 		ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME_USER).document(users.getUse_id()).delete();
-		
+		FirebaseAuth.getInstance().deleteUser(users.getUse_id());
 		return writeResult.toString();
 	}
 }

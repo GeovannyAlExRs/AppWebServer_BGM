@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="//www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -25,6 +25,7 @@
     <link th:href="@{/css/atlantis.min.css}" href="../../static/css/atlantis.min.css" rel="stylesheet">
 
     <link th:href="@{/css/dashboard.css}" href="../../static/css/dashboard.css"  rel="stylesheet"/>
+	<link th:href="@{/css/bootstrap-datetimepicker.min.css}" href="../../static/css/bootstrap-datetimepicker.min.css"  rel="stylesheet"/>
     <link th:href="@{/css/style_dashboard.css}" href="../../static/css/style_dashboard.css" rel="stylesheet"/>	
     <link th:href="@{/css/style_bgm_form.css}" href="../../static/css/style_bgm_form.css" rel="stylesheet"/>	
     <link th:href="@{/css/style_bgm_colective.css}" href="../../static/css/style_bgm_colective.css"  rel="stylesheet"/>
@@ -203,6 +204,46 @@
 
 	<!-- Atlantis JS -->
 	<script th:src="@{/js/atlantis.min.js}" src="../../static/js/atlantis.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+	<script th:src="@{/lib/datetimepicker/bootstrap-datetimepicker.min.js}"  src="../../static/lib/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+	
+	<!--script>
+		var $datetime1 = $('#datetime1');
+	
+		$datetime1.datetimepicker();
+		$datetime1.on('apply.datetimepicker', function (ev, picker) {
+			$('input[name="date1"]').val(picker.val('schedule.sch_departure_time'));
+		});
+	</!--script-->
+
+	<script>
+        $(function () {
+            $.extend(true, $.fn.datetimepicker.defaults, {
+                icons: {
+                    time: 'far fa-clock',
+                    date: 'far fa-calendar',
+                    up: 'fas fa-arrow-up',
+                    down: 'fas fa-arrow-down',
+                    previous: 'fas fa-chevron-left',
+                    next: 'fas fa-chevron-right',
+                    today: 'far fa-calendar-check-o',
+                    clear: 'far fa-trash',
+                    close: 'far fa-times'
+                },
+            });
+        });
+        </script>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker').datetimepicker({
+					format: 'DD/MM/YYYY HH:mm',
+					useCurrent: true
+				});
+				//$("#input[name='date1']").datetimepicker({format: 'dd/MM/yyyy HH:mm a'});
+				//$("#idPicker2").val('${schedule.sch_departure_time}');
+            });
+        </script>
 </body>
 
 </html>

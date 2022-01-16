@@ -4,7 +4,7 @@
             <tr>
                 <th class="table-colum">Disco</th>
                 <th>Ruta (Origen-Destino)</th>
-                <th>Fecha || Hora Salida</th>
+                <th>Fecha - Hora Salida</th>
                 <th>Estado</th>
                 <th style="width: 10%">Acción</th>
             </tr>
@@ -13,7 +13,7 @@
             <tr>
                 <th scope="col">Disco</th>
                 <th scope="col">Ruta (Origen-Destino)</th>
-                <th scope="col">Fecha || Hora</th>
+                <th scope="col">Fecha-Hora</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Acción</th>
             </tr>
@@ -22,11 +22,11 @@
             <tr th:each="sche: ${schList}">
                 <td th:text="${sche.sch_asb_id_number_disc}"> </td>
                 <td th:text="${sche.sch_rou_id_name}"></td>
-                <td th:text="${#calendars.format(sche.sch_registration_date, 'dd/MM/yyyy || HH:mm')}"></td>
+                <td th:text="${#calendars.format(sche.sch_departure_time, 'dd/MM/yyyy HH:mm')}"></td>
                 <td th:text="${sche.sch_state}"></td>
                 <td>
                     <div class="form-button-action">
-                        <a href="#editar" class="btn btn-link btn-info" data-original-title="Actualizar"> <!--th:href="@{'/app_busgeomap/edit_schedule/'+ ${sche.sch_id}}" -->
+                        <a href="#editar" th:href="@{'/app_busgeomap/edit_schedule/'+ ${sche.sch_id}}" class="btn btn-link btn-info" data-original-title="Actualizar">
                             <i class="fas fa-edit"></i>
                         </a>
                         <a href="#eliminar" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar"> <!--th:onclick="confirmDelete([[${sche.sch_id}]])" -->

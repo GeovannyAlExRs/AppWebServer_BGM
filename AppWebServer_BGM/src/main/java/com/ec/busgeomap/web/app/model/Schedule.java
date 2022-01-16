@@ -1,5 +1,7 @@
 package com.ec.busgeomap.web.app.model;
 
+import java.util.Date;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +18,7 @@ public class Schedule {
 	private long sch_registration_date;
 	
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	private long sch_departure_time;
+	private long sch_departure_time = new Date().getTime();
 
 	private String sch_state;
 

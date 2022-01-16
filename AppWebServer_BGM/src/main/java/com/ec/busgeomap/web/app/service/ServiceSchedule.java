@@ -39,6 +39,8 @@ public class ServiceSchedule {
 	public static final int ID_LENGTH=10;
 	
 	Firestore dbFirestore;
+	
+	Date currentDate = new Date();
 
 	// Method to generate Random ID DOCUMENT
 	public String autoIdDocument() {
@@ -46,7 +48,7 @@ public class ServiceSchedule {
 	}
 
 	// Mapping the Object of the Schedule class
-	private Schedule mapSchedule(Schedule schedule) {
+	private Schedule mapSchedule(Schedule schedule, long date) {
 		
 		Schedule sch = new Schedule();
 		
@@ -54,7 +56,7 @@ public class ServiceSchedule {
 		sch.setSch_asb_id_number_disc(schedule.getSch_asb_id_number_disc());
 		sch.setSch_rou_id_name(schedule.getSch_rou_id_name());
 		sch.setSch_registration_date(new Date().getTime());
-		sch.setSch_departure_time(schedule.getSch_departure_time());
+		sch.setSch_departure_time(date);
 		sch.setSch_state(schedule.getSch_state());
 		sch.setSch_status(schedule.getSch_status());
 		
@@ -62,11 +64,11 @@ public class ServiceSchedule {
 	}
 
 	// Method to create new Schedule record
-	public String createSchedule(Schedule schedule) throws InterruptedException, ExecutionException {
+	public String createSchedule(Schedule schedule, long date) throws InterruptedException, ExecutionException {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Schedule sch = mapSchedule(schedule);
+		Schedule sch = mapSchedule(schedule, date);
 		
 		dbFirestore.collection(COL_NAME_SCHEDULE).document(sch.getSch_id()).set(sch);
 		
@@ -83,7 +85,8 @@ public class ServiceSchedule {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 				
-		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_SCHEDULE).orderBy("sch_departure_time", Query.Direction.ASCENDING).get();
+		// Buscar documentos de manera descendente y que encuentre desde la fecha actual
+		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_SCHEDULE).orderBy("sch_departure_time", Query.Direction.DESCENDING).whereGreaterThan("sch_departure_time", currentDate.getTime()).get();
 				
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
@@ -192,13 +195,44 @@ public class ServiceSchedule {
 	}
 	
 	// Method to Update Schedule
-	public String updateRoute(Schedule schedule) throws Exception {
+	public String updateSchedule(Schedule schedule, long date) throws Exception {
 			
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Schedule sch = mapSchedule(schedule);
+		Schedule sch = mapSchedule(schedule, date);
 			
 		dbFirestore.collection(COL_NAME_SCHEDULE).document(sch.getSch_id()).set(sch);
+			
+		return dbFirestore.toString();
+	}
+	
+	
+	// Method to Change Status Schedule
+	public String changeSchedule() throws Exception {
+			
+		dbFirestore = FirestoreClient.getFirestore();
+		
+		Schedule schedule = null;
+		
+		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_SCHEDULE).get();
+				
+		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
+		
+		for (QueryDocumentSnapshot document : documents) {
+			
+			schedule = document.toObject(Schedule.class);
+			
+			long checkDate = schedule.getSch_departure_time();
+			
+			if (checkDate <= currentDate.getTime()) {
+				schedule.setSch_status(false);
+			} else {
+				schedule.setSch_status(true);
+			}
+				
+			dbFirestore.collection(COL_NAME_SCHEDULE).document(schedule.getSch_id()).set(schedule);
+			
+		}
 			
 		return dbFirestore.toString();
 	}

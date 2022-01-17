@@ -1,0 +1,38 @@
+<div class="table-responsive list-role">
+    <h4 class="mb-3">Chanduy - Terminal Terrestre (Santa Elena)</h4>
+    <table id="downList" class="table">
+        <thead class="thead-light">
+            <tr>
+                <th class="table-colum">Disco</th>
+                <th>Hora Salida</th>
+                <th>Origen - Destino</th>
+                <th>Estado</th>
+                <th>BUS</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th scope="col">Disco</th>
+                <th scope="col">Hora Salida</th>
+                <th scope="col">Origen - Destino</th>
+                <th scope="col">Estado</th>
+                <th scope="col">BUS</th>
+            </tr>
+        </tfoot>
+       <tbody>
+            <tr th:each="sche: ${downList}">
+                <td th:text="${sche.sch_asb_id_number_disc}"> </td>
+                <td th:text="${sche.sch_rou_id_name}"></td>
+                <td th:text="${#calendars.format(sche.sch_departure_time, 'HH:mm')}"></td>
+                <td th:text="${sche.sch_state}"></td>
+                <td>
+                    <div class="form-button-action">
+                        <a href="#bus" class="btn btn-link btn-info" data-original-title="Actualizar">
+                            <i class="fas fa-bus"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>                                                    
+</div>

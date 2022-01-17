@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <meta name="description" content="Transporte público Cooperativa San Agustin, Chanduy - Santa Elena">
+    <meta name="author" content="BusGeoMap">
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap" rel="stylesheet"/>
+    
+    <!-- Iconos Fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css"/>
+    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+    <script th:src="@{/lib/plugin/webfont/webfont.min.js}"  src="../../static/lib/plugin/webfont/webfont.min.js"></script>
+
+    <!-- CSS Files -->
+    <link th:href="@{/css/atlantis.min.css}" href="../../static/css/atlantis.min.css" rel="stylesheet">
+
+    <link th:href="@{/css/dashboard.css}" href="../../static/css/dashboard.css"  rel="stylesheet"/>
+    <link th:href="@{/css/style_dashboard.css}" href="../../static/css/style_dashboard.css" rel="stylesheet"/>	
+    <link th:href="@{/css/style_bgm_form.css}" href="../../static/css/style_bgm_form.css" rel="stylesheet"/>	
+    <link th:href="@{/css/style_bgm_colective.css}" href="../../static/css/style_bgm_colective.css"  rel="stylesheet"/>
+    <!-- ICONO PROJECT-->
+    <link th:href="@{/img/ico/ico_chanduy.ico}" href="../../static/img/ico/ico_chanduy.ico" rel="shortcut icon" type="image/x-icon"/>
+
+    <title>BusGeoMap - Horarios</title>
+	
+</head>
+
+<body>    
+    <div class="wrapper">
+
+		<div class="main-header">
+			<!-- Logo Header -->
+			<div class="logo-header bgm-dashboard-logo-header"> <!-- data-background-color="blue" -->
+				
+				<a href="index.html" class="logo">
+					<img th:src="@{/img/image/logo/lg_coop.png}" src="../../static/img/image/logo/lg_coop.png" alt="navbar brand" class="navbar-brand bgm-dashboard-logo-img" style="width: 150px;">
+				</a>
+				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span>
+						<!-- <i class="icon-menu bgm-dashboard-ico"></i> -->
+						<i class="fas fa-bars bgm-dashboard-ico"></i>
+					</span>
+				</button>
+				<button class="topbar-toggler more"><i class="fas fa-ellipsis-v bgm-dashboard-ico"></i></button>
+				<div class="nav-toggle">
+					<button class="btn btn-toggle toggle-sidebar">
+						<i class="icon-menu"></i>
+					</button>
+				</div>
+			</div>
+			<!-- End Logo Header -->
+
+			<!-- Navbar Header -->
+			<nav class="navbar navbar-header navbar-expand-lg bgm-dashboard-navbar-header"> <!--data-background-color="blue2"-->
+				
+				<div th:include="menuNav.html" th:remove="tag"></div>
+				
+			</nav>
+			<!-- End Navbar -->
+        </div>
+		
+		<!-- Sidebar -->
+		<div class="sidebar sidebar-style-2">			
+			<div class="sidebar-wrapper scrollbar scrollbar-inner">
+				<div class="sidebar-content">
+					
+					<div th:include="menu.html" th:remove="tag"></div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Panel principal -->
+		<div class="main-panel">
+			<div class="content">
+                
+                <div class="page-inner">
+
+					<div class="page-header">
+						<h4 class="page-title">BusGeoMap</h4>
+						<ul class="breadcrumbs">
+							<li class="nav-home">
+								<a href="#">
+									<i class="fa fa-home"></i>
+								</a>
+							</li>
+							<li class="separator">
+								<i class="fas fa-chevron-right"></i>
+							</li>
+							<li class="nav-item">
+								<a href="#">Servicios</a>
+							</li>
+							<li class="separator">
+								<i class="fas fa-chevron-right"></i>
+							</li>
+							<li class="nav-item">
+								<a th:href="@{/app_busgeomap/schedule}">Horarios</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header" style="text-align: center;">
+									<div class="card-title">Horarios de transporte</div>
+								</div>
+								<div class="card-body">
+
+									<ul class="nav nav-tabs nav-secondary nav-pills-no-bd nav-pills-icons justify-content-end" id="pills-tab-with-icon" role="tablist">
+										<li class="nav-item">
+											<a class="nav-link" th:classappend=" ${listTabBgm}" href="#bgm-list" id="pills-vuelta-tab-icon" role="tab" aria-controls="bgm-list" data-toggle="pill" aria-selected="true">
+												<i class="fas fa-angle-double-up icons-bgm-space"></i> Santa Elena
+											</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" th:classappend=" ${formTabBgm}" href="#bgm-register" id="pills-ida-tab-icon" role="tab" aria-controls="bgm-register" data-toggle="pill" aria-selected="false">
+												<i class="fas fa-angle-double-down icons-bgm-space"></i> Chanduy
+											</a>
+										</li>
+									</ul>
+									
+									<div class="tab-content mt-2 mb-3" id="pills-with-icon-tabContent">
+										<div class="tab-pane fade show" th:classappend=" ${listTabBgm}" id="bgm-list" role="tabpanel" aria-labelledby="pills-vuelta-tab-icon">
+											<div class="card-body">
+                                                <div th:include="servicios/travelUpList.html" th:remove="tag"></div>
+                                            </div>
+										</div>
+										<div class="tab-pane fade show" th:classappend=" ${formTabBgm}" id="bgm-register" role="tabpanel" aria-labelledby="pills-ida-tab-icon">
+											<div class="card-body">
+												<div th:include="servicios/travelDownList.html" th:remove="tag"></div>
+											</div>
+										</div>
+									</div>			
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<footer class="footer">
+				<div class="container-fluid">
+					<nav class="pull-left">
+						<ul class="nav">
+							<li class="nav-item">
+								<a class="nav-link" href="">
+									Company DTK
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">
+									Licenses
+								</a>
+							</li>
+						</ul>
+					</nav>
+					<div class="copyright ml-auto">
+						2020, made with <i class="fa fa-heart heart text-danger"></i> by <a href="https://www.themekita.com">Company DTK</a>
+					</div>				
+				</div>
+			</footer>
+		</div>
+        
+    
+	</div>
+
+    <!-- Import JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <!--Libreias JavaScript-->
+    <!-- <script th:src="@{/lib/core/jquery.3.2.1.min.js}" src="../../static/lib/core/jquery.3.2.1.min.js"></script> -->
+    <script th:src="@{/lib/core/popper.min.js}" src="../../static/lib/core/popper.min.js"></script>
+    <!-- <script th:src="@{/lib/core/bootstrap.min.js}" src="../../static/lib/core/bootstrap.min.js"></script> -->
+
+    <script th:src="@{/lib/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}" src="../../static/lib/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script th:src="@{/lib/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js}" src="../../static/lib/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+
+    <script th:src="@{/lib/plugin/jquery-scrollbar/jquery.scrollbar.min.js}" src="../../static/lib/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+    
+	<!-- Sweet Alert -->
+	<script th:src="@{/lib/plugin/sweetalert/sweetalert.min.js}" src="../../static/lib/plugin/sweetalert/sweetalert.min.js"></script>
+
+	<!-- Atlantis JS -->
+	<script th:src="@{/js/atlantis.min.js}" src="../../static/js/atlantis.min.js"></script>
+</body>
+
+</html>

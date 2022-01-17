@@ -44,6 +44,7 @@ public class ControllerSchedule {
 	
 	@Autowired
 	ServiceAsigneBus serviceAsigneBus;
+	
 	@GetMapping("/schedule")
 	public String viewSchedule(Model model) throws InterruptedException, ExecutionException {
 		log.info("INICIAR MODULO PLANIFICACION DE HORARIOS");

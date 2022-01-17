@@ -33,4 +33,11 @@ public class Pages {
 			
 	// Template REPORT (COOPERATIVA)
 	public static String REPORT = "cooperativa/report";
+
+	// Template TRAVEL (SERVICIO)
+	public static String TRAVEL = "servicios/travel";
+
+	// Template MAPS (SERVICIO)
+	public static String HEREMAPS = "servicios/hereMaps";
+		
 }

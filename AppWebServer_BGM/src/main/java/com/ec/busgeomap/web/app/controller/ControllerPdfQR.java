@@ -47,4 +47,21 @@ public class ControllerPdfQR {
 		
 		servicePdf.exportPDF(qr, servletResponse);
 	}
+	
+	@GetMapping("/pdf_report_qr")  
+	public void exportListUSerPdfQR(HttpServletResponse servletResponse) throws InterruptedException, ExecutionException, DocumentException, IOException {
+		
+		servletResponse.setContentType("application/pdf");
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDate = dateFormat.format(new Date());
+		
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename= Report_QR_" + currentDate +".pdf";
+		
+		servletResponse.setHeader(headerKey, headerValue);
+		
+		// invocar al metodo exportar lista usuario 
+		servicePdf.pdfReportListQR(servletResponse);
+	}
 }

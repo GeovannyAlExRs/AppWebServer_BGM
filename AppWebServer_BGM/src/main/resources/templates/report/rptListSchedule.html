@@ -1,0 +1,47 @@
+<div style="padding-bottom: 5%;">
+	<button type="button" class="btn-bgm btn-bgm-clear btn-bgm-new">
+		<a th:href="@{/app_busgeomap/pdf_report_schedule}" target="_ blank" class="nav-link btn btn-link btn-danger" style="text-decoration:none">
+			<i class="fas fa-file-pdf icons-bgm-space ico-bgm-clear"></i>Reporte
+		</a>
+	</button>
+</div>
+
+<div class="table-responsive list-role">
+    <table id="schList" class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th >Disco</th>
+                <th >Ruta (Origen-Destino)</th>
+                <th >Fec.Registro</th>
+                <th >Fec.Salida</th>
+                <th >Hor.Salida</th>
+                <th >BUS</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th scope="col">Disco</th>
+                <th scope="col">Ruta (Origen-Destino)</th>
+                <th scope="col">Fec.Registro</th>
+                <th scope="col">Fec.Salida</th>
+                <th scope="col">Hor.Salida</th>
+                <th scope="col">BUS</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr th:each="sch: ${schList}">
+				<td th:text="${sche.sch_asb_id_number_disc}"> </td>
+                <td th:text="${sche.sch_rou_id_name}"></td>
+                <td th:text="${#calendars.format(sche.sch_registration_date, 'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${#calendars.format(sche.sch_departure_time, 'dd/MM/yyyy')}"></td>
+                <td th:text="${#calendars.format(sche.sch_departure_time, 'HH:mm')}"></td>
+                <td th:text="${sche.sch_state}"></td>
+                <td >
+                    <a href="#bus" class="btn btn-link btn-info" data-original-title="Bus">
+                        <i class="fas fa-bus"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

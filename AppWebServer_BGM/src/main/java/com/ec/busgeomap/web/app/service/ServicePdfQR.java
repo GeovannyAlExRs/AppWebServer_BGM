@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.concurrent.ExecutionException;
 
@@ -23,6 +24,7 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
+import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
@@ -46,6 +48,118 @@ public class ServicePdfQR {
 	
 	Firestore dbFirestore;
 	
+	@Autowired
+	ServiceCodeQR serviceCodeQR;
+	
+	// Exportar la lista de Codigos QR
+	public void pdfReportListQR(HttpServletResponse servletResponse) throws DocumentException, IOException, InterruptedException, ExecutionException {
+	
+		Document doc = new Document(PageSize.LETTER.rotate());
+		doc.setMargins(-30, -30, 40, 20);
+		PdfWriter.getInstance(doc, servletResponse.getOutputStream());
+		
+		doc.open();
+				
+		writeEncabezado(doc);
+
+		writeTableReport(doc);
+		
+		doc.close();
+	}
+	
+	private void writeEncabezado(Document doc) {
+		
+		PdfPCell cell = new PdfPCell();
+		
+		PdfPTable table = new PdfPTable(1);
+		
+		Font fuente = FontFactory.getFont(FontFactory.COURIER_BOLD, 12, new Color(17, 90, 135));
+		
+		String texto = "Lista de Codigo QR";
+		Color background = new Color(250, 250, 250);
+		Color borderColor = new Color(255, 255, 255);
+		
+		cell =  textoEncabezado(cell, texto, fuente, 1, background, borderColor, 5);
+		table.addCell(cell);
+		doc.add(table);
+		
+		doc.add(new Phrase("\n"));
+	}
+
+	private void writeTableReport(Document doc) throws InterruptedException, ExecutionException, BadElementException, IOException {
+		// ENCABEZADO
+		Font fuente = FontFactory.getFont(FontFactory.COURIER_BOLD, 10, new Color(17, 90, 135));
+				
+		PdfPCell cell = new PdfPCell();
+					
+		PdfPTable table = new PdfPTable(5);
+		table.setWidths(new float[] {1.0f, 4.0f, 2.0f, 1.5f, 1.5f});
+				
+		Color background = new Color(245, 245, 245);
+		Color borderColor = new Color(227, 227, 227);
+				
+		cell = textoEncabezado(cell, "Disco", fuente, 1, background, borderColor, 5);
+		table.addCell(cell);
+		cell = textoEncabezado(cell, "Descripcion", fuente, 1, background, borderColor, 5);
+		table.addCell(cell);
+		cell = textoEncabezado(cell, "Fecha", fuente, 1, background, borderColor, 5);
+		table.addCell(cell);
+		cell = textoEncabezado(cell, "Hora", fuente, 1, background, borderColor, 5);
+		table.addCell(cell);
+		cell = textoEncabezado(cell, "Codigo QR", fuente, 1, background, borderColor, 5);
+		table.addCell(cell);
+		
+		writeTableReportDBFirebase(doc, table, cell, borderColor);
+	}
+
+	private void writeTableReportDBFirebase(Document doc, PdfPTable table, PdfPCell cell, Color border) throws InterruptedException, ExecutionException, BadElementException, IOException {
+		
+		Font fuenteData = FontFactory.getFont(FontFactory.COURIER, 10, new Color(17, 90, 135));
+		Font fuenteDisco = FontFactory.getFont(FontFactory.COURIER_BOLD, 14, new Color(17, 90, 135));
+		Color backgroundDate = new Color(251, 251, 251);
+		
+		ArrayList<CodeQR> list = serviceCodeQR.readAllQR();
+		
+		DateFormat dateFormatDate = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dateFormatTime = new SimpleDateFormat("HH:mm");
+		
+		for (CodeQR qr : list) {
+			String numDisco = String.valueOf(qr.getGqr_asb_bus_id());
+			cell = textoEncabezado(cell, numDisco, fuenteDisco, 1, backgroundDate, border, 2);
+			table.addCell(cell);
+			
+			cell = textoTable(cell, qr.getGqr_description(), fuenteData, 1, backgroundDate, border, 2);
+			table.addCell(cell);
+			
+			String fechaQR = dateFormatDate.format(qr.getGqr_registration_date());
+			cell = textoTable(cell, fechaQR, fuenteData, 1, backgroundDate, border, 2);
+			table.addCell(cell);
+			
+			String horaQR = dateFormatTime.format(qr.getGqr_registration_date());
+			cell = textoEncabezado(cell, horaQR, fuenteData, 1, backgroundDate, border, 2);
+			table.addCell(cell);
+			
+			table.addCell(imageQRTable(qr.getGqr_image(), 1, border));			
+		}
+		
+		doc.add(table);		
+	}
+
+	private Image imageQRTable(String gqr_image, int border, Color borderColor) throws BadElementException, IOException {
+		
+		byte[] bytesImg = Base64.getDecoder().decode(gqr_image);
+		
+		Image img = Image.getInstance(bytesImg);
+		
+		img.setAlignment(Element.ALIGN_RIGHT);
+		img.setBorder(border);
+		img.setBorderColor(borderColor);
+		img.scaleAbsolute(1,1);
+
+		return img;
+		
+	}
+
 	public void exportPDF(CodeQR qr, HttpServletResponse servletResponse) throws DocumentException, IOException, InterruptedException, ExecutionException {
 		
 		Document doc = new Document(PageSize.A4);
@@ -196,6 +310,20 @@ public class ServicePdfQR {
 		table.addCell(cell);
 		table.setSpacingBefore(spacing);	//table.setSpacingAfter(20);
 		doc.add(table);
+	}
+	
+	private PdfPCell textoTable(PdfPCell cell, String text, Font font, int border, Color background, Color borderColor, int padding) {
+		
+		cell.setPhrase(new Phrase(text, font));
+		
+		cell.setBorder(border);
+		cell.setBorderColor(borderColor);
+		cell.setBackgroundColor(background); 
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setVerticalAlignment(Element.ALIGN_CENTER);
+		cell.setPadding(padding);
+		
+		return cell;
 	}
 	
 	private PdfPCell textoEncabezado(PdfPCell cell, String text, Font font, int border, Color background, Color borderColor, int padding) {

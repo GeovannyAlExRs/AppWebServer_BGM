@@ -1,0 +1,46 @@
+<div style="padding-bottom: 5%;">
+    <button type="button" class="btn-bgm btn-bgm-clear btn-bgm-new">
+        <a th:href="@{/app_busgeomap/pdf_report_qr}" target="_ blank" class="nav-link btn btn-link btn-danger" style="text-decoration:none">
+          <i class="fas fa-file-pdf icons-bgm-space ico-bgm-clear"></i>Reporte
+        </a>
+    </button>
+</div>
+
+<div class="table-responsive list-role">
+    <table id="qrList" class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th >Disco</th>
+                <th >Descripción</th>
+                <th >Fecha</th>
+                <th >Hora</th>
+                <th >Code QR</th>
+                <th >PDF</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th scope="col">Disco</th>
+                <th scope="col">Descripción</th>
+                <th scope="col" >Fecha</th>
+                <th scope="col" >Hora</th>
+                <th scope="col">Code QR</th>
+                <th scope="col">PDF</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr th:each="code: ${qrList}">
+                <th th:text="${code.gqr_asb_bus_id}"></th>
+                <td th:text="${code.gqr_description}"></td>
+                <td th:text="${#calendars.format(code.gqr_registration_date, 'dd/MM/yyyy')}"></td>
+                <td th:text="${#calendars.format(code.gqr_registration_date, 'HH:mm')}"></td>
+                <td><img th:src="${'data:image/png;base64,' + code.gqr_image}" width="75" height="75"></td>
+                <td >
+                    <a th:href="@{/app_busgeomap/pdf/?gqr_code=} + ${code.gqr_code}" target="_ blank" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Generar PDF">
+                        <i class="fas fa-file-pdf"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

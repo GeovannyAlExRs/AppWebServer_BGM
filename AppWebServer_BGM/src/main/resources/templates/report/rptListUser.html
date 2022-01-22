@@ -1,0 +1,43 @@
+<div style="padding-bottom: 5%;">
+    <button type="button" class="btn-bgm btn-bgm-clear btn-bgm-new">
+        <a th:href="@{/app_busgeomap/pdf_report_user}" target="_ blank" class="nav-link btn btn-link btn-danger" style="text-decoration:none">
+          <i class="fas fa-file-pdf icons-bgm-space ico-bgm-clear"></i>Reporte
+        </a>
+    </button>
+</div>
+
+<div class="table-responsive list-role">
+    <table id="userList" class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th >Apellidos/Nombres</th>
+                <th >Cargo</th>
+                <th >Usuario</th>
+                <th >Fecha registro</th>
+                <th >PDF</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th scope="col">Apellidos/Nombres</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Fecha registro</th>
+                <th scope="col">PDF</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr th:each="user: ${userList}">
+				<td th:text="${user.use_last_name} + ' ' + ${user.use_first_name}"></td>
+                <th th:text="${user.use_employment_id}"></th>
+                <td th:text="${user.use_name}"></td>
+                <td th:text="${#calendars.format(user.use_registration_date, 'dd/MM/yyyy HH:mm')}"></td>
+                <td >
+                    <a th:href="@{/app_busgeomap/pdf_user/?use_id=} + ${user.use_id}" target="_ blank" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Generar PDF">
+                        <i class="fas fa-file-pdf"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -10,7 +10,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Employment;
+import com.ec.busgeomap.web.app.model.Users;
 import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -57,7 +60,27 @@ public class ServiceEmployment {
 		
 		return arrayList;
 	}
-	
+
+	// Method to Find a specific Employment
+	public String readByIdDoc(String idDoc) throws InterruptedException, ExecutionException {
+		
+		dbFirestore = FirestoreClient.getFirestore();
+		
+		DocumentReference docRef =  dbFirestore.collection(COL_NAME_EMPLOYMENT).document(idDoc);
+		
+		ApiFuture<DocumentSnapshot> future = docRef.get();
+		
+		DocumentSnapshot document = future.get();
+		
+		Employment employment = null;
+		
+		if (document.exists()) {
+			employment = document.toObject(Employment.class);
+			return employment.getEmp_name();
+		}else {
+			return null;
+		}
+	}
 	
 
 }

@@ -35,20 +35,21 @@ private final Log log = LogFactory.getLog(getClass());
 	public static final String COL_NAME_BUS = "Bus";
 	
 
-	public static final String ROUTE_NAME = "BGM_ROUdBdgJateZe9";
+	public static final String ROUTE_NAME_A = "BGM_ROUdBdgJateZe9";
+	public static final String ROUTE_NAME_B = "BGM_ROUdejLTaVeZe8";
 	
 	Firestore dbFirestore;
 	
-	Date currentDate = new Date();
-	
 	// Method to Find all Schedule
-	public ArrayList<Schedule> readAllUpTravelSchedule() throws InterruptedException, ExecutionException {
+	public ArrayList<Schedule> readAllUpTravelSchedule() throws Exception {
 			
 		Schedule schedule = null;
+		
+		Date currentDate = new Date();
 			
 		ArrayList<Schedule> arrayList = new ArrayList<>();
 			
-		dbFirestore = FirestoreClient.getFirestore();		
+		dbFirestore = FirestoreClient.getFirestore();
 		
 		// Buscar documentos de manera descendente y que encuentre desde la fecha actual
 		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_SCHEDULE).orderBy("sch_departure_time", Query.Direction.DESCENDING).whereGreaterThan("sch_departure_time", currentDate.getTime()).get();
@@ -58,14 +59,13 @@ private final Log log = LogFactory.getLog(getClass());
 		
 		for (QueryDocumentSnapshot document : documents) {
 			
-			if (document.getString("sch_rou_id_name").equals(ROUTE_NAME)) {
+			if (document.getString("sch_rou_id_name").equals(ROUTE_NAME_A) || document.getString("sch_rou_id_name").equals(ROUTE_NAME_B)) {
 				
 				schedule = document.toObject(Schedule.class);
 				
 				schedule.setSch_asb_id_number_disc(numberAssigneBusDisc(schedule.getSch_asb_id_number_disc())); // OBTENER DISCO DEL BUS
 				schedule.setSch_rou_id_name(routeName(schedule.getSch_rou_id_name())); // OBTENER LA RUTA
-				
-				System.out.println("> " + document.getId() + " \t" + document.getData());
+				changeSchedule(schedule, currentDate); // CAMBIAR EL ESTADO
 				
 				arrayList.add(schedule);
 			}			
@@ -78,13 +78,15 @@ private final Log log = LogFactory.getLog(getClass());
 	}	
 	
 	// Method to Find all Schedule
-	public ArrayList<Schedule> readAllDownTravelSchedule() throws InterruptedException, ExecutionException {
+	public ArrayList<Schedule> readAllDownTravelSchedule() throws Exception {
 			
 		Schedule schedule = null;
+		
+		Date currentDate = new Date();
 			
 		ArrayList<Schedule> arrayList = new ArrayList<>();
 			
-		dbFirestore = FirestoreClient.getFirestore();		
+		dbFirestore = FirestoreClient.getFirestore();
 		
 		// Buscar documentos de manera descendente y que encuentre desde la fecha actual
 		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_SCHEDULE).orderBy("sch_departure_time", Query.Direction.DESCENDING).whereGreaterThan("sch_departure_time", currentDate.getTime()).get();
@@ -93,14 +95,13 @@ private final Log log = LogFactory.getLog(getClass());
 		
 		for (QueryDocumentSnapshot document : documents) {
 			
-			if (!document.getString("sch_rou_id_name").equals(ROUTE_NAME)) {
+			if (!document.getString("sch_rou_id_name").equals(ROUTE_NAME_A) && !document.getString("sch_rou_id_name").equals(ROUTE_NAME_B)) {
 				
 				schedule = document.toObject(Schedule.class);
 				
 				schedule.setSch_asb_id_number_disc(numberAssigneBusDisc(schedule.getSch_asb_id_number_disc())); // OBTENER DISCO DEL BUS
 				schedule.setSch_rou_id_name(routeName(schedule.getSch_rou_id_name())); // OBTENER LA RUTA
-				
-				System.out.println("> " + document.getId() + " \t" + document.getData());
+				changeSchedule(schedule, currentDate);// CAMBIAR EL ESTADO
 				
 				arrayList.add(schedule);
 			}			
@@ -111,6 +112,34 @@ private final Log log = LogFactory.getLog(getClass());
 		return arrayList;
 	}	
 	
+	// Method to Change Status Schedule
+	public void changeSchedule(Schedule sch, Date currentDate) throws Exception {
+			
+		dbFirestore = FirestoreClient.getFirestore();
+		
+		Schedule schedule = null;
+		
+		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_SCHEDULE).get();
+				
+		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
+		
+		for (QueryDocumentSnapshot document : documents) {
+			
+			schedule = document.toObject(Schedule.class);
+			
+			long checkDate = schedule.getSch_departure_time();
+			
+			if (checkDate <= currentDate.getTime()) {
+				schedule.setSch_status(false);
+			} else {
+				schedule.setSch_status(true);
+			}
+				
+			dbFirestore.collection(COL_NAME_SCHEDULE).document(schedule.getSch_id()).set(schedule);
+			
+		}
+	}
+		
 	private String numberAssigneBusDisc(String sch_asb_id_number_disc) throws InterruptedException, ExecutionException {
 		Assignes_Bus aBus = null;
 			

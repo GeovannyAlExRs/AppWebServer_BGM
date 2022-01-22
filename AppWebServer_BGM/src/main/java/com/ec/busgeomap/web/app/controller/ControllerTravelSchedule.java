@@ -1,7 +1,5 @@
 package com.ec.busgeomap.web.app.controller;
 
-import java.util.concurrent.ExecutionException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ public class ControllerTravelSchedule {
 	ServiceTravelSchedule serviceTravelSchedule;
 	
 	@GetMapping("/travel")
-	public String viewSchedule(Model model) throws InterruptedException, ExecutionException {
+	public String viewSchedule(Model model) throws Exception {
 		log.info("INICIAR HORARIOS DE TRANSPORTE");
 		
 		addAttribute(model, TAB_LIST_BGM);
@@ -33,11 +31,10 @@ public class ControllerTravelSchedule {
 		return Pages.TRAVEL;
 	}
 
-	private void addAttribute(Model model, String tab) throws InterruptedException, ExecutionException {
+	private void addAttribute(Model model, String tab) throws Exception {
 		model.addAttribute(tab, "active"); 
 		model.addAttribute("upList", serviceTravelSchedule.readAllUpTravelSchedule());
 		model.addAttribute("downList", serviceTravelSchedule.readAllDownTravelSchedule());
-		//model.addAttribute("upList", serviceTravelSchedule.readAllTravelSchedule());
 	}
 
 }

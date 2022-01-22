@@ -125,6 +125,20 @@ public class ControllerSchedule {
 		return "redirect:schedule";
 	}
 	
+	@GetMapping("/delete_schedule/{sch_id}")
+	public String deleteRole(@PathVariable(name = "sch_id") String sch_id, Model model) throws InterruptedException, ExecutionException {
+		
+		try {
+			serviceSchedule.deleteSchedule(sch_id);
+							
+		} catch (Exception e1) {
+			//model.addAttribute("deleteError", e1.getMessage());
+			model.addAttribute("deleteError","La Planificacion no se pudo eliminar");
+		}
+
+		return viewSchedule(model);
+	}
+	
 	private long convertDateTime(String departure_time) {
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -143,15 +157,6 @@ public class ControllerSchedule {
 		model.addAttribute(tab, "active"); 
 		model.addAttribute("iRoute", serviceRoute.readAllRoute()); 
 		model.addAttribute("iDisco", serviceAsigneBus.readAssignesBusByDisc());
-		
-		// cambiar el estado (FALSE) de las planificaciones desde la fecha actual
-		try {
-			serviceSchedule.changeSchedule();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		//Mostrar la lista actualizada
 		model.addAttribute("schList", serviceSchedule.readAllSchedule());
 	}
 }

@@ -29,7 +29,7 @@
                         <a href="#editar" th:href="@{'/app_busgeomap/edit_schedule/'+ ${sche.sch_id}}" class="btn btn-link btn-info" data-original-title="Actualizar">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a href="#eliminar" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar"> <!--th:onclick="confirmDelete([[${sche.sch_id}]])" -->
+                        <a href="#eliminar" th:onclick="confirmDelete([[${sche.sch_id}]])" class="btn btn-link btn-danger" data-toggle="tooltip" title="" data-original-title="Eliminar"> <!--th:onclick="confirmDelete([[${sche.sch_id}]])" -->
                             <i class="fas fa-times"></i>
                         </a>
                     </div>
@@ -45,7 +45,7 @@
         $("#userIdHiddenInput").val(id);
     }
     
-    function deleteRoute(){
+    function deleteSchedule(){
         var id = $("#userIdHiddenInput").val();
         window.location = "delete_schedule/"+id;
     }

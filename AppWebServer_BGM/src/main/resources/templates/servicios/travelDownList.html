@@ -22,12 +22,12 @@
        <tbody>
             <tr th:each="sche: ${downList}">
                 <td th:text="${sche.sch_asb_id_number_disc}"> </td>
-                <td th:text="${sche.sch_rou_id_name}"></td>
                 <td th:text="${#calendars.format(sche.sch_departure_time, 'HH:mm')}"></td>
+                <td th:text="${sche.sch_rou_id_name}"></td>
                 <td th:text="${sche.sch_state}"></td>
                 <td>
                     <div class="form-button-action">
-                        <a href="#bus" class="btn btn-link btn-info" data-original-title="Actualizar">
+                        <a href="#bus" class="btn btn-link btn-info" data-original-title="Bus">
                             <i class="fas fa-bus"></i>
                         </a>
                     </div>

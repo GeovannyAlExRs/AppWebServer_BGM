@@ -1,6 +1,7 @@
 package com.ec.busgeomap.web.app.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -39,8 +40,6 @@ public class ServiceSchedule {
 	public static final int ID_LENGTH=10;
 	
 	Firestore dbFirestore;
-	
-	Date currentDate = new Date();
 
 	// Method to generate Random ID DOCUMENT
 	public String autoIdDocument() {
@@ -84,6 +83,14 @@ public class ServiceSchedule {
 		ArrayList<Schedule> arrayList = new ArrayList<>();
 		
 		dbFirestore = FirestoreClient.getFirestore();
+		
+		//Restar Un dia
+		
+		Calendar c = Calendar.getInstance();
+		Date now = c.getTime();
+		
+		c.add(Calendar.DATE, -1);
+		Date currentDate  = c.getTime();
 				
 		// Buscar documentos de manera descendente y que encuentre desde la fecha actual
 		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_SCHEDULE).orderBy("sch_departure_time", Query.Direction.DESCENDING).whereGreaterThan("sch_departure_time", currentDate.getTime()).get();
@@ -205,40 +212,9 @@ public class ServiceSchedule {
 			
 		return dbFirestore.toString();
 	}
-	
-	
-	// Method to Change Status Schedule
-	public String changeSchedule() throws Exception {
-			
-		dbFirestore = FirestoreClient.getFirestore();
-		
-		Schedule schedule = null;
-		
-		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_SCHEDULE).get();
-				
-		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
-		
-		for (QueryDocumentSnapshot document : documents) {
-			
-			schedule = document.toObject(Schedule.class);
-			
-			long checkDate = schedule.getSch_departure_time();
-			
-			if (checkDate <= currentDate.getTime()) {
-				schedule.setSch_status(false);
-			} else {
-				schedule.setSch_status(true);
-			}
-				
-			dbFirestore.collection(COL_NAME_SCHEDULE).document(schedule.getSch_id()).set(schedule);
-			
-		}
-			
-		return dbFirestore.toString();
-	}
 		
 	// Method to Delete Schedule
-	public String deleteRoute(String idDoc) throws InterruptedException, ExecutionException {
+	public String deleteSchedule(String idDoc) throws InterruptedException, ExecutionException {
 		Schedule sch = readByIdDoc(idDoc);
 			
 		ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME_SCHEDULE).document(sch.getSch_id()).delete();

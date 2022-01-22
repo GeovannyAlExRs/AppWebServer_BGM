@@ -32,7 +32,7 @@ public class Pages {
 	public static String ASSIGNE_BUS = "colective/assignebus";
 			
 	// Template REPORT (COOPERATIVA)
-	public static String REPORT = "cooperativa/report";
+	public static String REPORT = "report/report";
 
 	// Template TRAVEL (SERVICIO)
 	public static String TRAVEL = "servicios/travel";

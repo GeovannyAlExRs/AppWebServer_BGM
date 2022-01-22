@@ -20,21 +20,9 @@
                 <div class="quick-actions-scroll scrollbar-outer">
                     <div class="quick-actions-items">
                         <div class="row m-0">
-                            <a th:href="@{#falta_map}" class="col-6 col-md-4 p-0">
-                                <div class="quick-actions-item">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span class="text">Navegación</span>
-                                </div>
-                            </a>
-                            <a th:href="@{#falta_horarios}" class="col-6 col-md-4 p-0">
-                                <div class="quick-actions-item">
-                                    <i class="fas fa-calendar"></i>
-                                    <span class="text">Viajes</span>
-                                </div>
-                            </a>
                             <a th:href="@{/app_busgeomap/users}" class="col-6 col-md-4 p-0">
                                 <div class="quick-actions-item">
-                                    <i class="fas fa-user-tie"></i>
+                                    <i class="fas fa-user"></i>
                                     <span class="text">Personal</span>
                                 </div>
                             </a>
@@ -44,16 +32,29 @@
                                     <span class="text">Transporte</span>
                                 </div>
                             </a>
+                            <a th:href="@{/app_busgeomap/codeqr}" class="col-6 col-md-4 p-0">
+                                <div class="quick-actions-item">
+                                    <i class="fas fa-qrcode"></i>
+                                    <span class="text">Code QR</span>
+                                </div>
+                            </a>
+                            <a th:href="@{/app_busgeomap/travel}" class="col-6 col-md-4 p-0">
+                                <div class="quick-actions-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span class="text">Viajes</span>
+                                </div>
+                            </a>
+                            
                             <a href="#falta_map" class="col-6 col-md-4 p-0">
                                 <div class="quick-actions-item">
                                     <i class="fas fa-desktop"></i>
                                     <span class="text">Monitoreo</span>
                                 </div>
                             </a>
-                            <a th:href="@{/app_busgeomap/role}" class="col-6 col-md-4 p-0">
+                            <a th:href="@{/app_busgeomap/report}" class="col-6 col-md-4 p-0">
                                 <div class="quick-actions-item">
-                                    <i class="fas fa-user-secret"></i>
-                                    <span class="text">Roles</span>
+                                    <i class="fas fa-chart-line"></i>
+                                    <span class="text">Reportes</span>
                                 </div>
                             </a>
                         </div>

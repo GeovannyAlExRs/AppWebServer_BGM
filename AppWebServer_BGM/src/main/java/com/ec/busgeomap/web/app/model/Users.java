@@ -20,7 +20,7 @@ public class Users {
 	private String use_last_name;
 	
 	@NotBlank(message = "Ingrese direccion") //no acepta Nulo (Solo texto)
-	@Size(min = 5, max = 25, message = "Inserte texto mayor a 5 caracteres")
+	@Size(min = 5, max = 50, message = "Inserte texto mayor a 5 caracteres")
 	private String use_address;
 		
 	@Email(message = "Email no valido")

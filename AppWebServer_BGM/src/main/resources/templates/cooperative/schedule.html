@@ -21,6 +21,9 @@
 
     <script th:src="@{/lib/plugin/webfont/webfont.min.js}"  src="../../static/lib/plugin/webfont/webfont.min.js"></script>
 
+	<!-- DATA TABLES-->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.11.4/datatables.min.css"/>
+
     <!-- CSS Files -->
     <link th:href="@{/css/atlantis.min.css}" href="../../static/css/atlantis.min.css" rel="stylesheet">
 
@@ -205,17 +208,12 @@
 	<!-- Atlantis JS -->
 	<script th:src="@{/js/atlantis.min.js}" src="../../static/js/atlantis.min.js"></script>
 
+	<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.4/datatables.min.js"></script>
+
+	<script th:src="@{/js/datatableSchedule.js}" src="../../static/js/datatableSchedule.js"></script>
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 	<script th:src="@{/lib/datetimepicker/bootstrap-datetimepicker.min.js}"  src="../../static/lib/datetimepicker/bootstrap-datetimepicker.min.js"></script>
-	
-	<!--script>
-		var $datetime1 = $('#datetime1');
-	
-		$datetime1.datetimepicker();
-		$datetime1.on('apply.datetimepicker', function (ev, picker) {
-			$('input[name="date1"]').val(picker.val('schedule.sch_departure_time'));
-		});
-	</!--script-->
 
 	<script>
         $(function () {
@@ -236,9 +234,11 @@
         </script>
         <script type="text/javascript">
             $(function () {
+				var minDate = new Date();
                 $('#datetimepicker').datetimepicker({
 					format: 'DD/MM/YYYY HH:mm',
-					useCurrent: true
+					useCurrent: true,
+					minDate : minDate,
 				});
 				//$("#input[name='date1']").datetimepicker({format: 'dd/MM/yyyy HH:mm a'});
 				//$("#idPicker2").val('${schedule.sch_departure_time}');

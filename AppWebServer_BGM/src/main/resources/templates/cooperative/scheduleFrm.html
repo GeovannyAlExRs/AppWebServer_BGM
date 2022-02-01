@@ -23,17 +23,6 @@
                 </select>
             </div>
 
-            <!--div class="form-group ">
-                <label>HORA</label>
-                <div class="form-group input-group date">
-                    <input th:value="${schedule.sch_departure_time}" th:field="${schedule.sch_departure_time}" type="text" id="datetime1" class="form-control input-border-bottom">
-                    <div class="input-group-append">
-                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                    </div>
-                </div>
-                <input type="hidden" name="date1" data-target="#datetime1" th:field="*{sch_departure_time}"/>
-            </!--div-->
-
             <div class="form-group">
                 <label>Fecha - Hora</label>
                 <div class="form-group input-group date">
@@ -44,6 +33,7 @@
                 </div>
                 
             </div>
+            
 
             <div class="div-boton check-personal">
                 <input name="" type="checkbox" th:checked="${schedule.sch_status}" th:value="${schedule.sch_status}" th:field="${schedule.sch_status}" id="userEstado"/> Estado (Activo)...

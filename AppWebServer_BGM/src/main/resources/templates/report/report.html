@@ -312,87 +312,10 @@
 
 	<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.4/datatables.min.js"></script>
 
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#userList').DataTable({
-				"language": {
-					"lengthMenu": "Mostrar _MENU_ registros",
-					"zeroRecords": "No se encontro resultados",
-					"info": "Registro del _START_ al _END_ - Pagina _PAGES_",
-					"infoEmpty": "Registro del 0 al 0 - Pagina 0",
-					"infoFiltered": "(Registros total _MAX_)",
-					"sSearch": "Buscar: ",
-					"oPaginate": {
-						"sFirst": "Primero",
-						"sLast": "Ultimo",
-						"sNext": "Siguiente",
-						"sPrevious": "Anterior"
-					},
-					"sProcessing": "Procesando..."
-				}
-			});
-		} );
-
-		$(document).ready(function() {
-			$('#busList').DataTable({
-				"language": {
-					"lengthMenu": "Mostrar _MENU_ registros",
-					"zeroRecords": "No se encontro resultados",
-					"info": "Registro del _START_ al _END_ - Pagina _PAGES_",
-					"infoEmpty": "Registro del 0 al 0 - Pagina 0",
-					"infoFiltered": "(Registros total _MAX_)",
-					"sSearch": "Buscar: ",
-					"oPaginate": {
-						"sFirst": "Primero",
-						"sLast": "Ultimo",
-						"sNext": "Siguiente",
-						"sPrevious": "Anterior"
-					},
-					"sProcessing": "Procesando..."
-				}
-			});
-		} );
-		
-		$(document).ready(function() {
-			$('#qrList').DataTable({
-				"language": {
-					"lengthMenu": "Mostrar _MENU_ registros",
-					"zeroRecords": "No se encontro resultados",
-					"info": "Registro del _START_ al _END_ - Pagina _PAGES_",
-					"infoEmpty": "Registro del 0 al 0 - Pagina 0",
-					"infoFiltered": "(Registros total _MAX_)",
-					"sSearch": "Buscar: ",
-					"oPaginate": {
-						"sFirst": "Primero",
-						"sLast": "Ultimo",
-						"sNext": "Siguiente",
-						"sPrevious": "Anterior"
-					},
-					"sProcessing": "Procesando..."
-				}
-			});
-		} );
-		
-		$(document).ready(function() {
-			$('#schList').DataTable({
-				"language": {
-					"lengthMenu": "Mostrar _MENU_ registros",
-					"zeroRecords": "No se encontro resultados",
-					"info": "Registro del _START_ al _END_ - Pagina _PAGES_",
-					"infoEmpty": "Registro del 0 al 0 - Pagina 0",
-					"infoFiltered": "(Registros total _MAX_)",
-					"sSearch": "Buscar: ",
-					"oPaginate": {
-						"sFirst": "Primero",
-						"sLast": "Ultimo",
-						"sNext": "Siguiente",
-						"sPrevious": "Anterior"
-					},
-					"sProcessing": "Procesando..."
-				}
-			});
-		} );
-	</script>
+	<script th:src="@{/js/datatableUser.js}" src="../../static/js/datatableUser.js"></script>
+	<script th:src="@{/js/datatableBus.js}" src="../../static/js/datatableBus.js"></script>
+	<script th:src="@{/js/datatableQr.js}" src="../../static/js/datatableQr.js"></script>
+	<script th:src="@{/js/datatableSchedule.js}" src="../../static/js/datatableSchedule.js"></script>
 
 </body>
 

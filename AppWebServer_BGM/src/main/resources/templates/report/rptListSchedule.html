@@ -29,7 +29,7 @@
             </tr>
         </tfoot>
         <tbody>
-            <tr th:each="sch: ${schList}">
+            <tr th:each="sche: ${schList}">
 				<td th:text="${sche.sch_asb_id_number_disc}"> </td>
                 <td th:text="${sche.sch_rou_id_name}"></td>
                 <td th:text="${#calendars.format(sche.sch_registration_date, 'dd/MM/yyyy HH:mm')}"></td>

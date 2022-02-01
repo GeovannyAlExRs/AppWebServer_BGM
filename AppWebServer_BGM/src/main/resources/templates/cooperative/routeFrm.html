@@ -12,14 +12,14 @@
             </div>
             <div class="form-group form-group-default">
                 <label>Lugar de Partida</label>
-                <select th:value="${route.rou_place_starting}" th:field="${route.rou_place_starting}" class="form-control" id="formGroupDefaultSelect">
-                    <option th:each="p:${iPlace}" th:value="${p.pla_id}" th:text="${p.pla_name} + ' - ' + ${p.pla_description}"></option>
+                <select th:value="${route.rou_place_starting}" th:field="${route.rou_place_starting}" class="form-control" onchange="verificar(this)">
+                    <option th:each="p:${iPlace}" th:value="${p.pla_id}" th:text="${p.pla_name} + ' - ' + ${p.pla_description}" id="selectPrincipal"></option>
                 </select>
             </div>
             <div class="form-group form-group-default">
                 <label>Lugar de Destino</label>
                 <select th:value="${route.rou_place_destination}" th:field="${route.rou_place_destination}" class="form-control" id="formGroupDefaultSelect">
-                    <option th:each="p:${iPlace}" th:value="${p.pla_id}" th:text="${p.pla_name} + ' - ' + ${p.pla_description}"></option>
+                    <option th:each="p:${iPlace}" th:value="${p.pla_id}" th:text="${p.pla_name} + ' - ' + ${p.pla_description}" id="option"></option>
                 </select>
             </div>
 
@@ -42,3 +42,14 @@
         </button>
     </div>
 </form>
+
+<script type="text/javascript">
+    var primer = document.getElementById('selectPrincipal');
+    var segunda = document.getElementById('option');
+    function  verificar(s1) {
+        if (primer.value == s1) {
+            segunda.hidden = true;
+        }
+    }
+
+</script>

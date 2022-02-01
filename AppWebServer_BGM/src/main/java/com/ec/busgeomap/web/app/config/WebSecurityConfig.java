@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .formLogin()
 	            .loginPage("/app_busgeomap/login")
 	            .permitAll()
-	            .defaultSuccessUrl("/app_busgeomap/bus")
+	            .defaultSuccessUrl("/app_busgeomap/report")
 	            .failureUrl("/app_busgeomap/login?error=true")
 	            .usernameParameter("username")
 	            .passwordParameter("password")

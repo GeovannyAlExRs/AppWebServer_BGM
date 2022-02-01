@@ -2,6 +2,8 @@ package com.ec.busgeomap.web.app.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.Future;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 

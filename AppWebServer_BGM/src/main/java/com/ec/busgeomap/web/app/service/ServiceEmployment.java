@@ -10,7 +10,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import com.ec.busgeomap.web.app.model.Employment;
-import com.ec.busgeomap.web.app.model.Users;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;

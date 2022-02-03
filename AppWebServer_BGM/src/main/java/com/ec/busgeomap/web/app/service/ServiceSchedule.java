@@ -37,8 +37,12 @@ public class ServiceSchedule {
 	public static final String COL_NAME_ASSIGNE_BUS="Assignes_Bus";
 	public static final String COL_NAME_BUS="Bus";
 	public static final String IDENTIFICATE="BGM_SCH";
+	
 	public static final int ID_LENGTH=10;
 	
+	public static final int OPTION_CREATE = 1;
+	public static final int OPTION_UPDATE = 2;
+
 	Firestore dbFirestore;
 
 	// Method to generate Random ID DOCUMENT
@@ -47,7 +51,7 @@ public class ServiceSchedule {
 	}
 
 	// Mapping the Object of the Schedule class
-	private Schedule mapSchedule(Schedule schedule, long date) {
+	private Schedule mapSchedule(Schedule schedule, long date, int option) {
 		
 		Schedule sch = new Schedule();
 		
@@ -57,7 +61,12 @@ public class ServiceSchedule {
 		sch.setSch_registration_date(new Date().getTime());
 		sch.setSch_departure_time(date);
 		sch.setSch_state(schedule.getSch_state());
-		sch.setSch_status(schedule.getSch_status());
+		if (option == 1) {
+			sch.setSch_status(true);
+		} else {
+			sch.setSch_status(schedule.getSch_status());
+		}
+		
 		
 		return sch;
 	}
@@ -67,7 +76,7 @@ public class ServiceSchedule {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Schedule sch = mapSchedule(schedule, date);
+		Schedule sch = mapSchedule(schedule, date, OPTION_CREATE);
 		
 		dbFirestore.collection(COL_NAME_SCHEDULE).document(sch.getSch_id()).set(sch);
 		
@@ -206,7 +215,7 @@ public class ServiceSchedule {
 			
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Schedule sch = mapSchedule(schedule, date);
+		Schedule sch = mapSchedule(schedule, date, OPTION_UPDATE);
 			
 		dbFirestore.collection(COL_NAME_SCHEDULE).document(sch.getSch_id()).set(sch);
 			

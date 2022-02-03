@@ -60,6 +60,7 @@ public class ServiceUsers {
 		String uid = "";
 		String email = "";
 		String password = users.getUse_password();
+		boolean estado = false;
 		
 		String passwordCrypt = passwordEncoder.encode(users.getUse_password());
 		
@@ -76,6 +77,7 @@ public class ServiceUsers {
 			
 			uid = userRecord.getUid();
 			email = userRecord.getEmail();
+			estado = true;
 			
 			log.info("CREATE FIREBASE AUTH - UID : " + uid + " - Email : " + email);
 			
@@ -89,7 +91,7 @@ public class ServiceUsers {
 			
 			uid = userRecord.getUid();
 			email = userRecord.getEmail();
-			
+			estado = users.getUse_status();
 			log.info("UPDATE FIREBASE AUTH - UID : " + uid + " - Email : " + email);
 		}
 		
@@ -106,7 +108,7 @@ public class ServiceUsers {
 		u.setUse_name(users.getUse_name());		
 		u.setUse_registration_date(new Date().getTime());
 		u.setUse_employment_id(users.getUse_employment_id());
-		u.setUse_status(users.getUse_status());
+		u.setUse_status(estado);
 		u.setUse_roles_id(users.getUse_roles_id());
 		
 		return u;

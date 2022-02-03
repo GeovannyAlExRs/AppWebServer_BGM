@@ -23,7 +23,7 @@
                 </select>
             </div>
 
-            <div class="div-boton check-personal">
+            <div class="div-boton check-personal" th:if="${editMode}" th:aria-hidden="${editMode}">
                 <input name="" type="checkbox" th:checked="${route.rou_status}" th:value="${route.rou_status}" th:field="${route.rou_status}" id="userEstado"/> Estado (Activo)...
             </div>
             </br>

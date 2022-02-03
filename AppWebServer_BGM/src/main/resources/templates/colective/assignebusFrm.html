@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="card-body" style="text-align: right; padding-right: 50px;">
-        <div class="div-boton check-personal">
+        <div class="div-boton check-personal" th:if="${editMode}" th:aria-hidden="${editMode}">
             <input name="" type="checkbox" th:checked="${bus.asb_status}" th:value="${bus.asb_status}" th:field="${bus.asb_status}" id="userEstado"/> Estado (Activo)...
             <!--<label for="userEstado">Acepte los términos y condiciones</label>-->
         </div>

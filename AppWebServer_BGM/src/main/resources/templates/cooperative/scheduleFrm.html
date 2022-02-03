@@ -35,7 +35,7 @@
             </div>
             
 
-            <div class="div-boton check-personal">
+            <div class="div-boton check-personal" th:if="${editMode}" th:aria-hidden="${editMode}">
                 <input name="" type="checkbox" th:checked="${schedule.sch_status}" th:value="${schedule.sch_status}" th:field="${schedule.sch_status}" id="userEstado"/> Estado (Activo)...
             </div>
             </br>
@@ -44,7 +44,7 @@
     <div class="card-body" style="text-align: right; padding-right: 50px;">
         
         <button class="btn-bgm btn-bgm-clear" type="button" th:if="${editMode}" th:aria-hidden="${editMode}">
-            <a th:href="@{'/app_busgeomap/route'}" style="text-decoration-line: none; text-decoration: none;color: rgb(90, 95, 97);">
+            <a th:href="@{'/app_busgeomap/schedule'}" style="text-decoration-line: none; text-decoration: none;color: rgb(90, 95, 97);">
                 <i class="fas fa-minus-circle icons-bgm-space ico-bgm-clear"></i>Cancelar
             </a>
         </button>

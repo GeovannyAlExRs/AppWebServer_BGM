@@ -20,7 +20,7 @@
         <input th:value="${place.pla_description}" th:field="${place.pla_description}" type="text" th:disabled="${disableFields}" class="form-control"/>
       </div>
   
-      <div class="div-boton check-personal">
+      <div class="div-boton check-personal" th:if="${editMode}" th:aria-hidden="${editMode}">
         <input name="" type="checkbox" th:checked="${place.pla_status}" th:value="${place.pla_status}" th:field="${place.pla_status}" id="roleEstado"/> Estado (Activo)
       </div>
 

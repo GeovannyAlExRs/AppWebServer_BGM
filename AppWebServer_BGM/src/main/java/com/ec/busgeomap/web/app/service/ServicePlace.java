@@ -27,7 +27,12 @@ public class ServicePlace {
 
 	public static final String COL_NAME_PLACE="Place";
 	public static final String IDENTIFICATE="BGM_PLAC";
+	
 	public static final int ID_LENGTH=10;
+	
+	public static final int OPTION_CREATE = 1;
+	public static final int OPTION_UPDATE = 2;
+
 	
 	Firestore dbFirestore;
 	
@@ -36,14 +41,20 @@ public class ServicePlace {
 		return IDENTIFICATE + RandomStringUtils.randomAlphanumeric(ID_LENGTH);
 	}
 	
-	private Place mapPlace(Place place) {
+	private Place mapPlace(Place place, int option) {
 		
 		Place p = new Place();
 		
 		p.setPla_id(place.getPla_id());
 		p.setPla_name(place.getPla_name());
 		p.setPla_description(place.getPla_description());
-		p.setPla_status(place.getPla_status());
+		
+		if (option == 1) {
+			p.setPla_status(true);
+		} else {
+			p.setPla_status(place.getPla_status());
+		}
+		
 		
 		return p;
 	}
@@ -53,7 +64,7 @@ public class ServicePlace {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Place place = mapPlace(p);
+		Place place = mapPlace(p, OPTION_CREATE);
 		
 		dbFirestore.collection(COL_NAME_PLACE).document(p.getPla_id()).set(place);
 				
@@ -114,7 +125,7 @@ public class ServicePlace {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Place place = mapPlace(p);
+		Place place = mapPlace(p, OPTION_UPDATE);
 		
 		dbFirestore.collection(COL_NAME_PLACE).document(p.getPla_id()).set(place);
 		

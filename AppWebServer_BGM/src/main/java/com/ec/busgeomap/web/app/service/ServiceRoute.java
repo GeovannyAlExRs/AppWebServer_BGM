@@ -30,8 +30,12 @@ public class ServiceRoute {
 	public static final String COL_NAME_ROUTE="Route";
 	public static final String COL_NAME_PLACE="Place";
 	public static final String IDENTIFICATE="BGM_ROU";
+	
 	public static final int ID_LENGTH=10;
 	
+	public static final int OPTION_CREATE = 1;
+	public static final int OPTION_UPDATE = 2;
+
 	Firestore dbFirestore;
 
 	// Method to generate Random ID DOCUMENT
@@ -40,7 +44,7 @@ public class ServiceRoute {
 	}
 	
 	// Mapping the Object of the Route class
-	private Route mapRoute(Route route) {
+	private Route mapRoute(Route route, int option) {
 		
 		Route r = new Route();
 		
@@ -49,7 +53,13 @@ public class ServiceRoute {
 		r.setRou_registration_date(new Date().getTime());
 		r.setRou_place_destination(route.getRou_place_destination());
 		r.setRou_place_starting(route.getRou_place_starting());
-		r.setRou_status(route.getRou_status());
+		
+		if (option == 1 ) {
+			r.setRou_status(true);
+		} else {
+			r.setRou_status(route.getRou_status());
+		}
+		
 		
 		return r;
 	}
@@ -59,7 +69,7 @@ public class ServiceRoute {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Route route = mapRoute(r);
+		Route route = mapRoute(r, OPTION_CREATE);
 		
 		dbFirestore.collection(COL_NAME_ROUTE).document(r.getRou_id()).set(route);
 		
@@ -140,7 +150,7 @@ public class ServiceRoute {
 			
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Route r = mapRoute(route);
+		Route r = mapRoute(route, OPTION_UPDATE);
 			
 		dbFirestore.collection(COL_NAME_ROUTE).document(r.getRou_id()).set(r);
 			

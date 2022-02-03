@@ -29,7 +29,11 @@ public class ServiceBus {
 	public static final String COL_NAME_BUS="Bus";
 	public static final String COL_NAME_USER="Users";
 	public static final String IDENTIFICATE="BGM_BUSE";
+	
 	public static final int ID_LENGTH=10;
+	
+	public static final int OPTION_CREATE = 1;
+	public static final int OPTION_UPDATE = 2;
 
 	Firestore dbFirestore;
 	
@@ -39,7 +43,7 @@ public class ServiceBus {
 	}
 	
 	// Mapping the Object of the Bus class
-	private Bus mapBus(Bus bus) {
+	private Bus mapBus(Bus bus, int option) {
 		
 		Bus b = new Bus();
 		
@@ -51,8 +55,13 @@ public class ServiceBus {
 		b.setBus_registration_date(new Date().getTime());
 		b.setBus_registration_number(bus.getBus_registration_number());
 		b.setBus_size(bus.getBus_size());
-		b.setBus_status(bus.getBus_status());
 		
+		if (option == 1) {
+			b.setBus_status(true);
+		} else {
+			b.setBus_status(bus.getBus_status());
+		}
+				
 		return b;
 	}
 
@@ -61,7 +70,7 @@ public class ServiceBus {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Bus bus = mapBus(b);
+		Bus bus = mapBus(b, OPTION_CREATE);
 		
 		dbFirestore.collection(COL_NAME_BUS).document(bus.getBus_id()).set(bus);
 		
@@ -144,7 +153,7 @@ public class ServiceBus {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Bus b = mapBus(bus);
+		Bus b = mapBus(bus, OPTION_UPDATE);
 		
 		dbFirestore.collection(COL_NAME_BUS).document(b.getBus_id()).set(bus);
 		

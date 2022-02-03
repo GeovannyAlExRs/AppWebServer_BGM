@@ -32,7 +32,11 @@ public class ServiceAsigneBus {
 	public static final String COL_NAME_BUS="Bus";
 	public static final String COL_NAME_USER="Users";
 	public static final String IDENTIFICATE="BGM_BUSE";
+	
 	public static final int ID_LENGTH=10;
+	
+	public static final int OPTION_CREATE = 1;
+	public static final int OPTION_UPDATE = 2;
 
 	Firestore dbFirestore;
 		
@@ -41,7 +45,7 @@ public class ServiceAsigneBus {
 		return IDENTIFICATE + RandomStringUtils.randomAlphanumeric(ID_LENGTH);
 	}	
 	
-	private Assignes_Bus mapBus(Assignes_Bus assignes_Bus) {
+	private Assignes_Bus mapBus(Assignes_Bus assignes_Bus, int option) {
 		
 		Assignes_Bus ab = new Assignes_Bus();
 		
@@ -50,8 +54,12 @@ public class ServiceAsigneBus {
 		ab.setAsb_accompanist_id(assignes_Bus.getAsb_accompanist_id());
 		ab.setAsb_driver_id(assignes_Bus.getAsb_driver_id());
 		ab.setBus_registration_date(new Date().getTime());
-		ab.setAsb_status(assignes_Bus.getAsb_status());
-		
+		if (option == 1) {
+			ab.setAsb_status(true);
+		} else {
+			ab.setAsb_status(assignes_Bus.getAsb_status());
+		}
+				
 		return ab;
 	}
 
@@ -60,7 +68,7 @@ public class ServiceAsigneBus {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Assignes_Bus ab = mapBus(assignes_Bus);
+		Assignes_Bus ab = mapBus(assignes_Bus, OPTION_CREATE);
 		
 		dbFirestore.collection(COL_NAME_ASSIGNE_BUS).document(assignes_Bus.getAsb_id()).set(ab);
 		
@@ -266,7 +274,7 @@ public class ServiceAsigneBus {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Assignes_Bus ab = mapBus(assignes_Bus);
+		Assignes_Bus ab = mapBus(assignes_Bus, OPTION_UPDATE);
 		
 		dbFirestore.collection(COL_NAME_ASSIGNE_BUS).document(ab.getAsb_id()).set(assignes_Bus);
 		

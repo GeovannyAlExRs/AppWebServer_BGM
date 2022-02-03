@@ -65,15 +65,28 @@ public class ServiceRoute {
 	}
 	
 	// Method to create new Route record
-	public String createRoute(Route r) throws InterruptedException, ExecutionException {
+	public String createRoute(Route r) throws Exception {
 		
 		dbFirestore = FirestoreClient.getFirestore();
 		
 		Route route = mapRoute(r, OPTION_CREATE);
 		
-		dbFirestore.collection(COL_NAME_ROUTE).document(r.getRou_id()).set(route);
+		if (validatePlaceRoute(route)) {
+			log.info("LUGARES SON IGUALES - Origen: " + route.getRou_place_starting() + " Destino: " + route.getRou_place_destination());
+		}
 		
+		dbFirestore.collection(COL_NAME_ROUTE).document(r.getRou_id()).set(route);
+				
 		return dbFirestore.toString();
+	}
+	
+	private boolean validatePlaceRoute(Route route) throws Exception {
+		
+		if (route.getRou_place_destination().equals(route.getRou_place_starting())) {
+			throw new Exception("Lugares asignados no deben ser iguales");
+		}
+		
+		return true;
 	}
 	
 	// Method to Find all Route
@@ -151,6 +164,10 @@ public class ServiceRoute {
 		dbFirestore = FirestoreClient.getFirestore();
 		
 		Route r = mapRoute(route, OPTION_UPDATE);
+		
+		if (validatePlaceRoute(route)) {
+			log.info("LUGARES SON IGUALES - Origen: " + route.getRou_place_starting() + " Destino: " + route.getRou_place_destination());
+		}
 			
 		dbFirestore.collection(COL_NAME_ROUTE).document(r.getRou_id()).set(r);
 			

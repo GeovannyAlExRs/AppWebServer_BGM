@@ -102,8 +102,8 @@ public class ControllerRoute {
 				// New Document ROL with auto ID (autoIdDocumentUser).
 				addAttribute(model, new Route(serviceRoute.autoIdDocumentRoute()), TAB_LIST_BGM);
 								
-			} catch (Exception e1) {
-				model.addAttribute("formErrorMessage", e1.getMessage());
+			} catch (Exception e) {
+				model.addAttribute("formErrorMessage", e.getMessage());
 				
 				model.addAttribute("editMode", "true");
 				addAttribute(model, route, TAB_FORM_BGM);

@@ -29,6 +29,9 @@
             </br>
         </div>
     </div>
+    
+    <div th:if="${formErrorMessage}" th:text="${formErrorMessage}" class="alert alert-danger" role="alert">Erro Lugares</div>
+    
     <div class="card-body" style="text-align: right; padding-right: 50px;">
         
         <button class="btn-bgm btn-bgm-clear" type="button" th:if="${editMode}" th:aria-hidden="${editMode}">

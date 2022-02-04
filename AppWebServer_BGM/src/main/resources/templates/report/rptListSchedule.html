@@ -1,9 +1,32 @@
 <div style="padding-bottom: 5%;">
-	<button type="button" class="btn-bgm btn-bgm-clear btn-bgm-new">
-		<a th:href="@{/app_busgeomap/pdf_report_schedule}" target="_ blank" class="nav-link btn btn-link btn-danger" style="text-decoration:none">
-			<i class="fas fa-file-pdf icons-bgm-space ico-bgm-clear"></i>Reporte
-		</a>
-	</button>
+    <div class="row"  style="justify-content: flex-end; align-items: flex-end; align-content: flex-end;">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label class="op-7 mb-2">Buscar planificación por fecha: </label>
+                <div class="form-group input-group date">
+                    <input name="sch_departure_time" id="datetimepicker" type="text" class="form-control input-border-bottom" data-target="#datetimepicker">
+                    <div class="input-group-addon input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: -3%;">
+                <button type="button" class="btn-bgm btn-bgm-new" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fas fa-search icons-bgm-space ico-bgm-play"></i>Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="form-group">
+        <button type="button" class="btn-bgm btn-bgm-clear btn-bgm-new">
+            <a th:href="@{/app_busgeomap/pdf_report_schedule}" target="_ blank" class="nav-link btn btn-link btn-danger" style="text-decoration:none">
+                <i class="fas fa-file-pdf icons-bgm-space ico-bgm-clear"></i>Reporte
+            </a>
+        </button>
+    </div>
+	
 </div>
 
 <div class="table-responsive list-role">

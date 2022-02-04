@@ -26,7 +26,7 @@
 
     <!-- CSS Files -->
     <link th:href="@{/css/atlantis.min.css}" href="../../static/css/atlantis.min.css" rel="stylesheet">
-
+	<link th:href="@{/css/bootstrap-datetimepicker.min.css}" href="../../static/css/bootstrap-datetimepicker.min.css"  rel="stylesheet"/>
     <link th:href="@{/css/dashboard.css}" href="../../static/css/dashboard.css"  rel="stylesheet"/>
     <link th:href="@{/css/style_dashboard.css}" href="../../static/css/style_dashboard.css" rel="stylesheet"/>	
     <link th:href="@{/css/style_bgm_form.css}" href="../../static/css/style_bgm_form.css" rel="stylesheet"/>	
@@ -317,6 +317,36 @@
 	<script th:src="@{/js/datatableQr.js}" src="../../static/js/datatableQr.js"></script>
 	<script th:src="@{/js/datatableSchedule.js}" src="../../static/js/datatableSchedule.js"></script>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+	<script th:src="@{/lib/datetimepicker/bootstrap-datetimepicker.min.js}"  src="../../static/lib/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+
+	<script>
+        $(function () {
+            $.extend(true, $.fn.datetimepicker.defaults, {
+                icons: {
+                    time: 'far fa-clock',
+                    date: 'far fa-calendar',
+                    up: 'fas fa-arrow-up',
+                    down: 'fas fa-arrow-down',
+                    previous: 'fas fa-chevron-left',
+                    next: 'fas fa-chevron-right',
+                    today: 'far fa-calendar-check-o',
+                    clear: 'far fa-trash',
+                    close: 'far fa-times'
+                },
+            });
+        });
+        </script>
+        <script type="text/javascript">
+            $(function () {
+				var maxDate = new Date();
+                $('#datetimepicker').datetimepicker({
+					format: 'DD/MM/YYYY',
+					useCurrent: true,
+					maxDate : maxDate,
+				});
+            });
+        </script>
 </body>
 
 </html>

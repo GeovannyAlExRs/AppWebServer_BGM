@@ -93,24 +93,26 @@ public class ControllerRoute {
 			model.addAttribute("editMode", "true");
 			
 			model.addAttribute("errorSave", "Error al guardar, complete los datos");
-			
+
+			return Pages.ROUTE;
 		}else {
 			try {
 				serviceRoute.updateRoute(route);
-				model.addAttribute("msgSuccess", "La ruta "+ route.getRou_name() + " fue Actualizado correctamente.");
+				//model.addAttribute("msgSuccess", "La ruta "+ route.getRou_name() + " fue Actualizado correctamente.");
 				
 				// New Document ROL with auto ID (autoIdDocumentUser).
 				addAttribute(model, new Route(serviceRoute.autoIdDocumentRoute()), TAB_LIST_BGM);
 								
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
-				
-				model.addAttribute("editMode", "true");
+								
 				addAttribute(model, route, TAB_FORM_BGM);
+				model.addAttribute("editMode", "true");
+			
+				return Pages.ROUTE;
 			}
+			return "redirect:route";
 		}	
-
-		return "redirect:route";
 	}
 	
 	@GetMapping("/delete_route/{rou_id}")

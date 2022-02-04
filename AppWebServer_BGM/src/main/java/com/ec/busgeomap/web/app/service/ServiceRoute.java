@@ -159,18 +159,18 @@ public class ServiceRoute {
 	}
 	
 	// Method to Update Ruta
-	public String updateRoute(Route route) throws Exception {
-			
+	public String updateRoute(Route r) throws Exception {
+		
 		dbFirestore = FirestoreClient.getFirestore();
 		
-		Route r = mapRoute(route, OPTION_UPDATE);
+		Route route = mapRoute(r, OPTION_UPDATE);
 		
 		if (validatePlaceRoute(route)) {
 			log.info("LUGARES SON IGUALES - Origen: " + route.getRou_place_starting() + " Destino: " + route.getRou_place_destination());
 		}
-			
-		dbFirestore.collection(COL_NAME_ROUTE).document(r.getRou_id()).set(r);
-			
+		
+		dbFirestore.collection(COL_NAME_ROUTE).document(r.getRou_id()).set(route);
+				
 		return dbFirestore.toString();
 	}
 		

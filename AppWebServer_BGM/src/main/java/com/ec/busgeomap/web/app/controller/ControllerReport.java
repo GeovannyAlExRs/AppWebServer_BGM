@@ -2,19 +2,25 @@ package com.ec.busgeomap.web.app.controller;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -171,7 +177,18 @@ public class ControllerReport {
 		
 		servletResponse.setHeader(headerKey, headerValue);
 		
-		servicePdfSchedule.pdfReportSchedule(servletResponse);;
+		servicePdfSchedule.pdfReportSchedule(servletResponse);
 
+	}
+	
+	@GetMapping(path = {"/search_schedule"}, name = "sch_departure_time")
+	public void getEditSchedule(@RequestParam(name = "sch_departure_time") @DateTimeFormat(pattern="DD/MM/YYYY")  String sch_departure_time, HttpServletResponse servletResponse) throws DocumentException, IOException, InterruptedException, ExecutionException, ParseException {
+		log.info("BUSCAR PLANIFICACION por fecha: " + sch_departure_time);
+		serviceSchedule.readAllScheduleByDate(sch_departure_time);
+		//Schedule schedule = serviceSchedule.readByIdDoc(sch_id);
+		//ArrayList<Users> listUser = serviceUser.readAllUsers();
+		//model.addAttribute("scheduleList", listUser);//idUserCount
+		
+		
 	}
 }

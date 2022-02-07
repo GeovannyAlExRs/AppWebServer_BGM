@@ -1,5 +1,7 @@
 package com.ec.busgeomap.web.app.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -81,8 +83,7 @@ public class ServiceSchedule {
 		dbFirestore.collection(COL_NAME_SCHEDULE).document(sch.getSch_id()).set(sch);
 		
 		return dbFirestore.toString();
-	}
-	
+	}	
 
 	// Method to Find all Schedule
 	public ArrayList<Schedule> readAllSchedule() throws InterruptedException, ExecutionException {
@@ -114,6 +115,61 @@ public class ServiceSchedule {
 			
 			schedule.setSch_asb_id_number_disc(numberAssigneBusDisc(schedule.getSch_asb_id_number_disc())); // OBTENER DISCO DEL BUS
 			schedule.setSch_rou_id_name(routeName(schedule.getSch_rou_id_name())); // OBTENER LA RUTA
+			arrayList.add(schedule);
+		}
+		
+		log.info("(SCHEDULE) Nº DE REGISTROS: [" + arrayList.size() + "]");
+		
+		return arrayList;
+	}
+
+	// Method to Find all Schedule
+	public ArrayList<Schedule> readAllScheduleByDate(String departure_time) throws InterruptedException, ExecutionException, ParseException {
+		
+		Schedule schedule = null;
+		
+		ArrayList<Schedule> arrayList = new ArrayList<>();
+		
+		dbFirestore = FirestoreClient.getFirestore();
+		
+
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		
+		Date fecha = format.parse(departure_time);
+		long datelong = fecha.getTime();
+		System.out.println("FECHA DE ENTRADA...: " + fecha + " - " + datelong);
+		
+		//Restar Un dia
+		Calendar cr = Calendar.getInstance();
+		cr.setTime(fecha);
+		cr.add(Calendar.DATE, -1);
+		Date currentDateR = cr.getTime();
+		System.err.println("RESTAR -1 DIA...: " + currentDateR + " - " + currentDateR.getTime());
+
+		//SUMAR Un dia
+		Calendar cs = Calendar.getInstance();
+		cs.setTime(fecha);
+		cs.add(Calendar.DATE, +1);
+		Date currentDateS = cs.getTime();
+		System.out.println("SUMAR +1 DIA...: " + currentDateS + " - " + currentDateS.getTime());
+		
+		// Buscar documentos de manera descendente y que encuentre desde la fecha actual
+		ApiFuture<QuerySnapshot> query = dbFirestore.collection(COL_NAME_SCHEDULE)
+				.whereLessThan("sch_departure_time", currentDateS.getTime())
+				.whereGreaterThan("sch_departure_time", currentDateR.getTime())
+				.orderBy("sch_departure_time", Query.Direction.DESCENDING).get();
+				
+		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
+		
+		for (QueryDocumentSnapshot document : documents) {
+		
+			//System.out.println("> " + document.getId() + " \t" + document.getLong("sch_departure_time") + " \t" + document.getString("sch_state"));
+			
+			schedule = document.toObject(Schedule.class);
+			
+			schedule.setSch_asb_id_number_disc(numberAssigneBusDisc(schedule.getSch_asb_id_number_disc())); // OBTENER DISCO DEL BUS
+			schedule.setSch_rou_id_name(routeName(schedule.getSch_rou_id_name())); // OBTENER LA RUTA
+			System.out.println("> " + schedule);
 			arrayList.add(schedule);
 		}
 		

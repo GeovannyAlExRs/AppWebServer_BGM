@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -38,7 +39,7 @@ public class ServicePdfSchedule {
 	private ResourceLoader resourceLoader;
 	
 	// Exportar la lista de Usuarios
-	public void pdfReportSchedule(HttpServletResponse servletResponse) throws DocumentException, IOException, InterruptedException, ExecutionException {
+	public void pdfReportSchedule(HttpServletResponse servletResponse) throws DocumentException, IOException, InterruptedException, ExecutionException, ParseException {
 		
 		Document doc = new Document(PageSize.LETTER.rotate());
 		doc.setMargins(-50, -50, 5, 10);
@@ -50,13 +51,33 @@ public class ServicePdfSchedule {
 				
 		writeImage(doc, fileResourceHeader.getFile(),790, 60);
 		
-		writeEncabezado(doc);
+		writeEncabezado(doc, null, 1);
 
-		writeTableReport(doc);
+		writeTableReport(doc, null, 1);
 		
 		doc.close();
 	}
-	
+
+	// Exportar la lista de Usuarios
+	public void pdfReportFilterSchedule(HttpServletResponse servletResponse, String dateFilter) throws DocumentException, IOException, InterruptedException, ExecutionException, ParseException {
+		
+		Document doc = new Document(PageSize.LETTER.rotate());
+		doc.setMargins(-50, -50, 5, 10);
+		PdfWriter.getInstance(doc, servletResponse.getOutputStream());
+		
+		doc.open();
+		
+		Resource fileResourceHeader = resourceLoader.getResource("classpath:static/img/image/vector/bgm_encabezado.png");
+				
+		writeImage(doc, fileResourceHeader.getFile(),790, 60);
+		
+		writeEncabezado(doc, dateFilter, 2);
+
+		writeTableReport(doc, dateFilter, 2);
+		
+		doc.close();
+	}
+		
 	private void writeImage(Document doc, File file, int width, int heigth) throws IOException {
 		Image img = Image.getInstance(file.toString());
 		
@@ -65,7 +86,7 @@ public class ServicePdfSchedule {
 		
 		doc.add(img);
 	}
-	private void writeEncabezado(Document doc) {
+	private void writeEncabezado(Document doc, String dateFilter, int option) {
 		
 		PdfPCell cell = new PdfPCell();
 		
@@ -73,7 +94,14 @@ public class ServicePdfSchedule {
 		
 		Font fuente = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, new Color(17, 90, 135));
 		
-		String texto = "Planificacion de horarios de transporte";
+		String texto = "";
+		
+		if (option == 1) {
+			texto = "Planificacion de horarios de transporte";
+		} else {
+			texto = "Planificacion de horarios de transporte correspondiente a " + dateFilter;
+		}
+				
 		Color background = new Color(250, 250, 250);
 		Color borderColor = new Color(255, 255, 255);
 		
@@ -84,7 +112,7 @@ public class ServicePdfSchedule {
 		doc.add(new Phrase("\n"));
 	}
 
-	private void writeTableReport(Document doc) throws InterruptedException, ExecutionException {
+	private void writeTableReport(Document doc, String dateFilter, int option) throws InterruptedException, ExecutionException, ParseException {
 		// ENCABEZADO
 		Font fuente = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, new Color(17, 90, 135));
 				
@@ -107,7 +135,12 @@ public class ServicePdfSchedule {
 		cell = textoEncabezado(cell, "Hora Salida", fuente, 1, background, borderColor, 10);
 		table.addCell(cell);
 
-		writeTableReportDBFirebase(doc, table, cell, borderColor);
+		if (option == 1) {
+			writeTableReportDBFirebase(doc, table, cell, borderColor);
+		} else {
+			writeTableReportDBFirebaseFilter(doc, dateFilter,table, cell, borderColor);
+		}
+		
 	}
 	
 	private void writeTableReportDBFirebase(Document doc, PdfPTable table, PdfPCell cell, Color border) throws InterruptedException, ExecutionException {
@@ -117,6 +150,42 @@ public class ServicePdfSchedule {
 		Color backgroundDate = new Color(251, 251, 251);
 		
 		ArrayList<Schedule> list = serviceSchedule.readAllSchedule();
+		
+		DateFormat formatRegistro = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		DateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat formatTime = new SimpleDateFormat("HH:mm");
+		
+		for (Schedule sch : list) {
+			
+			cell = textoEncabezado(cell, sch.getSch_asb_id_number_disc(), fuenteDisco, 1, backgroundDate, border, 3);
+			table.addCell(cell);
+			
+			cell = textoTable(cell, sch.getSch_rou_id_name(), fuenteData, 1, backgroundDate, border, 3);
+			table.addCell(cell);
+			
+			String fecharegistro = formatRegistro.format(sch.getSch_registration_date());
+			cell = textoEncabezado(cell, fecharegistro, fuenteData, 1, backgroundDate, border, 3);
+			table.addCell(cell);
+						
+			String fechaDate = formatDate.format(sch.getSch_departure_time());
+			cell = textoEncabezado(cell, fechaDate, fuenteData, 1, backgroundDate, border, 3);
+			table.addCell(cell);
+			
+			
+			String fechaTime = formatTime.format(sch.getSch_departure_time());
+			cell = textoEncabezado(cell, fechaTime, fuenteData, 1, backgroundDate, border, 3);
+			table.addCell(cell);
+		}
+		doc.add(table);		
+	}
+	
+	private void writeTableReportDBFirebaseFilter(Document doc, String departure_time, PdfPTable table, PdfPCell cell, Color border) throws InterruptedException, ExecutionException, ParseException {
+		
+		Font fuenteData = FontFactory.getFont(FontFactory.HELVETICA, 10, new Color(25, 25, 25));
+		Font fuenteDisco = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, new Color(25, 25, 25));
+		Color backgroundDate = new Color(251, 251, 251);
+		
+		ArrayList<Schedule> list = serviceSchedule.readAllScheduleByDate(departure_time);
 		
 		DateFormat formatRegistro = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		DateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");

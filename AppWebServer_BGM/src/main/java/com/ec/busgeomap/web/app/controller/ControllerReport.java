@@ -165,7 +165,7 @@ public class ControllerReport {
 	}
 	
 	@GetMapping("/pdf_report_schedule")  
-	public void exportListSchPdf(HttpServletResponse servletResponse) throws InterruptedException, ExecutionException, DocumentException, IOException {
+	public void exportListSchPdf(HttpServletResponse servletResponse) throws InterruptedException, ExecutionException, DocumentException, IOException, ParseException {
 		
 		servletResponse.setContentType("application/pdf");
 		
@@ -184,11 +184,17 @@ public class ControllerReport {
 	@GetMapping(path = {"/search_schedule"}, name = "sch_departure_time")
 	public void getEditSchedule(@RequestParam(name = "sch_departure_time") @DateTimeFormat(pattern="DD/MM/YYYY")  String sch_departure_time, HttpServletResponse servletResponse) throws DocumentException, IOException, InterruptedException, ExecutionException, ParseException {
 		log.info("BUSCAR PLANIFICACION por fecha: " + sch_departure_time);
-		serviceSchedule.readAllScheduleByDate(sch_departure_time);
-		//Schedule schedule = serviceSchedule.readByIdDoc(sch_id);
-		//ArrayList<Users> listUser = serviceUser.readAllUsers();
-		//model.addAttribute("scheduleList", listUser);//idUserCount
+		servletResponse.setContentType("application/pdf");
 		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDate = dateFormat.format(new Date());
+		
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename= Report_SCHEDULE_" + sch_departure_time + "%" +currentDate +".pdf";
+		
+		servletResponse.setHeader(headerKey, headerValue);
+		
+		servicePdfSchedule.pdfReportFilterSchedule(servletResponse, sch_departure_time);
 		
 	}
 }

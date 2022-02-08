@@ -162,18 +162,15 @@ public class ServiceSchedule {
 		List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 		
 		for (QueryDocumentSnapshot document : documents) {
-		
-			//System.out.println("> " + document.getId() + " \t" + document.getLong("sch_departure_time") + " \t" + document.getString("sch_state"));
-			
 			schedule = document.toObject(Schedule.class);
 			
 			schedule.setSch_asb_id_number_disc(numberAssigneBusDisc(schedule.getSch_asb_id_number_disc())); // OBTENER DISCO DEL BUS
 			schedule.setSch_rou_id_name(routeName(schedule.getSch_rou_id_name())); // OBTENER LA RUTA
-			System.out.println("> " + schedule);
+			//System.out.println("> " + schedule);
 			arrayList.add(schedule);
 		}
 		
-		log.info("(SCHEDULE) Nº DE REGISTROS: [" + arrayList.size() + "]");
+		log.info("(SCHEDULE) Filter Fecha " + departure_time + " Nº DE REGISTROS: [" + arrayList.size() + "]");
 		
 		return arrayList;
 	}
